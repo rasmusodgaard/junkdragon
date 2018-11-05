@@ -8,7 +8,7 @@ class CameraFollow : public Component {
 public:
     explicit CameraFollow(GameObject *gameObject);
     
-    //void update(float deltaTime) override;
+    void update(float deltaTime) override;
     
     void setFollowObject(std::shared_ptr<GameObject> followObject, glm::vec2 offset);
     

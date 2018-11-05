@@ -2,6 +2,10 @@
 #include <iostream>
 #include "GameObject.hpp"
 #include "sre/RenderPass.hpp"
+#include "SpriteComponent.hpp"
+#include <sre/Inspector.hpp>
+
+
 
 
 const glm::vec2 JunkDragonGame::windowSize(400,600);
@@ -16,12 +20,8 @@ JunkDragonGame::JunkDragonGame() {
     .withSdlInitFlags(SDL_INIT_EVERYTHING)
     .withSdlWindowFlags(SDL_WINDOW_OPENGL);
     
-    //init();
-    auto camObj = createGameObject();
-    camera = camObj->addComponent<CameraFollow>();
-    auto tempObj = createGameObject();
+    init();
     
-    //camera->setFollowObject(tempObj, {0,0});
     
     
     /*
@@ -40,6 +40,23 @@ JunkDragonGame::JunkDragonGame() {
     
 }
 
+void JunkDragonGame::init(){
+    
+    spriteAtlas = sre::SpriteAtlas::create("dragon.json","dragon.png");
+    
+    auto camObj = createGameObject();
+    camera = camObj->addComponent<CameraFollow>();
+    
+    auto dragonObj = createGameObject();
+    dragonObj->name = "Dragon";
+    camera->setFollowObject(dragonObj, {0,0});
+    auto spriteComponent = dragonObj->addComponent<SpriteComponent>();
+    auto sprite = spriteAtlas->get("tile000.png");
+    sprite.setScale({2,2});
+    dragonObj->setPosition({200,200});
+    spriteComponent->setSprite(sprite);
+}
+
 void JunkDragonGame::update(float time){
     
 }
@@ -55,6 +72,12 @@ void JunkDragonGame::render() {
     
     auto spriteBatchBuilder = sre::SpriteBatch::create();
     
+    for (auto & go : sceneObjects){
+        go->renderSprite(spriteBatchBuilder);
+    }
+    
+    auto sb = spriteBatchBuilder.build();
+    rp.draw(sb);
 }
 
 std::shared_ptr<GameObject> JunkDragonGame::createGameObject() {

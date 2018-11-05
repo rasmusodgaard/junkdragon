@@ -2,7 +2,7 @@
 #include "sre/SpriteAtlas.hpp"
 #include <vector>
 #include "Box2D/Dynamics/b2World.h"
-//#include "GameObject.hpp"
+#include "GameObject.hpp"
 #include "CameraFollow.hpp"
 //#include "BackgroundComponent.hpp"
 //#include "Box2DDebugDraw.hpp"
@@ -22,6 +22,8 @@ private:
     
 
     sre::SDLRenderer r;
+    
+    void init();
     
     void update(float time);
     

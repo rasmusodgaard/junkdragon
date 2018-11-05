@@ -19,7 +19,7 @@ CameraFollow::CameraFollow(GameObject *gameObject)
 sre::Camera &CameraFollow::getCamera() {
     return camera;
 }
-/*
+
 void CameraFollow::update(float deltaTime) {
     auto position = followObject->getPosition();
     
@@ -36,7 +36,7 @@ void CameraFollow::update(float deltaTime) {
     vec3 up (0, 1, 0);
     camera.lookAt(eye, at, up);
 }
-*/
+
 
 void CameraFollow::setFollowObject(std::shared_ptr<GameObject> followObject, glm::vec2 offset) {
     this->followObject = followObject;

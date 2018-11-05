@@ -21,7 +21,9 @@ add_executable(junkdragon ${JunkDragon})
 target_link_libraries(junkdragon ${all_libs})
 
 # copy files to dest
-# file(COPY background.png background2.png bird.json bird.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+file(COPY src/dragon.json src/dragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+file(COPY src/dragon.json src/dragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
+file(COPY src/dragon.json src/dragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 IF (WIN32)
     # Copy dll files to ${CMAKE_CURRENT_BINARY_DIR}/Debug
