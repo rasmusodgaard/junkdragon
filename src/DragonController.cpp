@@ -11,7 +11,7 @@
 DragonController::DragonController(GameObject *gameObject) : Component(gameObject) {
     // initiate dragon physics
     CW_rotation = true;
-    speed = 200.0f;
+    speed = 300.0f;
     rotation_speed = 1.0f;
 }
 
@@ -28,9 +28,12 @@ bool DragonController::onKey(SDL_Event &event) {
         }
     }
 
-    if (event.key.keysym.sym == SDLK_d) {
-        // do something
+    if (event.key.keysym.sym == SDLK_SPACE) {
+        if (event.type == SDL_KEYDOWN) {
+            std::cout << "FIRE!" << std::endl;
+        }
     }
+
     return false;
 }
 

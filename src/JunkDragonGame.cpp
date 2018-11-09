@@ -3,6 +3,7 @@
 #include "GameObject.hpp"
 #include "sre/RenderPass.hpp"
 #include "SpriteComponent.hpp"
+#include "SpriteAnimationComponent.hpp"
 #include <sre/Inspector.hpp>
 #include "DragonController.hpp"
 
@@ -35,8 +36,6 @@ JunkDragonGame::JunkDragonGame() {
         render();    };
     // start game loop
     r.startEventLoop();
-    
-    
 }
 
 void JunkDragonGame::init(){
@@ -45,17 +44,25 @@ void JunkDragonGame::init(){
     auto camObj = createGameObject();
     camera = camObj->addComponent<CameraFollow>();
     
+    // Dragon Game Object (Player)
     auto dragonObj = createGameObject();
     dragonObj->name = "Dragon";
     camera->setFollowObject(dragonObj, {0,0});
-    auto spriteComponent = dragonObj->addComponent<SpriteComponent>();
-    auto sprite = spriteAtlas->get("tile009.png");
+    // Add controller
     auto dragonC = dragonObj->addComponent<DragonController>();
-    sprite.setScale({2,2});
     dragonObj->setPosition({0,0});
     dragonObj->setRotation(0.0f);
-    spriteComponent->setSprite(sprite);
-
+    // Add sprite component
+    auto sprite = spriteAtlas->get("tile009.png");
+    sprite.setScale({2,2}); 
+    auto spriteC = dragonObj->addComponent<SpriteComponent>();
+    spriteC->setSprite(sprite);
+    // Add animatinos
+    auto animC = dragonObj->addComponent<SpriteAnimationComponent>();
+    animC->setSprites({spriteAtlas->get("tile009.png"), spriteAtlas->get("tile010.png"), spriteAtlas->get("tile011.png")});
+    animC->setScale({2,2});
+    
+    // Add background
     backgroundComponent.init("background.png");
 }
 
