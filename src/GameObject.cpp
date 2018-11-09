@@ -1,6 +1,6 @@
 #include "GameObject.hpp"
 #include <cassert>
-// #include <algorithm>
+#include <algorithm>
 #include "Component.hpp"
 
 GameObject::~GameObject(){
@@ -44,4 +44,8 @@ void GameObject::update(float deltaTime) {
     for (auto& comp : components) {
         comp->update(deltaTime);
     }
+}
+
+const std::vector<std::shared_ptr<Component>> &GameObject::getComponents() {
+    return components;
 }

@@ -4,7 +4,7 @@
 #include "Box2D/Dynamics/b2World.h"
 #include "GameObject.hpp"
 #include "CameraFollow.hpp"
-//#include "BackgroundComponent.hpp"
+#include "BackgroundComponent.hpp"
 //#include "Box2DDebugDraw.hpp"
 
 class JunkDragonGame {
@@ -19,7 +19,8 @@ private:
     std::shared_ptr<CameraFollow> camera;
     std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
     std::vector<std::shared_ptr<GameObject>> sceneObjects;
-    
+
+    BackgroundComponent backgroundComponent;    
 
     sre::SDLRenderer r;
     
@@ -29,6 +30,6 @@ private:
     
     void render();
     
-    //void onKey(SDL_Event &event);
+    void onKey(SDL_Event &event);
     
 };

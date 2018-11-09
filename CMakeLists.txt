@@ -25,6 +25,10 @@ file(COPY src/dragon.json src/dragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
 file(COPY src/dragon.json src/dragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
 file(COPY src/dragon.json src/dragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
+file(COPY src/background.json src/background.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+file(COPY src/background.json src/background.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
+file(COPY src/background.json src/background.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 IF (WIN32)
     # Copy dll files to ${CMAKE_CURRENT_BINARY_DIR}/Debug
     file(COPY ${DLLFileList} DESTINATION Debug)

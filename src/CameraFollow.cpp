@@ -24,12 +24,12 @@ void CameraFollow::update(float deltaTime) {
     auto position = followObject->getPosition();
     
     position.x += offset.x;
-    position.y = offset.y;
+    position.y += offset.y;
     
     gameObject->setPosition(position);
     
-    position.x += JunkDragonGame::windowSize.x*0.5f;
-    position.y += JunkDragonGame::windowSize.y*0.5f;
+    //position.x += JunkDragonGame::windowSize.x*0.5f;
+    //position.y += JunkDragonGame::windowSize.y*0.5f;
     
     vec3 eye (position, 0);
     vec3 at (position, -1);
