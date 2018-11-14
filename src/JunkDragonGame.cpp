@@ -4,9 +4,12 @@
 #include "sre/RenderPass.hpp"
 #include "SpriteComponent.hpp"
 #include "SpriteAnimationComponent.hpp"
+#include "PhysicsComponent.hpp"
 #include <sre/Inspector.hpp>
 #include "DragonController.hpp"
 #include "FireBallController.hpp"
+
+
 
 
 const glm::vec2 JunkDragonGame::windowSize(400,600);
@@ -37,6 +40,8 @@ JunkDragonGame::JunkDragonGame() {
 }
 
 void JunkDragonGame::init(){
+    initPhysics();
+    
     spriteAtlas = sre::SpriteAtlas::create("dragon.json","dragon.png");
     
     auto camObj = createGameObject();
@@ -66,6 +71,12 @@ void JunkDragonGame::init(){
 }
 
 void JunkDragonGame::update(float time){
+    updatePhysics();
+    if (time > 0.03) // if framerate approx 30 fps then run two physics steps
+	{
+		updatePhysics();
+	}
+
     for (int i=0;i<sceneObjects.size();i++){
         sceneObjects[i]->update(time);
         if (sceneObjects[i]->getDeleteMe()) {
@@ -92,11 +103,81 @@ void JunkDragonGame::render() {
     rp.draw(sb);
 }
 
-std::shared_ptr<GameObject> JunkDragonGame::createGameObject() {
-    auto obj = std::shared_ptr<GameObject>(new GameObject());
-    sceneObjects.push_back(obj);
-    return obj;
+void JunkDragonGame::updatePhysics() {
+    const int positionIterations = 4;
+    const int velocityIterations = 12;
+    world->Step(timeStep, velocityIterations, positionIterations);
+
+    for (auto phys : physicsComponentLookup) {
+        PhysicsComponent* physicsComponent = phys.second;
+        if (physicsComponent->isAutoUpdate() == false) continue;
+        auto position = physicsComponent->getBody()->GetPosition();
+        float angle = physicsComponent->getBody()->GetAngle();
+        auto gameObject = physicsComponent->getGameObject();
+        gameObject->setPosition(glm::vec2(position.x*physicsScale, position.y*physicsScale));
+        gameObject->setRotation(angle);
+    }
 }
+
+void JunkDragonGame::initPhysics() {
+    float gravity = -9.8f; // 9.8 m/s2
+    delete world;
+    world = new b2World(b2Vec2(0,gravity));
+    world->SetContactListener(this);
+
+    // if (doDebugDraw){
+    //     world->SetDebugDraw(&debugDraw);
+    // }
+}
+
+// void JunkDragonGame::BeginContact(b2Contact *contact) {
+//     b2ContactListener::BeginContact(contact);
+//     handleContact(contact, true);
+// }
+
+// void JunkDragonGame::EndContact(b2Contact *contact) {
+//     b2ContactListener::EndContact(contact);
+//     handleContact(contact, false);
+// }
+
+// void JunkDragonGame::handleContact(b2Contact *contact, bool begin) {
+//     auto fixA = contact->GetFixtureA();
+//     auto fixB = contact->GetFixtureB();
+//     auto physA = physicsComponentLookup.find(fixA);
+//     auto physB = physicsComponentLookup.find(fixB);
+//     if (physA !=physicsComponentLookup.end() && physB != physicsComponentLookup.end()){
+//         auto & aComponents = physA->second->getGameObject()->getComponents();
+//         auto & bComponents = physB->second->getGameObject()->getComponents();
+//         for (auto & c : aComponents){
+//             if (begin){
+//                 c->onCollisionStart(physB->second);
+//             } else {
+//                 c->onCollisionEnd(physB->second);
+//             }
+//         }
+//         for (auto & c : bComponents){
+//             if (begin){
+//                 c->onCollisionStart(physA->second);
+//             } else {
+//                 c->onCollisionEnd(physA->second);
+//             }
+//         }
+//     }
+// }
+
+void JunkDragonGame::registerPhysicsComponent(PhysicsComponent *r) {
+    physicsComponentLookup[r->getFixture()] = r;
+}
+
+void JunkDragonGame::deregisterPhysicsComponent(PhysicsComponent *r) {
+    auto iter = physicsComponentLookup.find(r->getFixture());
+    if (iter != physicsComponentLookup.end()){
+        physicsComponentLookup.erase(iter);
+    } else {
+        assert(false); // cannot find physics object
+    }
+}
+
 
 void JunkDragonGame::onKey(SDL_Event &event) {
     for (auto & gameObject: sceneObjects) {
@@ -107,6 +188,12 @@ void JunkDragonGame::onKey(SDL_Event &event) {
             }
         }
     }
+}
+
+std::shared_ptr<GameObject> JunkDragonGame::createGameObject() {
+    auto obj = std::shared_ptr<GameObject>(new GameObject());
+    sceneObjects.push_back(obj);
+    return obj;
 }
 
 void JunkDragonGame::createFireBall( ) {

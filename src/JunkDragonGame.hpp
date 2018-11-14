@@ -8,14 +8,19 @@
 #include "BackgroundComponent.hpp"
 //#include "Box2DDebugDraw.hpp"
 
-class JunkDragonGame {
+class JunkDragonGame : public b2ContactListener {
 public:
     JunkDragonGame();
     static JunkDragonGame* instance;
     static const glm::vec2 windowSize;
+    
+    // Gameobject existance
     std::shared_ptr<GameObject> createGameObject();
     void createFireBall( );
- 
+
+    // Physics
+    static constexpr float32 timeStep = 1.0f / 60.0f;
+
 private:
     
     std::shared_ptr<CameraFollow> camera;
@@ -27,12 +32,19 @@ private:
     sre::SDLRenderer r;
     
     void init();
-    
+    void initPhysics();
     void update(float time);
-    
+    void updatePhysics();
     void render();
-    
     void onKey(SDL_Event &event);
     
     std::shared_ptr<GameObject> dragonObj;
+
+    // Physics members
+    b2World * world = nullptr;
+    const float physicsScale = 100;
+    void registerPhysicsComponent(PhysicsComponent *r);
+    void deregisterPhysicsComponent(PhysicsComponent *d);
+    std::map<b2Fixture*,PhysicsComponent *> physicsComponentLookup;
+    friend class PhysicsComponent;
 };
