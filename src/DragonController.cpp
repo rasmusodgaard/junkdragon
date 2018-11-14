@@ -22,13 +22,13 @@ DragonController::DragonController(GameObject *gameObject) : Component(gameObjec
 }
 
 bool DragonController::onKey(SDL_Event &event) {
-    if (event.key.keysym.sym == SDLK_a) {
+    if (event.key.keysym.sym == SDLK_LEFT) {
         if (event.type == SDL_KEYDOWN) {
             CW_rotation = false;
         }
     }
 
-    if (event.key.keysym.sym == SDLK_d) {
+    if (event.key.keysym.sym == SDLK_RIGHT) {
         if (event.type == SDL_KEYDOWN) {
             CW_rotation = true;
         }

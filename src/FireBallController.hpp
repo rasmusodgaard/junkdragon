@@ -11,6 +11,7 @@ class FireBallController : public Component {
         void onCollisionEnd(PhysicsComponent *comp) override;
 
         void setVelocity(float i_rotation);
+        float getSpeed();
 
         void update(float deltaTime) override;
 

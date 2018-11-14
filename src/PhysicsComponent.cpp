@@ -1,3 +1,4 @@
+#include <iostream>
 #include <Box2D/Box2D.h>
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/norm.hpp>
@@ -48,7 +49,7 @@ void PhysicsComponent::setLinearVelocity(glm::vec2 velocity) {
     body->SetLinearVelocity(v);
 }
 
-void PhysicsComponent::initCircle(b2BodyType type, float radius, glm::vec2 center, float density) {
+void PhysicsComponent::initCircle(b2BodyType type, float radius, glm::vec2 center, float rotation, float density) {
     assert(body == nullptr);
     autoUpdate = type != b2_staticBody;
     // do init
@@ -57,6 +58,7 @@ void PhysicsComponent::initCircle(b2BodyType type, float radius, glm::vec2 cente
     bd.type = type;
     rbType = type;
     bd.position = b2Vec2(center.x, center.y);
+    bd.angle = rotation;
     body = world->CreateBody(&bd);
     circle = new b2CircleShape();
     circle->m_radius = radius;

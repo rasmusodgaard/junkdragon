@@ -10,6 +10,9 @@
 #include "DragonController.hpp"
 #include "FireBallController.hpp"
 
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/rotate_vector.hpp>
+
 const glm::vec2 JunkDragonGame::windowSize(400,600);
 JunkDragonGame* JunkDragonGame::instance = nullptr;
 
@@ -131,7 +134,7 @@ void JunkDragonGame::updatePhysics() {
 }
 
 void JunkDragonGame::initPhysics() {
-    float gravity = -9.8f; // 9.8 m/s2
+    float gravity = 0.0f; // 0.0 m/s2
     delete world;
     world = new b2World(b2Vec2(0,gravity));
     world->SetContactListener(this);
@@ -229,12 +232,20 @@ void JunkDragonGame::createFireBall( ) {
     fireballObj->name = "Fireball";
     fireballObj->setPosition( dragonObj->getPosition() );
     fireballObj->setRotation( dragonObj->getRotation() );
+    
     auto fireballController = fireballObj->addComponent<FireBallController>();
-    fireballController->setVelocity( dragonObj->getRotation() );
+
     auto fireballSprite = spriteAtlas->get("tile009.png");
     fireballSprite.setScale({1,1});
     auto fireballSpriteComponent = fireballObj->addComponent<SpriteComponent>();
     fireballSpriteComponent->setSprite(fireballSprite);
-    //auto fireballPhysics = fireballObj->addComponent<PhysicsComponent>();
-    //fireballPhysics->initCircle(b2_kinematicBody, 10/physicsScale, fireballSprite.getPosition(), 1);
+
+    auto fireballPhysics = fireballObj->addComponent<PhysicsComponent>();
+    fireballPhysics->initCircle(b2_kinematicBody, 10/physicsScale, fireballObj->getPosition()/physicsScale, fireballObj->getRotation(), 1);
+    
+    auto trajectory = glm::rotateZ(glm::vec3(0,fireballController->getSpeed(),0), glm::radians(fireballObj->getRotation() ));
+    fireballPhysics->setLinearVelocity( trajectory );
+    
+    // fireballPhysics->getBody()->SetTransform(fireballPhysics->getBody()->GetPosition(), fireballObj->getRotation() );
+    // fireballPhysics->addImpulse({0.0f,1.0f});
 }
