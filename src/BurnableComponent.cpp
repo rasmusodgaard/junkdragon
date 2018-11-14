@@ -34,6 +34,7 @@ void BurnableComponent::update(float deltaTime){
 }
 
 void BurnableComponent::onCollisionStart(PhysicsComponent *comp){
+    
     if (comp->getGameObject()->name.compare("Fireball") == 0){
         onFire = true;
     }

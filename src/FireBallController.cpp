@@ -17,7 +17,7 @@ FireBallController::FireBallController(GameObject *gameObject) : Component(gameO
 }
 
 void FireBallController::onCollisionStart(PhysicsComponent *comp) {
-    //deleteGameObject();
+    deleteGameObject();
 }
 
 void FireBallController::onCollisionEnd(PhysicsComponent *comp) {
@@ -33,15 +33,9 @@ float FireBallController::getSpeed() {
 }
 
 void FireBallController::update(float deltaTime) {
-    
-    // Move the fireball
-    //this->getGameObject()->setPosition( this->getGameObject()->getPosition() + velocity * deltaTime );
-
-    //velocity = velocity * drag;
 
     time_elapsed += deltaTime;
     if (time_elapsed >= life_time) {
-        //std::cout << this->getGameObject()->getPosition().x << " " << this->getGameObject()->getPosition().y << std::endl;
         deleteGameObject();
     }
 }

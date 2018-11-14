@@ -9,11 +9,12 @@
 #include <sre/Inspector.hpp>
 #include "DragonController.hpp"
 #include "FireBallController.hpp"
+#include "BurnableComponent.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
 
-const glm::vec2 JunkDragonGame::windowSize(400,600);
+const glm::vec2 JunkDragonGame::windowSize(800,600);
 JunkDragonGame* JunkDragonGame::instance = nullptr;
 
 JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
@@ -69,6 +70,18 @@ void JunkDragonGame::init(){
 
     // Add background
     backgroundComponent.init("background.png");
+    
+    auto HouseObj = createGameObject();
+    HouseObj->setPosition({200,200});
+    HouseObj->setRotation(0.0f);
+    auto houseSprite = spriteAtlas->get("tile003.png");
+    auto houseSpriteC = HouseObj->addComponent<SpriteComponent>();
+    houseSpriteC->setSprite(houseSprite);
+    HouseObj->addComponent<BurnableComponent>();
+    
+    auto HousePhysics = HouseObj->addComponent<PhysicsComponent>();
+    HousePhysics->initCircle(b2_staticBody, 100/physicsScale, HouseObj->getPosition()/physicsScale, HouseObj->getRotation(), 1);
+    HousePhysics->setSensor(true);
 }
 
 void JunkDragonGame::update(float time){
@@ -155,6 +168,8 @@ void JunkDragonGame::EndContact(b2Contact *contact) {
 }
 
 void JunkDragonGame::handleContact(b2Contact *contact, bool begin) {
+    std::cout << "Begin contact" << std::endl;
+
     auto fixA = contact->GetFixtureA();
     auto fixB = contact->GetFixtureB();
     auto physA = physicsComponentLookup.find(fixA);
@@ -241,11 +256,8 @@ void JunkDragonGame::createFireBall( ) {
     fireballSpriteComponent->setSprite(fireballSprite);
 
     auto fireballPhysics = fireballObj->addComponent<PhysicsComponent>();
-    fireballPhysics->initCircle(b2_kinematicBody, 10/physicsScale, fireballObj->getPosition()/physicsScale, fireballObj->getRotation(), 1);
+    fireballPhysics->initCircle(b2_dynamicBody, 10/physicsScale, fireballObj->getPosition()/physicsScale, fireballObj->getRotation(), 1);
     
     auto trajectory = glm::rotateZ(glm::vec3(0,fireballController->getSpeed(),0), glm::radians(fireballObj->getRotation() ));
     fireballPhysics->setLinearVelocity( trajectory );
-    
-    // fireballPhysics->getBody()->SetTransform(fireballPhysics->getBody()->GetPosition(), fireballObj->getRotation() );
-    // fireballPhysics->addImpulse({0.0f,1.0f});
 }
