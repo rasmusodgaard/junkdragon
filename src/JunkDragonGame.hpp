@@ -6,7 +6,7 @@
 #include "DragonController.hpp"
 #include "CameraFollow.hpp"
 #include "BackgroundComponent.hpp"
-//#include "Box2DDebugDraw.hpp"
+#include "Box2DDebugDraw.hpp"
 
 class PhysicsComponent;
 
@@ -51,5 +51,7 @@ private:
     void registerPhysicsComponent(PhysicsComponent *r);
     void deregisterPhysicsComponent(PhysicsComponent *d);
     std::map<b2Fixture*,PhysicsComponent *> physicsComponentLookup;
+    Box2DDebugDraw debugDraw;
+    bool doDebugDraw = false;
     friend class PhysicsComponent;
 };

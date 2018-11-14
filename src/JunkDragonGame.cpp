@@ -13,7 +13,7 @@
 const glm::vec2 JunkDragonGame::windowSize(400,600);
 JunkDragonGame* JunkDragonGame::instance = nullptr;
 
-JunkDragonGame::JunkDragonGame() {
+JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
     
     instance = this;
     
@@ -87,6 +87,12 @@ void JunkDragonGame::render() {
     auto rp = sre::RenderPass::create()
     .withCamera(camera->getCamera())
     .build();
+
+    // if (doDebugDraw){
+    //     static sre::Inspector profiler;
+    //     profiler.update();
+    //     profiler.gui(false);
+    // }
     
     auto pos = camera->getGameObject()->getPosition();
     backgroundComponent.renderBackground(rp,0.0f);
@@ -99,7 +105,14 @@ void JunkDragonGame::render() {
     
     auto sb = spriteBatchBuilder.build();
     rp.draw(sb);
+
+    if (doDebugDraw){
+        world->DrawDebugData();
+        rp.drawLines(debugDraw.getLines());
+        debugDraw.clear();
+    }
 }
+
 
 void JunkDragonGame::updatePhysics() {
     const int positionIterations = 4;
@@ -123,9 +136,9 @@ void JunkDragonGame::initPhysics() {
     world = new b2World(b2Vec2(0,gravity));
     world->SetContactListener(this);
 
-    // if (doDebugDraw){
-    //     world->SetDebugDraw(&debugDraw);
-    // }
+    if (doDebugDraw){
+        world->SetDebugDraw(&debugDraw);
+    }
 }
 
 void JunkDragonGame::BeginContact(b2Contact *contact) {
@@ -184,6 +197,23 @@ void JunkDragonGame::onKey(SDL_Event &event) {
             if (consumed){
                 return;
             }
+        }
+    }
+
+    if (event.type == SDL_KEYDOWN){
+        switch (event.key.keysym.sym){
+            case SDLK_z:
+                //camera->setZoomMode(!camera->isZoomMode());
+                break;
+            case SDLK_d:
+                // press 'd' for physics debug
+                doDebugDraw = !doDebugDraw;
+                if (doDebugDraw){
+                    world->SetDebugDraw(&debugDraw);
+                } else {
+                    world->SetDebugDraw(nullptr);
+                }
+                break;
         }
     }
 }
