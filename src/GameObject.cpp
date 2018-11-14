@@ -49,3 +49,11 @@ void GameObject::update(float deltaTime) {
 const std::vector<std::shared_ptr<Component>> &GameObject::getComponents() {
     return components;
 }
+
+void GameObject::setDeleteMe( bool i_deleteMe ) {
+    this->deleteMe = i_deleteMe;
+}
+
+bool GameObject::getDeleteMe( ) {
+    return this->deleteMe;
+}

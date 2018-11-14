@@ -3,6 +3,7 @@
 #include <vector>
 #include "Box2D/Dynamics/b2World.h"
 #include "GameObject.hpp"
+#include "DragonController.hpp"
 #include "CameraFollow.hpp"
 #include "BackgroundComponent.hpp"
 //#include "Box2DDebugDraw.hpp"
@@ -13,7 +14,8 @@ public:
     static JunkDragonGame* instance;
     static const glm::vec2 windowSize;
     std::shared_ptr<GameObject> createGameObject();
-    
+    void createFireBall( );
+ 
 private:
     
     std::shared_ptr<CameraFollow> camera;
@@ -32,4 +34,5 @@ private:
     
     void onKey(SDL_Event &event);
     
+    std::shared_ptr<GameObject> dragonObj;
 };

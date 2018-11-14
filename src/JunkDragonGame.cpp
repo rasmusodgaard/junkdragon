@@ -6,6 +6,7 @@
 #include "SpriteAnimationComponent.hpp"
 #include <sre/Inspector.hpp>
 #include "DragonController.hpp"
+#include "FireBallController.hpp"
 
 
 const glm::vec2 JunkDragonGame::windowSize(400,600);
@@ -21,9 +22,6 @@ JunkDragonGame::JunkDragonGame() {
     .withSdlWindowFlags(SDL_WINDOW_OPENGL);
     
     init();
-    
-    
-    
     
     r.keyEvent = [&](SDL_Event& e){
         onKey(e);
@@ -45,13 +43,14 @@ void JunkDragonGame::init(){
     camera = camObj->addComponent<CameraFollow>();
     
     // Dragon Game Object (Player)
-    auto dragonObj = createGameObject();
+    dragonObj = createGameObject();
     dragonObj->name = "Dragon";
     camera->setFollowObject(dragonObj, {0,0});
-    // Add controller
-    auto dragonC = dragonObj->addComponent<DragonController>();
     dragonObj->setPosition({0,0});
     dragonObj->setRotation(0.0f);
+    // Add controller
+    auto dragonC = dragonObj->addComponent<DragonController>();
+    //dragonC->setFireballCreator( createFireBall() );
     // Add sprite component
     auto sprite = spriteAtlas->get("tile009.png");
     sprite.setScale({2,2}); 
@@ -61,7 +60,7 @@ void JunkDragonGame::init(){
     auto animC = dragonObj->addComponent<SpriteAnimationComponent>();
     animC->setSprites({spriteAtlas->get("tile009.png"), spriteAtlas->get("tile010.png"), spriteAtlas->get("tile011.png")});
     animC->setScale({2,2});
-    
+
     // Add background
     backgroundComponent.init("background.png");
 }
@@ -69,6 +68,9 @@ void JunkDragonGame::init(){
 void JunkDragonGame::update(float time){
     for (int i=0;i<sceneObjects.size();i++){
         sceneObjects[i]->update(time);
+        if (sceneObjects[i]->getDeleteMe()) {
+            sceneObjects.erase(sceneObjects.begin() + i);
+        }
     }
 }
 
@@ -105,4 +107,16 @@ void JunkDragonGame::onKey(SDL_Event &event) {
             }
         }
     }
+}
+
+void JunkDragonGame::createFireBall( ) {
+    auto fireballObj = createGameObject();
+    fireballObj->setPosition( dragonObj->getPosition() );
+    fireballObj->setRotation( dragonObj->getRotation() );
+    auto fireballController = fireballObj->addComponent<FireBallController>();
+    fireballController->setVelocity( dragonObj->getRotation() );
+    auto fireballSprite = spriteAtlas->get("tile009.png");
+    fireballSprite.setScale({1,1});
+    auto fireballSpriteComponent = fireballObj->addComponent<SpriteComponent>();
+    fireballSpriteComponent->setSprite(fireballSprite);
 }

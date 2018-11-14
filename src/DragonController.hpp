@@ -17,7 +17,14 @@ class DragonController : public Component {
     private:
         std::shared_ptr<PhysicsComponent> physicsComponent;
 
+        void breathe_fire();
+
         bool CW_rotation;
+        bool breathing_fire;
+        float last_fire_ball;
+        float cool_down;
+        
+        float fuel;
 
         float speed;
         float rotation_speed;

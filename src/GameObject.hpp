@@ -32,6 +32,10 @@ class GameObject {
 
         void setRotation(float rotation);
 
+        void setDeleteMe(bool i_deleteMe);
+
+        bool getDeleteMe();
+
         const std::vector<std::shared_ptr<Component>>& getComponents();
 
         std::string name = "_";
@@ -41,6 +45,8 @@ class GameObject {
 
         glm::vec2 position;
         float rotation;
+
+        bool deleteMe = false;
 
         friend class JunkDragonGame;
 };

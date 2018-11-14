@@ -12,7 +12,13 @@ DragonController::DragonController(GameObject *gameObject) : Component(gameObjec
     // initiate dragon physics
     CW_rotation = true;
     speed = 300.0f;
-    rotation_speed = 1.0f;
+    rotation_speed = 2.0f;
+    
+    // fire breathing parameters
+    breathing_fire = false;
+    last_fire_ball = 0.0f;
+    cool_down = 0.08f;
+
 }
 
 bool DragonController::onKey(SDL_Event &event) {
@@ -30,7 +36,10 @@ bool DragonController::onKey(SDL_Event &event) {
 
     if (event.key.keysym.sym == SDLK_SPACE) {
         if (event.type == SDL_KEYDOWN) {
-            std::cout << "FIRE!" << std::endl;
+            this->breathing_fire = true;
+        }
+        if (event.type == SDL_KEYUP) {
+            this->breathing_fire = false;
         }
     }
 
@@ -43,6 +52,10 @@ void DragonController::onCollisionStart(PhysicsComponent *comp) {
 
 void DragonController::onCollisionEnd(PhysicsComponent *comp) {
     
+}
+
+void DragonController::breathe_fire() {
+    JunkDragonGame::instance->createFireBall();
 }
 
 void DragonController::update(float deltaTime) {
@@ -60,6 +73,16 @@ void DragonController::update(float deltaTime) {
     
     // Move the head
     this->getGameObject()->setPosition( position + velocity );
+
+    if(breathing_fire){
+        if(last_fire_ball > cool_down ) {
+            last_fire_ball = 0.0f;
+            breathe_fire();
+        }
+        
+    }
+
+    last_fire_ball += deltaTime;
 
 }
 
