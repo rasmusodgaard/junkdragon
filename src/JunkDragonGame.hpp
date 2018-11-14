@@ -8,6 +8,8 @@
 #include "BackgroundComponent.hpp"
 //#include "Box2DDebugDraw.hpp"
 
+class PhysicsComponent;
+
 class JunkDragonGame : public b2ContactListener {
 public:
     JunkDragonGame();
@@ -20,6 +22,8 @@ public:
 
     // Physics
     static constexpr float32 timeStep = 1.0f / 60.0f;
+    void BeginContact(b2Contact *contact) override;
+    void EndContact(b2Contact *contact) override;
 
 private:
     
@@ -37,6 +41,7 @@ private:
     void updatePhysics();
     void render();
     void onKey(SDL_Event &event);
+    void handleContact(b2Contact *contact, bool begin);
     
     std::shared_ptr<GameObject> dragonObj;
 

@@ -4,13 +4,11 @@
 #include "sre/RenderPass.hpp"
 #include "SpriteComponent.hpp"
 #include "SpriteAnimationComponent.hpp"
+#include "Box2D/Dynamics/Contacts/b2Contact.h"
 #include "PhysicsComponent.hpp"
 #include <sre/Inspector.hpp>
 #include "DragonController.hpp"
 #include "FireBallController.hpp"
-
-
-
 
 const glm::vec2 JunkDragonGame::windowSize(400,600);
 JunkDragonGame* JunkDragonGame::instance = nullptr;
@@ -130,40 +128,40 @@ void JunkDragonGame::initPhysics() {
     // }
 }
 
-// void JunkDragonGame::BeginContact(b2Contact *contact) {
-//     b2ContactListener::BeginContact(contact);
-//     handleContact(contact, true);
-// }
+void JunkDragonGame::BeginContact(b2Contact *contact) {
+    b2ContactListener::BeginContact(contact);
+    handleContact(contact, true);
+}
 
-// void JunkDragonGame::EndContact(b2Contact *contact) {
-//     b2ContactListener::EndContact(contact);
-//     handleContact(contact, false);
-// }
+void JunkDragonGame::EndContact(b2Contact *contact) {
+    b2ContactListener::EndContact(contact);
+    handleContact(contact, false);
+}
 
-// void JunkDragonGame::handleContact(b2Contact *contact, bool begin) {
-//     auto fixA = contact->GetFixtureA();
-//     auto fixB = contact->GetFixtureB();
-//     auto physA = physicsComponentLookup.find(fixA);
-//     auto physB = physicsComponentLookup.find(fixB);
-//     if (physA !=physicsComponentLookup.end() && physB != physicsComponentLookup.end()){
-//         auto & aComponents = physA->second->getGameObject()->getComponents();
-//         auto & bComponents = physB->second->getGameObject()->getComponents();
-//         for (auto & c : aComponents){
-//             if (begin){
-//                 c->onCollisionStart(physB->second);
-//             } else {
-//                 c->onCollisionEnd(physB->second);
-//             }
-//         }
-//         for (auto & c : bComponents){
-//             if (begin){
-//                 c->onCollisionStart(physA->second);
-//             } else {
-//                 c->onCollisionEnd(physA->second);
-//             }
-//         }
-//     }
-// }
+void JunkDragonGame::handleContact(b2Contact *contact, bool begin) {
+    auto fixA = contact->GetFixtureA();
+    auto fixB = contact->GetFixtureB();
+    auto physA = physicsComponentLookup.find(fixA);
+    auto physB = physicsComponentLookup.find(fixB);
+    if (physA !=physicsComponentLookup.end() && physB != physicsComponentLookup.end()){
+        auto & aComponents = physA->second->getGameObject()->getComponents();
+        auto & bComponents = physB->second->getGameObject()->getComponents();
+        for (auto & c : aComponents){
+            if (begin){
+                c->onCollisionStart(physB->second);
+            } else {
+                c->onCollisionEnd(physB->second);
+            }
+        }
+        for (auto & c : bComponents){
+            if (begin){
+                c->onCollisionStart(physA->second);
+            } else {
+                c->onCollisionEnd(physA->second);
+            }
+        }
+    }
+}
 
 void JunkDragonGame::registerPhysicsComponent(PhysicsComponent *r) {
     physicsComponentLookup[r->getFixture()] = r;
