@@ -17,7 +17,7 @@ FireBallController::FireBallController(GameObject *gameObject) : Component(gameO
 }
 
 void FireBallController::onCollisionStart(PhysicsComponent *comp) {
-    deleteMe();
+    deleteGameObject();
 }
 
 void FireBallController::onCollisionEnd(PhysicsComponent *comp) {
@@ -37,10 +37,8 @@ void FireBallController::update(float deltaTime) {
 
     time_elapsed += deltaTime;
     if (time_elapsed >= life_time) {
-        deleteMe();
+        deleteGameObject();
     }
 }
 
-void FireBallController::deleteMe() {
-    this->getGameObject()->setDeleteMe(true);
-}
+

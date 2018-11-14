@@ -3,6 +3,7 @@
 //
 
 #include "Component.hpp"
+#include "GameObject.hpp"
 
 Component::Component(GameObject *gameObject)
 :gameObject(gameObject)
@@ -31,4 +32,8 @@ void Component::onCollisionStart(PhysicsComponent* comp) {
 
 void Component::onCollisionEnd(PhysicsComponent* comp) {
 
+}
+
+void Component::deleteGameObject(){
+    this->getGameObject()->setDeleteMe(true);
 }

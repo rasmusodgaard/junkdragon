@@ -21,6 +21,8 @@ public:
     virtual void onCollisionEnd(PhysicsComponent* comp);    // Callback from physics engine when collision end is detected. Override when needed.
 protected:
     GameObject *gameObject;
+    void deleteGameObject();
+    
 
     friend class GameObject;
 };

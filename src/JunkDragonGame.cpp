@@ -226,6 +226,7 @@ std::shared_ptr<GameObject> JunkDragonGame::createGameObject() {
 
 void JunkDragonGame::createFireBall( ) {
     auto fireballObj = createGameObject();
+    fireballObj->name = "Fireball";
     fireballObj->setPosition( dragonObj->getPosition() );
     fireballObj->setRotation( dragonObj->getRotation() );
     auto fireballController = fireballObj->addComponent<FireBallController>();
@@ -234,4 +235,6 @@ void JunkDragonGame::createFireBall( ) {
     fireballSprite.setScale({1,1});
     auto fireballSpriteComponent = fireballObj->addComponent<SpriteComponent>();
     fireballSpriteComponent->setSprite(fireballSprite);
+    //auto fireballPhysics = fireballObj->addComponent<PhysicsComponent>();
+    //fireballPhysics->initCircle(b2_kinematicBody, 10/physicsScale, fireballSprite.getPosition(), 1);
 }

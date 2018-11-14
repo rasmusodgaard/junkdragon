@@ -14,7 +14,6 @@ class FireBallController : public Component {
 
         void update(float deltaTime) override;
 
-        void deleteMe();
 
     private:
         std::shared_ptr<PhysicsComponent> physicsComponent;
