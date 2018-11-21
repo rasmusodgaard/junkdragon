@@ -27,8 +27,12 @@ DragonController::DragonController(GameObject *gameObject) : Component(gameObjec
 }
 
 
-void DragonController::setPhysicsComponent(std::shared_ptr<PhysicsComponent> pc){
-    physicsComponent = pc;
+void DragonController::setPhysicsComponent(std::shared_ptr<PhysicsComponent> pC){
+    physicsComponent = pC;
+}
+
+void DragonController::SetAnimationControllerComponent(std::shared_ptr<AnimationControllerComponent> aC){
+    animationControllerComponent = aC;
 }
 
 bool DragonController::onKey(SDL_Event &event) {
@@ -70,12 +74,10 @@ void DragonController::breathe_fire() {
 }
 
 void DragonController::update(float deltaTime) {
-    
     glm::vec2 position = this->getGameObject()->getPosition();
     float rotation = this->getGameObject()->getRotation();
     float magnitude = deltaTime * speed;
     glm::vec2 velocity = glm::rotateZ(glm::vec3(0,magnitude,0), glm::radians(rotation));
-    //physicsComponent = this->getGameObject()->getComponent<PhysicsComponent>();
     physicsComponent->setLinearVelocity(velocity);
     if(CW_rotation) {
         physicsComponent->setAngularVelocity(-angularVelocity);

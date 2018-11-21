@@ -2,10 +2,14 @@
 
 #include "Component.hpp"
 
+class PhysicsComponent;
+class AnimationControllerComponent;
+
 class DragonController : public Component {
     public:
         explicit DragonController(GameObject *gameObject);
-        void setPhysicsComponent(std::shared_ptr<PhysicsComponent> pc);
+        void setPhysicsComponent(std::shared_ptr<PhysicsComponent> pC);
+        void SetAnimationControllerComponent(std::shared_ptr<AnimationControllerComponent> aC);
         bool onKey(SDL_Event &event) override;
 
         void onCollisionStart(PhysicsComponent *comp) override;
@@ -18,6 +22,7 @@ class DragonController : public Component {
 
     private:
         std::shared_ptr<PhysicsComponent> physicsComponent;
+        std::shared_ptr<AnimationControllerComponent> animationControllerComponent;
 
         void breathe_fire();
 

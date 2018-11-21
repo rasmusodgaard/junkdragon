@@ -4,6 +4,7 @@
 #include "sre/RenderPass.hpp"
 #include "SpriteComponent.hpp"
 #include "SpriteAnimationComponent.hpp"
+#include "AnimationControllerComponent.hpp"
 #include "Box2D/Dynamics/Contacts/b2Contact.h"
 #include "PhysicsComponent.hpp"
 #include "FloatTrackComponent.hpp"
@@ -89,11 +90,18 @@ void JunkDragonGame::init(){
     auto spriteC = dragonObj->addComponent<SpriteComponent>();
     spriteC->setSprite(sprite);
     // Add animatinos
-    auto animC = dragonObj->addComponent<SpriteAnimationComponent>();
-    animC->setSprites({spriteAtlas->get("tile009.png"), spriteAtlas->get("tile010.png"), spriteAtlas->get("tile011.png")});
-    animC->setScale({2,2});
+    auto animCC = dragonObj->addComponent<AnimationControllerComponent>();
     
-    
+    animCC->addState(
+        "flying",
+        0.2f,
+        {spriteAtlas->get("tile009.png"), spriteAtlas->get("tile010.png"), spriteAtlas->get("tile011.png"), spriteAtlas->get("tile010.png")}
+        );
+
+    animCC->setScale({2,2});
+    animCC->setState("flying");
+
+    dragonC->SetAnimationControllerComponent( animCC );
     
     auto DragonPhysics = dragonObj->addComponent<PhysicsComponent>();
     dragonC->setPhysicsComponent(dragonObj->getComponent<PhysicsComponent>());
