@@ -13,7 +13,7 @@ class DragonController : public Component {
         void onCollisionEnd(PhysicsComponent *comp) override;
 
         void update(float deltaTime) override;
-
+    
         float getFuel();
 
     private:
@@ -31,4 +31,6 @@ class DragonController : public Component {
 
         float speed;
         float rotation_speed;
+        float angularVelocity = 90;
+        
 };

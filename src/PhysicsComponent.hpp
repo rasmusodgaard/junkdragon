@@ -20,7 +20,7 @@ class PhysicsComponent : public Component {
         void addImpulse(glm::vec2 force);   // Instantly affects velocity
 
         void setLinearVelocity(glm::vec2 velocity);
-
+        void setAngularVelocity(float rotation);
         glm::vec2 getLinearVelocity();
 
         bool isSensor();

@@ -4,6 +4,7 @@
 #include "GameObject.hpp"
 #include "SpriteComponent.hpp"
 #include "JunkDragonGame.hpp"
+#include "PhysicsComponent.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
@@ -20,6 +21,8 @@ DragonController::DragonController(GameObject *gameObject) : Component(gameObjec
     cool_down = 0.08f;  
     fuel = 10.0f;
     fireBallFuelCost = 0.5f;
+    
+    
 
 }
 
@@ -67,16 +70,18 @@ void DragonController::update(float deltaTime) {
     float rotation = this->getGameObject()->getRotation();
     float magnitude = deltaTime * speed;
     glm::vec2 velocity = glm::rotateZ(glm::vec3(0,magnitude,0), glm::radians(rotation));
-
+    physicsComponent = this->getGameObject()->getComponent<PhysicsComponent>();
+    physicsComponent->setLinearVelocity(velocity);
     if(CW_rotation) {
+        physicsComponent->setAngularVelocity(-angularVelocity);
          this->getGameObject()->setRotation(rotation - rotation_speed);
     } else {
+        physicsComponent->setAngularVelocity(angularVelocity);
         this->getGameObject()->setRotation(rotation + rotation_speed);
     }
     
     // Move the head
     this->getGameObject()->setPosition( position + velocity );
-
     if(breathing_fire){
         if(last_fire_ball > cool_down && fuel >= fireBallFuelCost ) {
             last_fire_ball = 0.0f;

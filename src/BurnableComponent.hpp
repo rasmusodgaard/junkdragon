@@ -15,7 +15,6 @@ public:
     explicit BurnableComponent(GameObject *gameObject);
     
     void update(float deltaTime) override;
-    void deleteMe();
     
     void onCollisionStart(PhysicsComponent *comp) override;
     void extinguishFire ();

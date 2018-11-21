@@ -4,6 +4,7 @@
 #include "GameObject.hpp"
 #include "SpriteComponent.hpp"
 #include "JunkDragonGame.hpp"
+#include "PhysicsComponent.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
@@ -17,7 +18,10 @@ FireBallController::FireBallController(GameObject *gameObject) : Component(gameO
 }
 
 void FireBallController::onCollisionStart(PhysicsComponent *comp) {
-    deleteGameObject();
+    if (comp->getGameObject()->name.compare("Dragon") != 0 && comp->getGameObject()->name.compare("Fireball") != 0){
+        deleteGameObject();
+    }
+    
 }
 
 void FireBallController::onCollisionEnd(PhysicsComponent *comp) {
