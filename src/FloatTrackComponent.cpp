@@ -19,14 +19,15 @@ void FloatTrackComponent::onGui() {
     bool* open = nullptr;
     
     auto winSize = r->getWindowSize();
-    ImVec2 iWinSize(winSize.x*0.2f, winSize.y* gui_height);
+    ImVec2 iWinSize(winSize.x*this->width, winSize.y* this->height);
 
-    ImVec2 pos (0.0f, winSize.y * (1.0f - gui_height) );
+    // TODO make GUI position flexible
+    ImVec2 pos (winSize.x*this->x_pos, winSize.y * (1.0f - this->height) );
     auto cond = ImGuiCond_Always;
 
     ImGui::SetNextWindowPos(pos, cond);
     ImGui::SetNextWindowSize(iWinSize, cond);
-    ImGui::Begin("", open, flags);
+    ImGui::Begin(this->label.c_str(), open, flags);
     ImGui::Text( "%s: %0.2f", this->label.c_str(), this->val );
 
     ImVec2 uv0(0,1); // flip y axis coordinates
@@ -41,4 +42,14 @@ void FloatTrackComponent::setLabel( std::string i_label ) {
 
 void FloatTrackComponent::setVal( float i_val ) {
     this->val = i_val;
+}
+
+void FloatTrackComponent::setSize(float i_width, float i_height) {
+    this->width = i_width;
+    this->height = i_height;
+}
+
+void FloatTrackComponent::setPos(float i_x, float i_y) {
+    this->x_pos = i_x;
+    this->y_pos = i_y;
 }

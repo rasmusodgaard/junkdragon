@@ -51,17 +51,23 @@ void JunkDragonGame::buildGUI() {
     fuelTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
     fuelTrackComp->setLabel("Fuel");
     fuelTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
-    // auto fuelTrackSprite = spriteAtlas->get("tile009.png");
-    // fuelTrackSprite.setScale({3,3});
-    
-    // auto fuelTrackSpriteC = fuelTrackerObj->addComponent<SpriteComponent>();
-    // fuelTrackSpriteC->setSprite(fuelTrackSprite);
+    fuelTrackComp->setPos(0.0f, 0.1f); // y val not currently used. It is a function of size
+    fuelTrackComp->setSize(0.3f, 0.1f);
 
+    auto scoreTrackerObj = createGameObject();
+    scoreTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
+    scoreTrackComp->setLabel("Score");
+    scoreTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
+    scoreTrackComp->setPos(0.7f, 0.1f); // y val not currently used. It is a function of size
+    scoreTrackComp->setSize(0.3f, 0.1f);
 }
 
 void JunkDragonGame::init(){
     initPhysics();
     
+    // init game junk
+    score = 0.0f;
+
     spriteAtlas = sre::SpriteAtlas::create("dragon.json","dragon.png");
     
     auto camObj = createGameObject();
@@ -117,7 +123,7 @@ void JunkDragonGame::update(float time){
     }
 
     fuelTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
-
+    scoreTrackComp->setVal( this->score);
 }
 
 void JunkDragonGame::render() {
@@ -288,8 +294,4 @@ void JunkDragonGame::createFireBall( ) {
     
     auto trajectory = glm::rotateZ(glm::vec3(0,fireballController->getSpeed(),0), glm::radians(fireballObj->getRotation() ));
     fireballPhysics->setLinearVelocity( trajectory );
-}
-
-float JunkDragonGame::getFuel( ) {
-    return dragonObj->getComponent<DragonController>()->getFuel();
 }

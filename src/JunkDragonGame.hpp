@@ -28,8 +28,6 @@ public:
     void BeginContact(b2Contact *contact) override;
     void EndContact(b2Contact *contact) override;
 
-    float getFuel();
-
 private:
     
     std::shared_ptr<CameraFollow> camera;
@@ -51,6 +49,7 @@ private:
     
     std::shared_ptr<GameObject> dragonObj;
     std::shared_ptr<FloatTrackComponent> fuelTrackComp;
+    std::shared_ptr<FloatTrackComponent> scoreTrackComp;
 
     // Physics members
     b2World * world = nullptr;
@@ -61,4 +60,7 @@ private:
     Box2DDebugDraw debugDraw;
     bool doDebugDraw = false;
     friend class PhysicsComponent;
+
+    // Game globals
+    float score;
 };
