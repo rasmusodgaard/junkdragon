@@ -26,6 +26,11 @@ DragonController::DragonController(GameObject *gameObject) : Component(gameObjec
 
 }
 
+
+void DragonController::setPhysicsComponent(std::shared_ptr<PhysicsComponent> pc){
+    physicsComponent = pc;
+}
+
 bool DragonController::onKey(SDL_Event &event) {
     if (event.key.keysym.sym == SDLK_LEFT) {
         if (event.type == SDL_KEYDOWN) {
@@ -70,7 +75,7 @@ void DragonController::update(float deltaTime) {
     float rotation = this->getGameObject()->getRotation();
     float magnitude = deltaTime * speed;
     glm::vec2 velocity = glm::rotateZ(glm::vec3(0,magnitude,0), glm::radians(rotation));
-    physicsComponent = this->getGameObject()->getComponent<PhysicsComponent>();
+    //physicsComponent = this->getGameObject()->getComponent<PhysicsComponent>();
     physicsComponent->setLinearVelocity(velocity);
     if(CW_rotation) {
         physicsComponent->setAngularVelocity(-angularVelocity);

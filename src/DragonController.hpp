@@ -5,11 +5,11 @@
 class DragonController : public Component {
     public:
         explicit DragonController(GameObject *gameObject);
-
+        void setPhysicsComponent(std::shared_ptr<PhysicsComponent> pc);
         bool onKey(SDL_Event &event) override;
 
         void onCollisionStart(PhysicsComponent *comp) override;
-
+    
         void onCollisionEnd(PhysicsComponent *comp) override;
 
         void update(float deltaTime) override;
@@ -32,5 +32,5 @@ class DragonController : public Component {
         float speed;
         float rotation_speed;
         float angularVelocity = 90;
-        
+    
 };

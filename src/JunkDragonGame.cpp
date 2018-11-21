@@ -94,7 +94,10 @@ void JunkDragonGame::init(){
     animC->setScale({2,2});
     
     
+    
     auto DragonPhysics = dragonObj->addComponent<PhysicsComponent>();
+    dragonC->setPhysicsComponent(dragonObj->getComponent<PhysicsComponent>());
+
     DragonPhysics->initCircle(b2_dynamicBody, 30/physicsScale, dragonObj->getPosition()/physicsScale, dragonObj->getRotation(), 1);
     DragonPhysics->setSensor(true);
 
