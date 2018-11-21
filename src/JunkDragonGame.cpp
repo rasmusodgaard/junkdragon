@@ -3,7 +3,6 @@
 #include "GameObject.hpp"
 #include "sre/RenderPass.hpp"
 #include "SpriteComponent.hpp"
-#include "SpriteAnimationComponent.hpp"
 #include "AnimationControllerComponent.hpp"
 #include "Box2D/Dynamics/Contacts/b2Contact.h"
 #include "PhysicsComponent.hpp"
