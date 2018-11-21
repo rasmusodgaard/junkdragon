@@ -6,6 +6,7 @@
 #include "SpriteAnimationComponent.hpp"
 #include "Box2D/Dynamics/Contacts/b2Contact.h"
 #include "PhysicsComponent.hpp"
+#include "FloatTrackComponent.hpp"
 #include <sre/Inspector.hpp>
 #include "DragonController.hpp"
 #include "FireBallController.hpp"
@@ -26,7 +27,11 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
     .withSdlInitFlags(SDL_INIT_EVERYTHING)
     .withSdlWindowFlags(SDL_WINDOW_OPENGL);
     
+    ImGuiIO& io = ImGui::GetIO();
+
     init();
+    buildGUI();
+
     
     r.keyEvent = [&](SDL_Event& e){
         onKey(e);
@@ -39,6 +44,19 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
         render();    };
     // start game loop
     r.startEventLoop();
+}
+
+void JunkDragonGame::buildGUI() {
+    auto fuelTrackerObj = createGameObject();
+    fuelTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
+    fuelTrackComp->setLabel("Fuel");
+    fuelTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
+    // auto fuelTrackSprite = spriteAtlas->get("tile009.png");
+    // fuelTrackSprite.setScale({3,3});
+    
+    // auto fuelTrackSpriteC = fuelTrackerObj->addComponent<SpriteComponent>();
+    // fuelTrackSpriteC->setSprite(fuelTrackSprite);
+
 }
 
 void JunkDragonGame::init(){
@@ -97,6 +115,9 @@ void JunkDragonGame::update(float time){
             sceneObjects.erase(sceneObjects.begin() + i);
         }
     }
+
+    fuelTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
+
 }
 
 void JunkDragonGame::render() {
@@ -126,6 +147,13 @@ void JunkDragonGame::render() {
         world->DrawDebugData();
         rp.drawLines(debugDraw.getLines());
         debugDraw.clear();
+    }
+
+    // Render the GUI components last
+    for (auto & go : sceneObjects){
+        for (auto & comp : go->getComponents()){
+            comp->onGui();
+        }
     }
 }
 
@@ -260,4 +288,8 @@ void JunkDragonGame::createFireBall( ) {
     
     auto trajectory = glm::rotateZ(glm::vec3(0,fireballController->getSpeed(),0), glm::radians(fireballObj->getRotation() ));
     fireballPhysics->setLinearVelocity( trajectory );
+}
+
+float JunkDragonGame::getFuel( ) {
+    return dragonObj->getComponent<DragonController>()->getFuel();
 }

@@ -1,9 +1,12 @@
+#pragma once
+
 #include "sre/SDLRenderer.hpp"
 #include "sre/SpriteAtlas.hpp"
 #include <vector>
 #include "Box2D/Dynamics/b2World.h"
 #include "GameObject.hpp"
 #include "DragonController.hpp"
+#include "FloatTrackComponent.hpp"
 #include "CameraFollow.hpp"
 #include "BackgroundComponent.hpp"
 #include "Box2DDebugDraw.hpp"
@@ -25,6 +28,8 @@ public:
     void BeginContact(b2Contact *contact) override;
     void EndContact(b2Contact *contact) override;
 
+    float getFuel();
+
 private:
     
     std::shared_ptr<CameraFollow> camera;
@@ -37,6 +42,7 @@ private:
     
     void init();
     void initPhysics();
+    void buildGUI();
     void update(float time);
     void updatePhysics();
     void render();
@@ -44,6 +50,7 @@ private:
     void handleContact(b2Contact *contact, bool begin);
     
     std::shared_ptr<GameObject> dragonObj;
+    std::shared_ptr<FloatTrackComponent> fuelTrackComp;
 
     // Physics members
     b2World * world = nullptr;

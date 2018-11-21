@@ -37,3 +37,7 @@ void Component::onCollisionEnd(PhysicsComponent* comp) {
 void Component::deleteGameObject(){
     this->getGameObject()->setDeleteMe(true);
 }
+
+void Component::onGui(){
+
+}

@@ -17,7 +17,9 @@ DragonController::DragonController(GameObject *gameObject) : Component(gameObjec
     // fire breathing parameters
     breathing_fire = false;
     last_fire_ball = 0.0f;
-    cool_down = 0.08f;
+    cool_down = 0.08f;  
+    fuel = 10.0f;
+    fireBallFuelCost = 0.5f;
 
 }
 
@@ -56,6 +58,7 @@ void DragonController::onCollisionEnd(PhysicsComponent *comp) {
 
 void DragonController::breathe_fire() {
     JunkDragonGame::instance->createFireBall();
+    fuel = fuel - fireBallFuelCost;
 }
 
 void DragonController::update(float deltaTime) {
@@ -75,7 +78,7 @@ void DragonController::update(float deltaTime) {
     this->getGameObject()->setPosition( position + velocity );
 
     if(breathing_fire){
-        if(last_fire_ball > cool_down ) {
+        if(last_fire_ball > cool_down && fuel >= fireBallFuelCost ) {
             last_fire_ball = 0.0f;
             breathe_fire();
         }
@@ -84,5 +87,9 @@ void DragonController::update(float deltaTime) {
 
     last_fire_ball += deltaTime;
 
+}
+
+float DragonController::getFuel() {
+    return this->fuel;
 }
 

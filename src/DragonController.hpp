@@ -14,6 +14,8 @@ class DragonController : public Component {
 
         void update(float deltaTime) override;
 
+        float getFuel();
+
     private:
         std::shared_ptr<PhysicsComponent> physicsComponent;
 
@@ -25,6 +27,7 @@ class DragonController : public Component {
         float cool_down;
         
         float fuel;
+        float fireBallFuelCost;
 
         float speed;
         float rotation_speed;
