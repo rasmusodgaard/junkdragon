@@ -1,3 +1,10 @@
+//
+//  FireBallController.cpp
+//  SRE
+//
+//  Created by John O'Donnell
+//
+
 #include <SDL_events.h>
 #include <iostream>
 #include "FireBallController.hpp"
@@ -11,7 +18,7 @@
 
 FireBallController::FireBallController(GameObject *gameObject) : Component(gameObject) {
 
-    speed = 7.0f;
+    speed = 12.0f;
     time_elapsed = 0.0f;
     life_time = 0.6f;
     drag = 0.99f;

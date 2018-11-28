@@ -1,3 +1,10 @@
+//
+//  BackgroundComponent.cpp
+//  SRE
+//
+//  Created by John O'Donnell
+//
+
 #include <sre/SpriteAtlas.hpp>
 #include <sre/Texture.hpp>
 

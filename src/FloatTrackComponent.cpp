@@ -1,3 +1,10 @@
+//
+//  FloatTrackComponent.cpp
+//  SRE
+//
+//  Created by John O'Donnell
+//
+
 #include "FloatTrackComponent.hpp"
 #include "sre/Renderer.hpp"
 #include "JunkDragonGame.hpp"

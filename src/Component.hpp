@@ -1,3 +1,10 @@
+//
+//  Component.hpp
+//  SRE
+//
+//  Created by John O'Donnell
+//
+
 #pragma once
 
 #include "sre/SpriteBatch.hpp"

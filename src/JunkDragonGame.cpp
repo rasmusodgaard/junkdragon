@@ -67,28 +67,13 @@ void JunkDragonGame::buildGUI() {
 void JunkDragonGame::init(){
     initPhysics();
     
-    
-    
     // init game junk
     score = 0.0f;
 
-    spriteAtlas = sre::SpriteAtlas::create("dragon.json","dragon.png");
-    
+    spriteAtlas = sre::SpriteAtlas::create("junkdragon.json","junkdragon.png");
+
     level = std::make_shared<Level>();
     level->GenerateLevel();
-    
-    auto HouseObj = createGameObject();
-    HouseObj->setPosition({200,200});
-    HouseObj->setRotation(0.0f);
-    
-    auto houseSprite = spriteAtlas->get("tile003.png");
-    auto houseSpriteC = HouseObj->addComponent<SpriteComponent>();
-    houseSpriteC->setSprite(houseSprite);
-    HouseObj->addComponent<BurnableComponent>();
-    
-    auto HousePhysics = HouseObj->addComponent<PhysicsComponent>();
-    HousePhysics->initCircle(b2_staticBody, 30/physicsScale, HouseObj->getPosition()/physicsScale, HouseObj->getRotation(), 1);
-    HousePhysics->setSensor(true);
     
     auto camObj = createGameObject();
     camera = camObj->addComponent<CameraFollow>();
@@ -104,8 +89,8 @@ void JunkDragonGame::init(){
     auto dragonC = dragonObj->addComponent<DragonController>();
     //dragonC->setFireballCreator( createFireBall() );
     // Add sprite component
-    auto sprite = spriteAtlas->get("tile009.png");
-    sprite.setScale({2,2}); 
+    auto sprite = spriteAtlas->get("dragon_11.png");
+    sprite.setScale({3,3}); 
     auto spriteC = dragonObj->addComponent<SpriteComponent>();
     spriteC->setSprite(sprite);
     // Add animatinos
@@ -114,10 +99,10 @@ void JunkDragonGame::init(){
     animCC->addState(
         "flying",
         0.2f,
-        {spriteAtlas->get("tile009.png"), spriteAtlas->get("tile010.png"), spriteAtlas->get("tile011.png"), spriteAtlas->get("tile010.png")}
+        {spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_12.png"), spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_10.png")}
         );
 
-    animCC->setScale({2,2});
+    animCC->setScale({3,3});
     animCC->setState("flying");
 
     dragonC->SetAnimationControllerComponent( animCC );
@@ -131,15 +116,14 @@ void JunkDragonGame::init(){
     // Add background
     backgroundComponent.init("background.png");
     
-
-    
-    
+    createHouse({200,200});
     
     auto PUObj = createGameObject();
     PUObj->setPosition({400,400});
     PUObj->setRotation(0.0f);
     
-    auto pickUpSprite = spriteAtlas->get("tile006.png");
+    auto pickUpSprite = spriteAtlas->get("donut.png");
+    pickUpSprite.setScale({0.5,0.5});
     auto PUSpriteC = PUObj->addComponent<SpriteComponent>();
     PUSpriteC->setSprite(pickUpSprite);
     auto pickUpC = PUObj->addComponent<PickUpComponent>();
@@ -326,14 +310,71 @@ void JunkDragonGame::createFireBall( ) {
     
     auto fireballController = fireballObj->addComponent<FireBallController>();
 
-    auto fireballSprite = spriteAtlas->get("tile009.png");
-    fireballSprite.setScale({1,1});
+    auto fireballSprite = spriteAtlas->get("fireball_3.png");
+    
+    fireballSprite.setScale({0.5,0.5});
     auto fireballSpriteComponent = fireballObj->addComponent<SpriteComponent>();
     fireballSpriteComponent->setSprite(fireballSprite);
+
+    auto fireballACC = fireballObj->addComponent<AnimationControllerComponent>();
+
+    // Could animate the not burning buildings
+    fireballACC->addState(
+        "shooting",
+        0.1f,
+        {spriteAtlas->get("fireball_1.png"),spriteAtlas->get("fireball_2.png"),spriteAtlas->get("fireball_3.png"),spriteAtlas->get("fireball_4.png")}
+        );
+    
+    fireballACC->setScale({0.8,0.8});
+    fireballACC->setState("shooting");
 
     auto fireballPhysics = fireballObj->addComponent<PhysicsComponent>();
     fireballPhysics->initCircle(b2_dynamicBody, 10/physicsScale, fireballObj->getPosition()/physicsScale, fireballObj->getRotation(), 1);
     
     auto trajectory = glm::rotateZ(glm::vec3(0,fireballController->getSpeed(),0), glm::radians(fireballObj->getRotation() ));
     fireballPhysics->setLinearVelocity( trajectory );
+}
+
+void JunkDragonGame::createHouse( glm::vec2 pos ) {
+    auto HouseObj = createGameObject();
+    HouseObj->setPosition(pos);
+    HouseObj->setRotation(0.0f);
+    auto houseSprite = spriteAtlas->get("farmhouse_2.png");
+    auto houseSpriteC = HouseObj->addComponent<SpriteComponent>();
+    houseSprite.setScale({1,1});
+    houseSpriteC->setSprite(houseSprite);
+    auto houseBC = HouseObj->addComponent<BurnableComponent>();
+    
+    auto HousePhysics = HouseObj->addComponent<PhysicsComponent>();
+    HousePhysics->initCircle(b2_staticBody, 50/physicsScale, HouseObj->getPosition()/physicsScale, HouseObj->getRotation(), 1);
+    HousePhysics->setSensor(true);
+
+    auto houseACC = HouseObj->addComponent<AnimationControllerComponent>();
+
+    // Could animate the not burning buildings
+    houseACC->addState(
+        "notburning",
+        1.0f,
+        {spriteAtlas->get("farmhouse_2.png")}
+        );
+    houseACC->addState(
+        "onfire",
+        0.1f,
+        {spriteAtlas->get("farmhouse_2_burn1.png"), spriteAtlas->get("farmhouse_2_burn2.png")}
+        );
+    houseACC->addState(
+        "singed",
+        1.0f,
+        {spriteAtlas->get("farmhouse_3.png")}
+        );
+    houseACC->addState(
+        "singed_onfire",
+        0.1f,
+        {spriteAtlas->get("farmhouse_3_burn1.png"), spriteAtlas->get("farmhouse_3_burn2.png")}
+        );
+    
+    houseACC->setScale({1,1});
+    houseACC->setState("notburning");
+
+    houseBC->SetAnimationControllerComponent( houseACC );
 }

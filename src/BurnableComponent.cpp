@@ -8,28 +8,36 @@
 #include "BurnableComponent.hpp"
 #include "GameObject.hpp"
 #include "PhysicsComponent.hpp"
-//#include "JunkDragonGame.hpp"
-
-
-
+#include "AnimationControllerComponent.hpp"
 
 BurnableComponent::BurnableComponent(GameObject *gameObject) : Component(gameObject)
 {
     onFire = false;
-    life_time = 3;
+    life_time = 6.0f;
+    singed_time = life_time / 2.0f;
+}
+
+void BurnableComponent::SetAnimationControllerComponent(std::shared_ptr<AnimationControllerComponent> aC){
+    animationControllerComponent = aC;
 }
 
 void BurnableComponent::update(float deltaTime){
     
     // time elapsed since being set on fire
     if (onFire) {
-        time_elapsed += deltaTime;
+        life_time -= deltaTime;
+        if (life_time <= singed_time) {
+            animationControllerComponent->setState("singed_onfire");
+        }
+    } else {
+        if (life_time <= singed_time) {
+            animationControllerComponent->setState("singed");
+        }
     }
-    
+
     // object burned down
-    if (time_elapsed >= life_time) {
+    if (life_time <= 0.0f) {
         burnedDown();
-    
     }
 }
 
@@ -37,6 +45,7 @@ void BurnableComponent::onCollisionStart(PhysicsComponent *comp){
     
     if (comp->getGameObject()->name.compare("Fireball") == 0){
         onFire = true;
+        animationControllerComponent->setState("onfire");
     }
 }
 
@@ -45,7 +54,7 @@ void BurnableComponent::extinguishFire(){
 }
 
 void BurnableComponent::burnedDown(){
-    
+    deleteGameObject();
 }
 
 

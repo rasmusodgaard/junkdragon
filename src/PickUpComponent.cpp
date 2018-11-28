@@ -10,9 +10,6 @@
 #include "PhysicsComponent.hpp"
 #include <iostream>
 
-
-
-
 PickUpComponent::PickUpComponent(GameObject *gameObject) : Component(gameObject)
 {
     pickedUp = false;

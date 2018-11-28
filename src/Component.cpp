@@ -1,5 +1,8 @@
 //
-// Created by Morten Nobel-Jørgensen on 10/10/2017.
+//  Component.hpp
+//  SRE
+//
+//  Created by John O'Donnell
 //
 
 #include "Component.hpp"

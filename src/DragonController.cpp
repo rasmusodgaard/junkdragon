@@ -1,3 +1,10 @@
+//
+//  DragonController.cpp
+//  SRE
+//
+//  Created by John O'Donnell
+//
+
 #include <SDL_events.h>
 #include <iostream>
 #include "DragonController.hpp"
@@ -22,7 +29,7 @@ DragonController::DragonController(GameObject *gameObject) : Component(gameObjec
     last_fire_ball = 0.0f;
     cool_down = 0.08f;  
     fuel = 10.0f;
-    fireBallFuelCost = 0.5f;
+    fireBallFuelCost = 0.3f;
 }
 
 

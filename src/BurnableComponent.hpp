@@ -9,20 +9,27 @@
 #include "Component.hpp"
 
 class PhysicsComponent;
+class AnimationControllerComponent;
 
 class BurnableComponent : public Component {
 public:
     explicit BurnableComponent(GameObject *gameObject);
     
+    void SetAnimationControllerComponent(std::shared_ptr<AnimationControllerComponent> aC);
+
     void update(float deltaTime) override;
     
     void onCollisionStart(PhysicsComponent *comp) override;
     void extinguishFire ();
     void burnedDown();
+
+    
 private:
+
+    std::shared_ptr<AnimationControllerComponent> animationControllerComponent;
     bool onFire;
-    float time_elapsed;
     float life_time;
+    float singed_time;
 
     
     

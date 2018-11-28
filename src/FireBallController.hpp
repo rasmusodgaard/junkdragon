@@ -1,3 +1,10 @@
+//
+//  FireBallControllerComponent.hpp
+//  SRE
+//
+//  Created by John O'Donnell
+//
+
 #pragma once
 
 #include "Component.hpp"

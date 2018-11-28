@@ -21,9 +21,9 @@ add_executable(junkdragon ${JunkDragon})
 target_link_libraries(junkdragon ${all_libs})
 
 # copy files to dest
-file(COPY src/dragon.json src/dragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
-file(COPY src/dragon.json src/dragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
-file(COPY src/dragon.json src/dragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY src/junkdragon.json src/junkdragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+file(COPY src/junkdragon.json src/junkdragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
+file(COPY src/junkdragon.json src/junkdragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 file(COPY src/background.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
 file(COPY src/background.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)

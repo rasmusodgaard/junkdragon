@@ -25,6 +25,7 @@ public:
     // Gameobject existance
     std::shared_ptr<GameObject> createGameObject();
     void createFireBall( );
+    void createHouse( glm::vec2 pos );
 
     // Physics
     static constexpr float32 timeStep = 1.0f / 60.0f;
