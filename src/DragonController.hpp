@@ -7,6 +7,8 @@ class AnimationControllerComponent;
 
 class DragonController : public Component {
     public:
+        DragonController *self;
+        
         explicit DragonController(GameObject *gameObject);
         void setPhysicsComponent(std::shared_ptr<PhysicsComponent> pC);
         void SetAnimationControllerComponent(std::shared_ptr<AnimationControllerComponent> aC);

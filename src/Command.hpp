@@ -12,10 +12,10 @@ class Command
 {
     // 1. Create a class that encapsulates an object and a member function
     // a pointer to a member function (the attribute's name is "method")
-    std::shared_ptr<DragonController> object;
+    DragonController *object;
     void(DragonController:: *method)();
 public:
-    Command(std::shared_ptr<DragonController> obj = 0, void(DragonController:: *meth)() = 0)
+    Command(DragonController *obj = 0, void(DragonController:: *meth)() = 0)
     {
         object = obj; // the argument's name is "meth"
         method = meth;

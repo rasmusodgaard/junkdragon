@@ -24,7 +24,8 @@ void PickUpComponent::update(float deltaTime){
 
 void PickUpComponent::onCollisionStart(PhysicsComponent *comp){
     if (comp->getGameObject()->name.compare("Dragon") == 0){
-        std::cout << "Pick up" << std::endl;
+        cmd.execute();
+
     }
 }
 

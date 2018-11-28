@@ -10,6 +10,8 @@
 #include <glm/gtx/rotate_vector.hpp>
 
 DragonController::DragonController(GameObject *gameObject) : Component(gameObject) {
+    self = this;
+    
     // initiate dragon physics
     CW_rotation = true;
     speed = 300.0f;
@@ -91,11 +93,9 @@ void DragonController::update(float deltaTime) {
             last_fire_ball = 0.0f;
             breathe_fire();
         }
-        
     }
 
     last_fire_ball += deltaTime;
-
 }
 
 float DragonController::getFuel() {

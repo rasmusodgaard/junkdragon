@@ -134,7 +134,7 @@ void JunkDragonGame::init(){
     auto PUSpriteC = PUObj->addComponent<SpriteComponent>();
     PUSpriteC->setSprite(pickUpSprite);
     auto pickUpC = PUObj->addComponent<PickUpComponent>();
-    //pickUpC -> SetCommand(Command(dragonC, dragonC->addFuel()));
+    pickUpC -> SetCommand(Command( dragonC->self, &DragonController::addFuel ) );
     
     auto PUPhys = PUObj->addComponent<PhysicsComponent>();
     PUPhys->initCircle(b2_staticBody, 30/physicsScale, PUObj->getPosition()/physicsScale, PUObj->getRotation(), 1);
