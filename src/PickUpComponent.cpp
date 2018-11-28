@@ -28,6 +28,12 @@ void PickUpComponent::onCollisionStart(PhysicsComponent *comp){
     }
 }
 
+void PickUpComponent::SetCommand(Command _cmd){
+    cmd = _cmd;
+}
+
+
+
 
 
 

@@ -12,6 +12,7 @@
 #include "FireBallController.hpp"
 #include "BurnableComponent.hpp"
 #include "PickUpComponent.hpp"
+#include "Command.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
@@ -128,10 +129,12 @@ void JunkDragonGame::init(){
     auto PUObj = createGameObject();
     PUObj->setPosition({400,400});
     PUObj->setRotation(0.0f);
+    
     auto pickUpSprite = spriteAtlas->get("tile006.png");
     auto PUSpriteC = PUObj->addComponent<SpriteComponent>();
     PUSpriteC->setSprite(pickUpSprite);
-    PUObj->addComponent<PickUpComponent>();
+    auto pickUpC = PUObj->addComponent<PickUpComponent>();
+    //pickUpC -> SetCommand(Command(dragonC, dragonC->addFuel()));
     
     auto PUPhys = PUObj->addComponent<PhysicsComponent>();
     PUPhys->initCircle(b2_staticBody, 30/physicsScale, PUObj->getPosition()/physicsScale, PUObj->getRotation(), 1);
