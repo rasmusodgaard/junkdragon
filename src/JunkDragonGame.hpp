@@ -10,6 +10,9 @@
 #include "CameraFollow.hpp"
 #include "BackgroundComponent.hpp"
 #include "Box2DDebugDraw.hpp"
+#include "Level.hpp"
+
+
 
 class PhysicsComponent;
 
@@ -29,7 +32,7 @@ public:
     void EndContact(b2Contact *contact) override;
 
 private:
-    
+    std::shared_ptr<Level> level;
     std::shared_ptr<CameraFollow> camera;
     std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
     std::vector<std::shared_ptr<GameObject>> sceneObjects;

@@ -67,10 +67,28 @@ void JunkDragonGame::buildGUI() {
 void JunkDragonGame::init(){
     initPhysics();
     
+    
+    
     // init game junk
     score = 0.0f;
 
     spriteAtlas = sre::SpriteAtlas::create("dragon.json","dragon.png");
+    
+    level = std::make_shared<Level>();
+    level->GenerateLevel();
+    
+    auto HouseObj = createGameObject();
+    HouseObj->setPosition({200,200});
+    HouseObj->setRotation(0.0f);
+    
+    auto houseSprite = spriteAtlas->get("tile003.png");
+    auto houseSpriteC = HouseObj->addComponent<SpriteComponent>();
+    houseSpriteC->setSprite(houseSprite);
+    HouseObj->addComponent<BurnableComponent>();
+    
+    auto HousePhysics = HouseObj->addComponent<PhysicsComponent>();
+    HousePhysics->initCircle(b2_staticBody, 30/physicsScale, HouseObj->getPosition()/physicsScale, HouseObj->getRotation(), 1);
+    HousePhysics->setSensor(true);
     
     auto camObj = createGameObject();
     camera = camObj->addComponent<CameraFollow>();
@@ -79,7 +97,8 @@ void JunkDragonGame::init(){
     dragonObj = createGameObject();
     dragonObj->name = "Dragon";
     camera->setFollowObject(dragonObj, {0,0});
-    dragonObj->setPosition({0,0});
+    glm::vec2 spawnPosition = level->GetStartingPosition();
+    dragonObj->setPosition(spawnPosition);
     dragonObj->setRotation(0.0f);
     // Add controller
     auto dragonC = dragonObj->addComponent<DragonController>();
@@ -112,17 +131,7 @@ void JunkDragonGame::init(){
     // Add background
     backgroundComponent.init("background.png");
     
-    auto HouseObj = createGameObject();
-    HouseObj->setPosition({200,200});
-    HouseObj->setRotation(0.0f);
-    auto houseSprite = spriteAtlas->get("tile003.png");
-    auto houseSpriteC = HouseObj->addComponent<SpriteComponent>();
-    houseSpriteC->setSprite(houseSprite);
-    HouseObj->addComponent<BurnableComponent>();
-    
-    auto HousePhysics = HouseObj->addComponent<PhysicsComponent>();
-    HousePhysics->initCircle(b2_staticBody, 30/physicsScale, HouseObj->getPosition()/physicsScale, HouseObj->getRotation(), 1);
-    HousePhysics->setSensor(true);
+
     
     
     
