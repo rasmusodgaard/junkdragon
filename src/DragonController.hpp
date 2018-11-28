@@ -20,6 +20,8 @@ class DragonController : public Component {
     
         float getFuel();
 
+        void addFuel();
+
     private:
         std::shared_ptr<PhysicsComponent> physicsComponent;
         std::shared_ptr<AnimationControllerComponent> animationControllerComponent;

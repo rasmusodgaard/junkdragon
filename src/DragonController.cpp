@@ -21,9 +21,6 @@ DragonController::DragonController(GameObject *gameObject) : Component(gameObjec
     cool_down = 0.08f;  
     fuel = 10.0f;
     fireBallFuelCost = 0.5f;
-    
-    
-
 }
 
 
@@ -105,3 +102,6 @@ float DragonController::getFuel() {
     return this->fuel;
 }
 
+void DragonController::addFuel() {
+    this->fuel += 10.0f;
+}
