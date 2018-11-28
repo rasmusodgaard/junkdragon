@@ -22,7 +22,7 @@ public:
     
     void SetCommand (Command _cmd);
 private:
- 
+    bool pickedUp;
     
     
     

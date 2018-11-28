@@ -15,7 +15,7 @@
 
 PickUpComponent::PickUpComponent(GameObject *gameObject) : Component(gameObject)
 {
-    
+    pickedUp = false;
 }
 
 void PickUpComponent::update(float deltaTime){
@@ -23,9 +23,10 @@ void PickUpComponent::update(float deltaTime){
 }
 
 void PickUpComponent::onCollisionStart(PhysicsComponent *comp){
-    if (comp->getGameObject()->name.compare("Dragon") == 0){
+    if (comp->getGameObject()->name.compare("Dragon") == 0 && !pickedUp){
+        pickedUp = true;
         cmd.execute();
-
+        deleteGameObject();
     }
 }
 
