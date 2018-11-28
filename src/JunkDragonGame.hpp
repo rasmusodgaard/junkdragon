@@ -34,7 +34,7 @@ public:
     void EndContact(b2Contact *contact) override;
 
 private:
-    std::shared_ptr<Level> level;
+    std::shared_ptr<Level> currentLevel;
     std::shared_ptr<CameraFollow> camera;
     std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
     std::vector<std::shared_ptr<GameObject>> sceneObjects;

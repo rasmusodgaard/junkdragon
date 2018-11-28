@@ -72,8 +72,8 @@ void JunkDragonGame::init(){
 
     spriteAtlas = sre::SpriteAtlas::create("junkdragon.json","junkdragon.png");
 
-    level = std::make_shared<Level>();
-    level->GenerateLevel();
+    currentLevel = std::make_shared<Level>();
+    currentLevel->LoadLevel("level0");
     
     auto camObj = createGameObject();
     camera = camObj->addComponent<CameraFollow>();
@@ -82,7 +82,7 @@ void JunkDragonGame::init(){
     dragonObj = createGameObject();
     dragonObj->name = "Dragon";
     camera->setFollowObject(dragonObj, {0,0});
-    glm::vec2 spawnPosition = level->GetStartingPosition();
+    glm::vec2 spawnPosition = currentLevel->GetStartingPosition();
     dragonObj->setPosition(spawnPosition);
     dragonObj->setRotation(0.0f);
     // Add controller
@@ -118,12 +118,19 @@ void JunkDragonGame::init(){
     
 
     // Add Houses
+    
+    std::vector<glm::vec2> houses = currentLevel->GetHousePositions();
+    for (int i = 0; i < houses.size(); i++) {
+        createHouse(houses[i]);
+    }
+    
+    /*
     createHouse({   0, 800});
     createHouse({ 250, 900});
     createHouse({ 500,1000});
     createHouse({ 750, 900});
     createHouse({1000, 800});
-    
+    */
     // Add pickups
     createPickUp({200, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addFuel ) );
     createPickUp({600, 200}, spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );

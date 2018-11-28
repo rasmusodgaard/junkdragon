@@ -18,7 +18,7 @@
 
 
 //load level
-void Level::GenerateLevel(){
+void Level::LoadLevel(std::string level){
     
     std::ifstream fis("level0.json");
     
@@ -27,7 +27,8 @@ void Level::GenerateLevel(){
     d.ParseStream(isw);
 
     const rapidjson::Value& spawn = d["spawn"];
-    //const rapidjson::Value& b = d["housePlacement"];
+    const rapidjson::Value& hpX = d["housePositionsX"];
+    const rapidjson::Value& hpY = d["housePositionsY"];
     
     //Get spawnpoint in level
     spawnPoint.x = spawn["x"].GetInt();
@@ -35,33 +36,29 @@ void Level::GenerateLevel(){
     
     
     
-/*
-    for (rapidjson::SizeType i = 0; i < b.Size(); i++)
+
+    for (rapidjson::SizeType i = 0; i < hpX.Size(); i++)
     {
-        const rapidjson::Value& c = b[i];
-        std::vector<int> valTemp;
+       // housePositions.push_back({hpX[i][0].GetInt()});
+        int tempX = hpX[i].GetInt();
+        int tempY = hpY[i].GetInt();
+        housePositions.push_back({tempX,tempY});
         
-        for (rapidjson::SizeType j = 0; j < c.Size(); j++) {
-            valTemp.push_back(c[j].GetInt());
-        }
-        //values.push_back(valTemp);
-    }
-
-    startingPosition.x = spawn["x"].GetFloat();
-    startingPosition.y = spawn["y"].GetFloat();
-    startingRotation = spawn["angle"].GetFloat();
-
-    for (int i = 0; i<4; i++) {
-        floorColor[i] = d["floorColor"][i].GetFloat();
-        ceilColor[i] = d["ceilColor"][i].GetFloat();
     }
     
-    */
+    //std::cout<<housePositions.size() << std::endl;
+
+
+    
      
 }
 
 glm::vec2 Level::GetStartingPosition(){
     return spawnPoint;
+}
+
+std::vector<glm::vec2> Level::GetHousePositions(){
+    return housePositions;
 }
 
 //init level

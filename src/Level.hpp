@@ -16,12 +16,12 @@ class GameObject;
 class Level{
   
 public:
-    void GenerateLevel();
-
+    void LoadLevel(std::string level);
+    std::vector<glm::vec2> GetHousePositions();
     glm::vec2 GetStartingPosition();
 private:
     glm::vec2 spawnPoint;
-
+    std::vector<glm::vec2> housePositions;
 };
 
 
