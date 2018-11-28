@@ -12,6 +12,7 @@
 #include <glm/gtx/transform.hpp>
 #include "BackgroundComponent.hpp"
 #include "JunkDragonGame.hpp"
+#include <iostream>
 
 using namespace sre;
 using namespace glm;
@@ -25,19 +26,25 @@ void BackgroundComponent::renderBackground(sre::RenderPass &renderPass, float of
     renderPass.draw(batch, glm::translate(vec3(offset, 0,0)));
 }
 
-void BackgroundComponent::init(std::string filename) {
+void BackgroundComponent::init(std::string filename, glm::vec2 start_pos, glm::vec2 size, float resolution) {
     tex = Texture::create().withFile(filename)
             .withFilterSampling(false)
             .build();
 
     auto atlas = SpriteAtlas::createSingleSprite(tex, "background", vec2(0,0));
     auto sprite = atlas->get("background");
-    float scale = JunkDragonGame::windowSize.y / tex->getHeight();
-    sprite.setScale({scale,scale});
+    // float scale = JunkDragonGame::windowSize.y / tex->getHeight();
+    float scale_x = size.x / (tex->getHeight() * resolution);
+    float scale_y = size.y / (tex->getWidth()  * resolution);
+
+    sprite.setScale({scale_x,scale_y});
     auto batchBuilder = SpriteBatch::create();
-    for (int i=0;i<100;i++){
-        sprite.setPosition(vec2(tex->getWidth() * (i-1) * scale, 0));
-        batchBuilder.addSprite(sprite);
+
+    for (int i=0;i<resolution;i++){
+        for (int j=0; j<resolution; j++) {
+            sprite.setPosition(start_pos.x + vec2(tex->getWidth() * i * scale_x, start_pos.y + tex->getHeight() * j * scale_y ));
+            batchBuilder.addSprite(sprite);
+        }
     }
     batch = batchBuilder.build();
 }

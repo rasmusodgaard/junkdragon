@@ -114,7 +114,7 @@ void JunkDragonGame::init(){
     DragonPhysics->setSensor(true);
 
     // Add background
-    backgroundComponent.init("background.png");
+    backgroundComponent.init("background.png", {-2000,-2000}, {10000, 10000}, 50);
     
 
     // Add Houses
@@ -125,7 +125,7 @@ void JunkDragonGame::init(){
     createHouse({1000, 800});
     
     // Add pickups
-    createPickUp({-200, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addFuel ) );
+    createPickUp({200, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addFuel ) );
     createPickUp({600, 200}, spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
     createPickUp({800, 200}, spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
     createPickUp({1000, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addFuel ) );
@@ -228,8 +228,6 @@ void JunkDragonGame::EndContact(b2Contact *contact) {
 }
 
 void JunkDragonGame::handleContact(b2Contact *contact, bool begin) {
-    std::cout << "Begin contact" << std::endl;
-
     auto fixA = contact->GetFixtureA();
     auto fixB = contact->GetFixtureB();
     auto physA = physicsComponentLookup.find(fixA);
@@ -281,7 +279,7 @@ void JunkDragonGame::onKey(SDL_Event &event) {
     if (event.type == SDL_KEYDOWN){
         switch (event.key.keysym.sym){
             case SDLK_z:
-                //camera->setZoomMode(!camera->isZoomMode());
+                // camera->setZoomMode(!camera->isZoomMode());
                 break;
             case SDLK_d:
                 // press 'd' for physics debug
