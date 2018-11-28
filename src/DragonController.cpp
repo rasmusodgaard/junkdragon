@@ -12,6 +12,7 @@
 #include "SpriteComponent.hpp"
 #include "JunkDragonGame.hpp"
 #include "PhysicsComponent.hpp"
+#include <math.h>
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
@@ -25,11 +26,13 @@ DragonController::DragonController(GameObject *gameObject) : Component(gameObjec
     rotation_speed = 2.0f;
     
     // fire breathing parameters
-    breathing_fire = false;
-    last_fire_ball = 0.0f;
-    cool_down = 0.08f;  
-    fuel = 10.0f;
-    fireBallFuelCost = 0.3f;
+    breathing_fire          = false;
+    last_fire_ball          = 0.0f;
+    cool_down               = 0.08f;  
+    fuel                    = 10.0f;
+    fireBallFuelCost        = 0.5f;
+    speed_boost             = 0.0f;
+    speed_boost_decrement   = 0.5f;
 }
 
 
@@ -82,7 +85,7 @@ void DragonController::breathe_fire() {
 void DragonController::update(float deltaTime) {
     glm::vec2 position = this->getGameObject()->getPosition();
     float rotation = this->getGameObject()->getRotation();
-    float magnitude = deltaTime * speed;
+    float magnitude = deltaTime * (speed + speed_boost);
     glm::vec2 velocity = glm::rotateZ(glm::vec3(0,magnitude,0), glm::radians(rotation));
     physicsComponent->setLinearVelocity(velocity);
     if(CW_rotation) {
@@ -96,13 +99,15 @@ void DragonController::update(float deltaTime) {
     // Move the head
     this->getGameObject()->setPosition( position + velocity );
     if(breathing_fire){
-        if(last_fire_ball > cool_down && fuel >= fireBallFuelCost ) {
+        if(last_fire_ball >= cool_down && fuel >= fireBallFuelCost ) {
             last_fire_ball = 0.0f;
             breathe_fire();
         }
     }
 
     last_fire_ball += deltaTime;
+
+    speed_boost = fmax(speed_boost - speed_boost_decrement, 0.0f);
 }
 
 float DragonController::getFuel() {
@@ -111,4 +116,8 @@ float DragonController::getFuel() {
 
 void DragonController::addFuel() {
     this->fuel += 10.0f;
+}
+
+void DragonController::addSpeedBoost() {
+    this->speed_boost += 200.0f;
 }

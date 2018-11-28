@@ -116,22 +116,22 @@ void JunkDragonGame::init(){
     // Add background
     backgroundComponent.init("background.png");
     
-    createHouse({200,200});
+
+    // Add Houses
+    createHouse({   0, 800});
+    createHouse({ 250, 900});
+    createHouse({ 500,1000});
+    createHouse({ 750, 900});
+    createHouse({1000, 800});
     
-    auto PUObj = createGameObject();
-    PUObj->setPosition({400,400});
-    PUObj->setRotation(0.0f);
+    // Add pickups
+    createPickUp({-200, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addFuel ) );
+    createPickUp({600, 200}, spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
+    createPickUp({800, 200}, spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
+    createPickUp({1000, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addFuel ) );
+
+
     
-    auto pickUpSprite = spriteAtlas->get("donut.png");
-    pickUpSprite.setScale({0.5,0.5});
-    auto PUSpriteC = PUObj->addComponent<SpriteComponent>();
-    PUSpriteC->setSprite(pickUpSprite);
-    auto pickUpC = PUObj->addComponent<PickUpComponent>();
-    pickUpC -> SetCommand(Command( dragonC->self, &DragonController::addFuel ) );
-    
-    auto PUPhys = PUObj->addComponent<PhysicsComponent>();
-    PUPhys->initCircle(b2_staticBody, 30/physicsScale, PUObj->getPosition()/physicsScale, PUObj->getRotation(), 1);
-    PUPhys->setSensor(true);
 }
 
 void JunkDragonGame::update(float time){
@@ -377,4 +377,20 @@ void JunkDragonGame::createHouse( glm::vec2 pos ) {
     houseACC->setState("notburning");
 
     houseBC->SetAnimationControllerComponent( houseACC );
+}
+
+void JunkDragonGame::createPickUp(glm::vec2 pos, sre::Sprite pickUpSprite, Command cmd) {
+    auto PUObj = createGameObject();
+    PUObj->setPosition(pos);
+    PUObj->setRotation(0.0f);
+    
+    pickUpSprite.setScale({0.5,0.5});
+    auto PUSpriteC = PUObj->addComponent<SpriteComponent>();
+    PUSpriteC->setSprite(pickUpSprite);
+    auto pickUpC = PUObj->addComponent<PickUpComponent>();
+    pickUpC -> SetCommand( cmd );
+    
+    auto PUPhys = PUObj->addComponent<PhysicsComponent>();
+    PUPhys->initCircle(b2_staticBody, 30/physicsScale, PUObj->getPosition()/physicsScale, PUObj->getRotation(), 1);
+    PUPhys->setSensor(true);
 }

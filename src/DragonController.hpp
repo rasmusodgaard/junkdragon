@@ -29,7 +29,9 @@ class DragonController : public Component {
     
         float getFuel();
 
+        // Power up effects
         void addFuel();
+        void addSpeedBoost(); // spoodbeest in some languages
 
     private:
         std::shared_ptr<PhysicsComponent> physicsComponent;
@@ -46,6 +48,8 @@ class DragonController : public Component {
         float fireBallFuelCost;
 
         float speed;
+        float speed_boost;
+        float speed_boost_decrement;
         float rotation_speed;
         float angularVelocity = 90;
     

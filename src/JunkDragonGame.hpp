@@ -13,7 +13,7 @@
 #include "Level.hpp"
 
 
-
+class Command;
 class PhysicsComponent;
 
 class JunkDragonGame : public b2ContactListener {
@@ -26,6 +26,7 @@ public:
     std::shared_ptr<GameObject> createGameObject();
     void createFireBall( );
     void createHouse( glm::vec2 pos );
+    void createPickUp( glm::vec2 pos, sre::Sprite pickUpSprite, Command cmd );
 
     // Physics
     static constexpr float32 timeStep = 1.0f / 60.0f;
