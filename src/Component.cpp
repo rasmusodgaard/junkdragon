@@ -37,6 +37,7 @@ void Component::onCollisionEnd(PhysicsComponent* comp) {
 
 }
 
+//communicates from the component, sets a flag in the gameObject that makes it a candidate for being deleted
 void Component::deleteGameObject(){
     this->getGameObject()->setDeleteMe(true);
 }

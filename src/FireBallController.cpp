@@ -18,10 +18,10 @@
 
 FireBallController::FireBallController(GameObject *gameObject) : Component(gameObject) {
 
-    speed = 12.0f;
-    time_elapsed = 0.0f;
-    life_time = 0.6f;
-    drag = 0.99f;
+    speed = F_SPEED;
+    time_elapsed = F_TIME_ELAPSED;
+    life_time = F_LIFE_TIME;
+    drag = F_DRAG;
 }
 
 void FireBallController::onCollisionStart(PhysicsComponent *comp) {

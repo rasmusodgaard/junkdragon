@@ -28,9 +28,6 @@ void CameraFollow::update(float deltaTime) {
     
     gameObject->setPosition(position);
     
-    //position.x += JunkDragonGame::windowSize.x*0.5f;
-    //position.y += JunkDragonGame::windowSize.y*0.5f;
-    
     vec3 eye (position, 0);
     vec3 at (position, -1);
     vec3 up (0, 1, 0);

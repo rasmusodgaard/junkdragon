@@ -63,8 +63,6 @@ std::vector<glm::vec2> Level::GetHousePositions(){
 
 //init level
 
-//Create house
-
 //Set Background
 
 //

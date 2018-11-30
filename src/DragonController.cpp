@@ -17,22 +17,23 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
 
+
 DragonController::DragonController(GameObject *gameObject) : Component(gameObject) {
     self = this;
     
     // initiate dragon physics
-    CW_rotation = true;
-    speed = 300.0f;
-    rotation_speed = 2.0f;
+    CW_rotation = B_CW_ROTATION;
+    speed = F_SPEED;
+    rotation_speed = F_ROTATION_SPEED;
     
     // fire breathing parameters
-    breathing_fire          = false;
-    last_fire_ball          = 0.0f;
-    cool_down               = 0.08f;  
-    fuel                    = 10.0f;
-    fireBallFuelCost        = 0.5f;
-    speed_boost             = 0.0f;
-    speed_boost_decrement   = 0.5f;
+    breathing_fire          = B_BREATHING_FIRE;
+    last_fire_ball          = F_LAST_FIRE_BALL;
+    cool_down               = F_COOL_DOWN;
+    fuel                    = F_FUEL;
+    fireBallFuelCost        = F_FIREBALLFUELCOST;
+    speed_boost             = F_SPEED_BOOST;
+    speed_boost_decrement   = F_SPEED_BOOST_DECREMENT;
 }
 
 

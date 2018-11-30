@@ -35,14 +35,13 @@ void BurnableComponent::update(float deltaTime){
         }
     }
 
-    // object burned down
     if (life_time <= 0.0f) {
         burnedDown();
     }
 }
 
+
 void BurnableComponent::onCollisionStart(PhysicsComponent *comp){
-    
     if (comp->getGameObject()->name.compare("Fireball") == 0){
         onFire = true;
         animationControllerComponent->setState("onfire");

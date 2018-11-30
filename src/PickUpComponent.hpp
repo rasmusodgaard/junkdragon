@@ -9,6 +9,8 @@
 #include "Component.hpp"
 #include "Command.hpp"
 
+#define F_PICKEDUP      false
+
 class PhysicsComponent;
 
 

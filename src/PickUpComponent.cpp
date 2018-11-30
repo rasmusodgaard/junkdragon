@@ -12,7 +12,7 @@
 
 PickUpComponent::PickUpComponent(GameObject *gameObject) : Component(gameObject)
 {
-    pickedUp = false;
+    pickedUp = F_PICKEDUP;
 }
 
 void PickUpComponent::update(float deltaTime){

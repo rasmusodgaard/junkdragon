@@ -6,8 +6,12 @@
 //
 
 #pragma once
-
 #include "Component.hpp"
+
+#define F_SPEED         12.0f
+#define F_TIME_ELAPSED  0.0f
+#define F_LIFE_TIME     0.6f
+#define F_DRAG          0.99f
 
 class FireBallController : public Component {
     public:
