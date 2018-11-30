@@ -17,7 +17,7 @@
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
 
-const glm::vec2 JunkDragonGame::windowSize(800,600);
+const glm::vec2 JunkDragonGame::windowSize(INT_WINDOWSIZE_HEIGHT, INT_WINDOWSIZE_WIDTH);
 JunkDragonGame* JunkDragonGame::instance = nullptr;
 
 JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
@@ -34,7 +34,6 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
     init();
     buildGUI();
 
-    
     r.keyEvent = [&](SDL_Event& e){
         onKey(e);
     };
@@ -44,6 +43,7 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
     };
     r.frameRender = [&](){
         render();    };
+
     // start game loop
     r.startEventLoop();
 }
@@ -51,30 +51,25 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
 void JunkDragonGame::buildGUI() {
     auto fuelTrackerObj = createGameObject();
     fuelTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
-    fuelTrackComp->setLabel("Fuel");
-    fuelTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
-    fuelTrackComp->setPos(0.0f, 0.1f); // y val not currently used. It is a function of size
-    fuelTrackComp->setSize(0.3f, 0.1f);
+    fuelTrackComp->init("Fuel", dragonObj->getComponent<DragonController>()->getFuel(), {0.0f, 0.1f}, {0.3f,0.1f});
 
     auto scoreTrackerObj = createGameObject();
     scoreTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
-    scoreTrackComp->setLabel("Score");
-    scoreTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
-    scoreTrackComp->setPos(0.7f, 0.1f); // y val not currently used. It is a function of size
-    scoreTrackComp->setSize(0.3f, 0.1f);
+    scoreTrackComp->init("Score", dragonObj->getComponent<DragonController>()->getFuel(), {0.7f, 0.1f}, {0.3f, 0.1f} );
 }
 
 void JunkDragonGame::init(){
     initPhysics();
     
-    // init game junk
     score = 0.0f;
 
+    // Spritesheet for the game
     spriteAtlas = sre::SpriteAtlas::create("junkdragon.json","junkdragon.png");
 
     currentLevel = std::make_shared<Level>();
     currentLevel->LoadLevel("level0");
     
+    // Camera Object
     auto camObj = createGameObject();
     camera = camObj->addComponent<CameraFollow>();
     
@@ -84,27 +79,24 @@ void JunkDragonGame::init(){
     camera->setFollowObject(dragonObj, {0,0});
     glm::vec2 spawnPosition = currentLevel->GetStartingPosition();
     dragonObj->setPosition(spawnPosition);
-    dragonObj->setRotation(0.0f);
-    // Add controller
+    dragonObj->setRotation(F_ROTATION_NORTH);
+
     auto dragonC = dragonObj->addComponent<DragonController>();
-    //dragonC->setFireballCreator( createFireBall() );
-    // Add sprite component
+    
     auto sprite = spriteAtlas->get("dragon_11.png");
     sprite.setScale({3,3}); 
     auto spriteC = dragonObj->addComponent<SpriteComponent>();
     spriteC->setSprite(sprite);
-    // Add animatinos
-    auto animCC = dragonObj->addComponent<AnimationControllerComponent>();
     
+    auto animCC = dragonObj->addComponent<AnimationControllerComponent>();
     animCC->addState(
         "flying",
         0.2f,
         {spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_12.png"), spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_10.png")}
         );
 
-    animCC->setScale({3,3});
+    animCC->setScale({INT_DRAGON_SCALE,INT_DRAGON_SCALE});
     animCC->setState("flying");
-
     dragonC->SetAnimationControllerComponent( animCC );
     
     auto DragonPhysics = dragonObj->addComponent<PhysicsComponent>();
@@ -114,36 +106,25 @@ void JunkDragonGame::init(){
     DragonPhysics->setSensor(true);
 
     // Add background
-    backgroundComponent.init("background.png", {-2000,-2000}, {10000, 10000}, 50);
+    backgroundComponent.init("background.png", {INT_BACKGROUND_STARTPOS,INT_BACKGROUND_STARTPOS}, 
+        {INT_BACKGROUND_SIZE, INT_BACKGROUND_SIZE}, INT_BACKGROUND_RESOLUTION);
     
-
     // Add Houses
-    
     std::vector<glm::vec2> houses = currentLevel->GetHousePositions();
     for (int i = 0; i < houses.size(); i++) {
         createHouse(houses[i]);
     }
     
-    /*
-    createHouse({   0, 800});
-    createHouse({ 250, 900});
-    createHouse({ 500,1000});
-    createHouse({ 750, 900});
-    createHouse({1000, 800});
-    */
     // Add pickups
-    createPickUp({200, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addFuel ) );
-    createPickUp({600, 200}, spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
-    createPickUp({800, 200}, spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
-    createPickUp({1000, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addFuel ) );
-
-
-    
+    createPickUp({200, 200}, spriteAtlas->get("pizza.png"), Command( dragonC->self, &DragonController::addFuel ) );
+    createPickUp({600, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
+    createPickUp({800, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
+    createPickUp({1000, 200}, spriteAtlas->get("pizza.png"), Command( dragonC->self, &DragonController::addFuel ) );    
 }
 
 void JunkDragonGame::update(float time){
     updatePhysics();
-    if (time > 0.03) // if framerate approx 30 fps then run two physics steps
+    if (time > F_PHYSICS_TIMESTEP) // if framerate approx 30 fps then run two physics steps
 	{
 		updatePhysics();
 	}
@@ -155,6 +136,7 @@ void JunkDragonGame::update(float time){
         }
     }
 
+    // Update GUI elements last
     fuelTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
     scoreTrackComp->setVal( this->score);
 }
@@ -163,12 +145,6 @@ void JunkDragonGame::render() {
     auto rp = sre::RenderPass::create()
     .withCamera(camera->getCamera())
     .build();
-
-    // if (doDebugDraw){
-    //     static sre::Inspector profiler;
-    //     profiler.update();
-    //     profiler.gui(false);
-    // }
     
     auto pos = camera->getGameObject()->getPosition();
     backgroundComponent.renderBackground(rp,0.0f);
@@ -183,6 +159,10 @@ void JunkDragonGame::render() {
     rp.draw(sb);
 
     if (doDebugDraw){
+        static sre::Inspector profiler;
+        profiler.update();
+        profiler.gui(false);
+
         world->DrawDebugData();
         rp.drawLines(debugDraw.getLines());
         debugDraw.clear();
@@ -198,8 +178,8 @@ void JunkDragonGame::render() {
 
 
 void JunkDragonGame::updatePhysics() {
-    const int positionIterations = 4;
-    const int velocityIterations = 12;
+    const int positionIterations = INT_POSITION_ITERATIONS;
+    const int velocityIterations = INT_VELOCITY_ITERATIONS;
     world->Step(timeStep, velocityIterations, positionIterations);
 
     for (auto phys : physicsComponentLookup) {
@@ -214,7 +194,7 @@ void JunkDragonGame::updatePhysics() {
 }
 
 void JunkDragonGame::initPhysics() {
-    float gravity = 0.0f; // 0.0 m/s2
+    float gravity = F_GRAVITY;
     delete world;
     world = new b2World(b2Vec2(0,gravity));
     world->SetContactListener(this);
@@ -272,7 +252,6 @@ void JunkDragonGame::deregisterPhysicsComponent(PhysicsComponent *r) {
     }
 }
 
-
 void JunkDragonGame::onKey(SDL_Event &event) {
     for (auto & gameObject: sceneObjects) {
         for (auto & c : gameObject->getComponents()){
@@ -286,7 +265,6 @@ void JunkDragonGame::onKey(SDL_Event &event) {
     if (event.type == SDL_KEYDOWN){
         switch (event.key.keysym.sym){
             case SDLK_z:
-                // camera->setZoomMode(!camera->isZoomMode());
                 break;
             case SDLK_d:
                 // press 'd' for physics debug
@@ -343,7 +321,7 @@ void JunkDragonGame::createFireBall( ) {
 void JunkDragonGame::createHouse( glm::vec2 pos ) {
     auto HouseObj = createGameObject();
     HouseObj->setPosition(pos);
-    HouseObj->setRotation(0.0f);
+    HouseObj->setRotation(F_ROTATION_NORTH);
     auto houseSprite = spriteAtlas->get("farmhouse_2.png");
     auto houseSpriteC = HouseObj->addComponent<SpriteComponent>();
     houseSprite.setScale({1,1});
@@ -387,7 +365,7 @@ void JunkDragonGame::createHouse( glm::vec2 pos ) {
 void JunkDragonGame::createPickUp(glm::vec2 pos, sre::Sprite pickUpSprite, Command cmd) {
     auto PUObj = createGameObject();
     PUObj->setPosition(pos);
-    PUObj->setRotation(0.0f);
+    PUObj->setRotation(F_ROTATION_NORTH);
     
     pickUpSprite.setScale({0.5,0.5});
     auto PUSpriteC = PUObj->addComponent<SpriteComponent>();
@@ -396,6 +374,6 @@ void JunkDragonGame::createPickUp(glm::vec2 pos, sre::Sprite pickUpSprite, Comma
     pickUpC -> SetCommand( cmd );
     
     auto PUPhys = PUObj->addComponent<PhysicsComponent>();
-    PUPhys->initCircle(b2_staticBody, 30/physicsScale, PUObj->getPosition()/physicsScale, PUObj->getRotation(), 1);
+    PUPhys->initCircle(b2_staticBody, 40/physicsScale, PUObj->getPosition()/physicsScale, PUObj->getRotation(), 1);
     PUPhys->setSensor(true);
 }

@@ -26,10 +26,10 @@ void FloatTrackComponent::onGui() {
     bool* open = nullptr;
     
     auto winSize = r->getWindowSize();
-    ImVec2 iWinSize(winSize.x*this->width, winSize.y* this->height);
+    ImVec2 iWinSize(winSize.x*this->size.x, winSize.y* this->size.y);
 
     // TODO make GUI position flexible
-    ImVec2 pos (winSize.x*this->x_pos, winSize.y * (1.0f - this->height) );
+    ImVec2 pos (winSize.x*this->pos.x, winSize.y * (1.0f - this->size.y) );
     auto cond = ImGuiCond_Always;
 
     ImGui::SetNextWindowPos(pos, cond);
@@ -43,20 +43,13 @@ void FloatTrackComponent::onGui() {
     ImGui::End();
 }
 
-void FloatTrackComponent::setLabel( std::string i_label ) {
-    this->label = i_label;
+void FloatTrackComponent::init( std::string label, float val, glm::vec2 pos, glm::vec2 size ) {
+    this->label = label;
+    this->val = val;
+    this->pos = pos;
+    this->size = size;
 }
 
-void FloatTrackComponent::setVal( float i_val ) {
-    this->val = i_val;
-}
-
-void FloatTrackComponent::setSize(float i_width, float i_height) {
-    this->width = i_width;
-    this->height = i_height;
-}
-
-void FloatTrackComponent::setPos(float i_x, float i_y) {
-    this->x_pos = i_x;
-    this->y_pos = i_y;
+void FloatTrackComponent::setVal( float val ) {
+    this->val = val;
 }

@@ -12,6 +12,17 @@
 #include "Box2DDebugDraw.hpp"
 #include "Level.hpp"
 
+#define F_GRAVITY                       0.0f
+#define INT_POSITION_ITERATIONS         4
+#define INT_VELOCITY_ITERATIONS        12
+#define INT_WINDOWSIZE_HEIGHT         800
+#define INT_WINDOWSIZE_WIDTH          600
+#define INT_DRAGON_SCALE                3
+#define INT_BACKGROUND_RESOLUTION      50
+#define INT_BACKGROUND_STARTPOS     -2000
+#define INT_BACKGROUND_SIZE         10000
+#define F_PHYSICS_TIMESTEP              0.3f
+#define F_ROTATION_NORTH                0.0f
 
 class Command;
 class PhysicsComponent;

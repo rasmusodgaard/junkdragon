@@ -16,17 +16,12 @@ class FloatTrackComponent : public Component {
 
         void onGui() override;
 
-        void setLabel(std::string i_label);
-        void setVal(float i_val);
-        void setSize(float i_width, float i_height);
-        void setPos(float i_x, float i_y);
+        void init(std::string label, float val, glm::vec2 pos, glm::vec2 size);
+        void setVal(float val);
 
     private:
-        std::string label;
-        float val;
-
-        float width;
-        float height;
-        float x_pos;
-        float y_pos;
+        std::string  label;
+        float          val;
+        glm::vec2      pos;
+        glm::vec2     size;
 };
