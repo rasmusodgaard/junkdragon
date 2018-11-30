@@ -24,6 +24,14 @@
 #define F_PHYSICS_TIMESTEP              0.3f
 #define F_ROTATION_NORTH                0.0f
 
+// Layers
+#define U_GROUND_LAYER                 1
+#define U_POWERUP_LAYER                2
+#define U_FIREBALL_LAYER               3
+#define U_DRAGON_LAYER                 4
+
+
+
 class Command;
 class PhysicsComponent;
 

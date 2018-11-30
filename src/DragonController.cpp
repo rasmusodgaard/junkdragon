@@ -23,7 +23,7 @@ DragonController::DragonController(GameObject *gameObject) : Component(gameObjec
     
     // initiate dragon physics
     CW_rotation = B_CW_ROTATION;
-    speed = F_SPEED;
+    speed = F_DRAGON_SPEED;
     rotation_speed = F_ROTATION_SPEED;
     
     // fire breathing parameters

@@ -29,8 +29,6 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
     .withSdlInitFlags(SDL_INIT_EVERYTHING)
     .withSdlWindowFlags(SDL_WINDOW_OPENGL);
     
-    ImGuiIO& io = ImGui::GetIO();
-
     init();
     buildGUI();
 
@@ -84,15 +82,18 @@ void JunkDragonGame::init(){
     auto dragonC = dragonObj->addComponent<DragonController>();
     
     auto sprite = spriteAtlas->get("dragon_11.png");
-    sprite.setScale({3,3}); 
+    sprite.setScale({3,3});
+    sprite.setOrderInBatch(U_DRAGON_LAYER);
     auto spriteC = dragonObj->addComponent<SpriteComponent>();
     spriteC->setSprite(sprite);
     
     auto animCC = dragonObj->addComponent<AnimationControllerComponent>();
+    animCC->setLayer(U_DRAGON_LAYER);
+
     animCC->addState(
         "flying",
         0.2f,
-        {spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_12.png"), spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_10.png")}
+        { spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_12.png"), spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_10.png") }
         );
 
     animCC->setScale({INT_DRAGON_SCALE,INT_DRAGON_SCALE});
@@ -116,7 +117,7 @@ void JunkDragonGame::init(){
     }
     
     // Add pickups
-    createPickUp({200, 200}, spriteAtlas->get("pizza.png"), Command( dragonC->self, &DragonController::addFuel ) );
+    createPickUp({100, 100}, spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addFuel ) );
     createPickUp({600, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
     createPickUp({800, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
     createPickUp({1000, 200}, spriteAtlas->get("pizza.png"), Command( dragonC->self, &DragonController::addFuel ) );    
@@ -146,7 +147,6 @@ void JunkDragonGame::render() {
     .withCamera(camera->getCamera())
     .build();
     
-    auto pos = camera->getGameObject()->getPosition();
     backgroundComponent.renderBackground(rp,0.0f);
     
     auto spriteBatchBuilder = sre::SpriteBatch::create();
@@ -310,6 +310,7 @@ void JunkDragonGame::createFireBall( ) {
     
     fireballACC->setScale({0.8,0.8});
     fireballACC->setState("shooting");
+    fireballACC->setLayer(U_FIREBALL_LAYER);
 
     auto fireballPhysics = fireballObj->addComponent<PhysicsComponent>();
     fireballPhysics->initCircle(b2_dynamicBody, 10/physicsScale, fireballObj->getPosition()/physicsScale, fireballObj->getRotation(), 1);
@@ -323,6 +324,7 @@ void JunkDragonGame::createHouse( glm::vec2 pos ) {
     HouseObj->setPosition(pos);
     HouseObj->setRotation(F_ROTATION_NORTH);
     auto houseSprite = spriteAtlas->get("farmhouse_2.png");
+    houseSprite.setOrderInBatch(U_GROUND_LAYER);
     auto houseSpriteC = HouseObj->addComponent<SpriteComponent>();
     houseSprite.setScale({1,1});
     houseSpriteC->setSprite(houseSprite);
@@ -358,6 +360,7 @@ void JunkDragonGame::createHouse( glm::vec2 pos ) {
     
     houseACC->setScale({1,1});
     houseACC->setState("notburning");
+    houseACC->setLayer(U_GROUND_LAYER);
 
     houseBC->SetAnimationControllerComponent( houseACC );
 }
@@ -368,6 +371,7 @@ void JunkDragonGame::createPickUp(glm::vec2 pos, sre::Sprite pickUpSprite, Comma
     PUObj->setRotation(F_ROTATION_NORTH);
     
     pickUpSprite.setScale({0.5,0.5});
+    pickUpSprite.setOrderInBatch(U_POWERUP_LAYER);
     auto PUSpriteC = PUObj->addComponent<SpriteComponent>();
     PUSpriteC->setSprite(pickUpSprite);
     auto pickUpC = PUObj->addComponent<PickUpComponent>();

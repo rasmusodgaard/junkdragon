@@ -36,6 +36,10 @@ void AnimationControllerComponent::addState(std::string label, float animationTi
     aS.animationTime    = animationTime;
     aS.sprites          = sprites;
 
+    for (auto & sprite : aS.sprites) {
+        sprite.setOrderInBatch(this->orderInBatch);
+    }
+    
     aStates.push_back( aS ); 
     currState = &aStates[0];
 }
@@ -65,7 +69,6 @@ void AnimationControllerComponent::setScale(glm::vec2 i_scale) {
             for (auto & sprite : aState.sprites)
             sprite.setScale(this->sprite_scale);
         }
-        
 }
 
 // Find the state matching a given label
@@ -78,4 +81,8 @@ AnimationState* AnimationControllerComponent::findState(std::string label) {
     }
 
     return nullptr;
+}
+
+void AnimationControllerComponent::setLayer( uint16_t orderInBatch ) {
+    this->orderInBatch = orderInBatch;
 }

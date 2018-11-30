@@ -18,7 +18,7 @@
 
 FireBallController::FireBallController(GameObject *gameObject) : Component(gameObject) {
 
-    speed = F_SPEED;
+    speed = F_FIREBALL_SPEED;
     time_elapsed = F_TIME_ELAPSED;
     life_time = F_LIFE_TIME;
     drag = F_DRAG;

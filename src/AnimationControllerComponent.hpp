@@ -35,6 +35,8 @@ class AnimationControllerComponent : public Component {
 
         void update(float deltaTime) override;
 
+        void setLayer( uint16_t orderInBatch );
+
         AnimationState* findState(std::string label);
     
     private:
@@ -42,6 +44,7 @@ class AnimationControllerComponent : public Component {
 
         AnimationState *currState;
 
+        uint16_t orderInBatch = 1;
         float time;
         int spriteIndex;
         glm::vec2 sprite_scale;

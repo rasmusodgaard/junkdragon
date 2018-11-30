@@ -11,7 +11,7 @@
 #define B_CW_ROTATION       true
 #define B_BREATHING_FIRE    false
 
-#define F_SPEED                     300.0f
+#define F_DRAGON_SPEED            300.0f
 #define F_ROTATION_SPEED            2.0f
 #define F_LAST_FIRE_BALL        	0.0f
 #define F_COOL_DOWN                 0.08f
