@@ -52,6 +52,10 @@ public:
     void BeginContact(b2Contact *contact) override;
     void EndContact(b2Contact *contact) override;
 
+    // Gamejunk
+    void increaseScore(float i_score);
+    void decrementHouses();
+
 private:
     std::shared_ptr<Level> currentLevel;
     std::shared_ptr<CameraFollow> camera;
@@ -74,6 +78,7 @@ private:
     std::shared_ptr<GameObject> dragonObj;
     std::shared_ptr<FloatTrackComponent> fuelTrackComp;
     std::shared_ptr<FloatTrackComponent> scoreTrackComp;
+    std::shared_ptr<FloatTrackComponent> houseTrackComp;
 
     // Physics members
     b2World * world = nullptr;
@@ -84,6 +89,10 @@ private:
     Box2DDebugDraw debugDraw;
     bool doDebugDraw = false;
     friend class PhysicsComponent;
+
+    bool    burninationHasBegun;
+    float   timeElapsed;
+    int     n_houses;
 
     // Game globals
     float score;

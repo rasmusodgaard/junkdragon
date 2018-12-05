@@ -29,7 +29,7 @@ void FloatTrackComponent::onGui() {
     ImVec2 iWinSize(winSize.x*this->size.x, winSize.y* this->size.y);
 
     // TODO make GUI position flexible
-    ImVec2 pos (winSize.x*this->pos.x, winSize.y * (1.0f - this->size.y) );
+    ImVec2 pos (winSize.x*this->pos.x, winSize.y * this->pos.y ); // (1.0f - this->size.y)
     auto cond = ImGuiCond_Always;
 
     ImGui::SetNextWindowPos(pos, cond);

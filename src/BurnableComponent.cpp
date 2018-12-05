@@ -9,12 +9,14 @@
 #include "GameObject.hpp"
 #include "PhysicsComponent.hpp"
 #include "AnimationControllerComponent.hpp"
+#include "JunkDragonGame.hpp"
 
 BurnableComponent::BurnableComponent(GameObject *gameObject) : Component(gameObject)
 {
     onFire = false;
     life_time = 6.0f;
     singed_time = life_time / 2.0f;
+    destroyed = false;
 }
 
 void BurnableComponent::SetAnimationControllerComponent(std::shared_ptr<AnimationControllerComponent> aC){
@@ -35,7 +37,8 @@ void BurnableComponent::update(float deltaTime){
         }
     }
 
-    if (life_time <= 0.0f) {
+    if (life_time <= 0.0f && !destroyed) {
+        destroyed = true;
         burnedDown();
     }
 }
@@ -53,6 +56,8 @@ void BurnableComponent::extinguishFire(){
 }
 
 void BurnableComponent::burnedDown(){
+    JunkDragonGame::instance->increaseScore(100.0f);
+    JunkDragonGame::instance->decrementHouses();
     deleteGameObject();
 }
 

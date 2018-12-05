@@ -49,17 +49,24 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
 void JunkDragonGame::buildGUI() {
     auto fuelTrackerObj = createGameObject();
     fuelTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
-    fuelTrackComp->init("Fuel", dragonObj->getComponent<DragonController>()->getFuel(), {0.0f, 0.1f}, {0.3f,0.1f});
+    fuelTrackComp->init("Fuel", dragonObj->getComponent<DragonController>()->getFuel(), {0.0f, 0.9f}, {0.3f,0.1f});
 
     auto scoreTrackerObj = createGameObject();
     scoreTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
-    scoreTrackComp->init("Score", dragonObj->getComponent<DragonController>()->getFuel(), {0.7f, 0.1f}, {0.3f, 0.1f} );
+    scoreTrackComp->init("Score", dragonObj->getComponent<DragonController>()->getFuel(), {0.7f, 0.9f}, {0.3f, 0.1f} );
+
+    auto houseTrackerObj = createGameObject();
+    houseTrackComp = houseTrackerObj->addComponent<FloatTrackComponent>();
+    houseTrackComp->init("Houses", (float)n_houses, {0.7f, 0.8f}, {0.3f, 0.1f} );
 }
 
 void JunkDragonGame::init(){
     initPhysics();
     
-    score = 0.0f;
+    score               = 0.0f;
+    burninationHasBegun = false;
+    timeElapsed         = 0.0f;
+    n_houses            = 0;
 
     // Spritesheet for the game
     spriteAtlas = sre::SpriteAtlas::create("junkdragon.json","junkdragon.png");
@@ -139,7 +146,8 @@ void JunkDragonGame::update(float time){
 
     // Update GUI elements last
     fuelTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
-    scoreTrackComp->setVal( this->score);
+    scoreTrackComp->setVal( this->score );
+    houseTrackComp->setVal( this->n_houses );
 }
 
 void JunkDragonGame::render() {
@@ -212,6 +220,14 @@ void JunkDragonGame::BeginContact(b2Contact *contact) {
 void JunkDragonGame::EndContact(b2Contact *contact) {
     b2ContactListener::EndContact(contact);
     handleContact(contact, false);
+}
+
+void JunkDragonGame::increaseScore(float i_score) {
+    this->score += i_score;
+}
+
+void JunkDragonGame::decrementHouses() {
+    this->n_houses--;
 }
 
 void JunkDragonGame::handleContact(b2Contact *contact, bool begin) {
@@ -363,6 +379,9 @@ void JunkDragonGame::createHouse( glm::vec2 pos ) {
     houseACC->setLayer(U_GROUND_LAYER);
 
     houseBC->SetAnimationControllerComponent( houseACC );
+
+    // Game Junk
+    n_houses++;
 }
 
 void JunkDragonGame::createPickUp(glm::vec2 pos, sre::Sprite pickUpSprite, Command cmd) {

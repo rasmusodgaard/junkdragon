@@ -28,6 +28,7 @@ private:
 
     std::shared_ptr<AnimationControllerComponent> animationControllerComponent;
     bool onFire;
+    bool destroyed;
     float life_time;
     float singed_time;
 
