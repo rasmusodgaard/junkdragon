@@ -19,14 +19,33 @@ AudioManager::AudioManager(){
         return;
     }
     
+    LoadSoundChunks();
+}
+
+void AudioManager::UnloadSoundChunks(){
+    for (int i = 0; i < sounds.size(); i++){
+        Mix_FreeChunk(&sounds[i]);
+    }
+}
+
+void AudioManager::LoadSoundChunks(){
     
+    breathe_fire_s = Mix_LoadWAV( "breathe_fire.wav" );
     
-    fireball_creation = Mix_LoadWAV( "Explosion1.wav" );
+    if(breathe_fire_s == nullptr){
+        std::cout << "breathe_fire sound was not loaded" << std::endl;
+    }
     
-    sounds.push_back(*fireball_creation);
+    sounds.push_back(*breathe_fire_s);
+    
     
 }
 
-void AudioManager::playSound(Sounds){
+void AudioManager::playSound(SoundsEnum){
     Mix_PlayChannel( -1, &sounds[breathe_fire], 0 );
+}
+
+
+AudioManager::~AudioManager(){
+    UnloadSoundChunks();
 }
