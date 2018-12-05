@@ -13,6 +13,7 @@
 #include "JunkDragonGame.hpp"
 #include "PhysicsComponent.hpp"
 #include <math.h>
+#include "AudioManager.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
@@ -82,6 +83,7 @@ void DragonController::onCollisionEnd(PhysicsComponent *comp) {
 void DragonController::breathe_fire() {
     JunkDragonGame::instance->createFireBall();
     fuel = fuel - fireBallFuelCost;
+    AudioManager::instance->playSound(AudioManager::breathe_fire);
 }
 
 void DragonController::update(float deltaTime) {

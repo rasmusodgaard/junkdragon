@@ -14,6 +14,7 @@
 #include "BurnableComponent.hpp"
 #include "PickUpComponent.hpp"
 #include "Command.hpp"
+#include "AudioManager.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
@@ -31,6 +32,9 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
     .withSdlWindowFlags(SDL_WINDOW_OPENGL);
     
     init();
+    
+    new AudioManager();
+    
     buildGUI();
 
     r.keyEvent = [&](SDL_Event& e){

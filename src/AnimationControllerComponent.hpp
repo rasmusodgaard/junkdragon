@@ -31,12 +31,13 @@ class AnimationControllerComponent : public Component {
 
         void setScale(glm::vec2 i_scale);
 
-        void printa();
+        void print();
 
         void update(float deltaTime) override;
 
         void setLayer( uint16_t orderInBatch );
-
+    
+    
         AnimationState* findState(std::string label);
     
     private:
