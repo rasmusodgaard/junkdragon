@@ -1,6 +1,4 @@
 { "housePositionsX":  [100,200,300,400],
   "housePositionsY":  [100,500,300,400],
-  "spawn":{"x":400,"y":200,"angle":0},
-  "floorColor": [0.44,0.44,0.44,1],
-  "ceilColor": [0.22,0.22,0.22,1]
+  "spawn":{"x":400,"y":200,"angle":0}
 }
