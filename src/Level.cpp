@@ -20,7 +20,7 @@
 //load level
 void Level::LoadLevel(std::string level){
     
-    std::ifstream fis("level0.json");
+    std::ifstream fis("level1.json");
     
     rapidjson::IStreamWrapper isw(fis);
     rapidjson::Document d;

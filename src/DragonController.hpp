@@ -11,13 +11,14 @@
 #define B_CW_ROTATION       true
 #define B_BREATHING_FIRE    false
 
-#define F_DRAGON_SPEED            300.0f
+#define F_DRAGON_SPEED            400.0f
 #define F_ROTATION_SPEED            2.0f
 #define F_LAST_FIRE_BALL        	0.0f
 #define F_COOL_DOWN                 0.08f
-#define F_FUEL                      10.0f
+#define F_FUEL                     10.0f
+#define F_FUEL_RECOVERY             0.001f
 #define F_FIREBALLFUELCOST          0.5f
-#define F_SPEED_BOOST               0.0f
+#define F_SPEED_BOOST             200.0f
 #define F_SPEED_BOOST_DECREMENT     0.5f
 
 class PhysicsComponent;
@@ -44,6 +45,8 @@ class DragonController : public Component {
         void addFuel();
         void addSpeedBoost(); // spoodbeest in some languages
 
+        void stop();
+
     private:
         std::shared_ptr<PhysicsComponent> physicsComponent;
         std::shared_ptr<AnimationControllerComponent> animationControllerComponent;
@@ -56,6 +59,7 @@ class DragonController : public Component {
         float cool_down;
         
         float fuel;
+        float fuel_recovery;
         float fireBallFuelCost;
 
         float speed;

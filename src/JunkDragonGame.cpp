@@ -8,6 +8,7 @@
 #include "PhysicsComponent.hpp"
 #include "FloatTrackComponent.hpp"
 #include <sre/Inspector.hpp>
+#include <math.h>
 #include "DragonController.hpp"
 #include "FireBallController.hpp"
 #include "BurnableComponent.hpp"
@@ -51,6 +52,10 @@ void JunkDragonGame::buildGUI() {
     fuelTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
     fuelTrackComp->init("Fuel", dragonObj->getComponent<DragonController>()->getFuel(), {0.0f, 0.9f}, {0.3f,0.1f});
 
+    auto timeTrackerObj = createGameObject();
+    timeTrackComp = timeTrackerObj->addComponent<FloatTrackComponent>();
+    timeTrackComp->init("time", time_remaining, {0.0f, 0.8f}, {0.3f, 0.1f} );
+
     auto scoreTrackerObj = createGameObject();
     scoreTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
     scoreTrackComp->init("Score", dragonObj->getComponent<DragonController>()->getFuel(), {0.7f, 0.9f}, {0.3f, 0.1f} );
@@ -63,10 +68,12 @@ void JunkDragonGame::buildGUI() {
 void JunkDragonGame::init(){
     initPhysics();
     
-    score               = 0.0f;
-    burninationHasBegun = false;
-    timeElapsed         = 0.0f;
-    n_houses            = 0;
+    score                   = 0.0f;
+    burnination_has_begun   = false;
+    time_elapsed            = 0.0f;
+    n_houses                = 0;
+    time_remaining          = 60.0f;
+    game_over               = false;
 
     // Spritesheet for the game
     spriteAtlas = sre::SpriteAtlas::create("junkdragon.json","junkdragon.png");
@@ -124,10 +131,15 @@ void JunkDragonGame::init(){
     }
     
     // Add pickups
-    createPickUp({100, 100}, spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addFuel ) );
-    createPickUp({600, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
-    createPickUp({800, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
-    createPickUp({1000, 200}, spriteAtlas->get("pizza.png"), Command( dragonC->self, &DragonController::addFuel ) );    
+    createPickUp({500, 400}, spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addFuel ) );
+    createPickUp({700, 800}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
+    createPickUp({1100, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
+    createPickUp({400, -300}, spriteAtlas->get("pizza.png"), Command( dragonC->self, &DragonController::addFuel ) );  
+
+    createPickUp({900, -400}, spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addFuel ) );
+    createPickUp({-300, 400}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
+    createPickUp({-800, 500}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
+    createPickUp({-1000, -100}, spriteAtlas->get("pizza.png"), Command( dragonC->self, &DragonController::addFuel ) );   
 }
 
 void JunkDragonGame::update(float time){
@@ -144,10 +156,21 @@ void JunkDragonGame::update(float time){
         }
     }
 
+    
+
     // Update GUI elements last
     fuelTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
     scoreTrackComp->setVal( this->score );
     houseTrackComp->setVal( this->n_houses );
+    timeTrackComp->setVal(this->time_remaining);
+
+
+    if( !game_over && checkGameOver() ) {
+            dragonObj->getComponent<DragonController>()->stop();
+            game_over = true;
+    } else {
+        time_remaining = fmax(time_remaining - time, 0.0f);
+    }
 }
 
 void JunkDragonGame::render() {
@@ -399,4 +422,16 @@ void JunkDragonGame::createPickUp(glm::vec2 pos, sre::Sprite pickUpSprite, Comma
     auto PUPhys = PUObj->addComponent<PhysicsComponent>();
     PUPhys->initCircle(b2_staticBody, 40/physicsScale, PUObj->getPosition()/physicsScale, PUObj->getRotation(), 1);
     PUPhys->setSensor(true);
+}
+
+bool JunkDragonGame::checkGameOver() {
+    if (n_houses == 0) {
+        return true;
+    }
+
+    if (time_remaining <= 0.0f) {
+        return true;
+    }
+
+    return false;
 }

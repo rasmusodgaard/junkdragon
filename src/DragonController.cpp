@@ -31,8 +31,9 @@ DragonController::DragonController(GameObject *gameObject) : Component(gameObjec
     last_fire_ball          = F_LAST_FIRE_BALL;
     cool_down               = F_COOL_DOWN;
     fuel                    = F_FUEL;
+    fuel_recovery           = F_FUEL_RECOVERY;
     fireBallFuelCost        = F_FIREBALLFUELCOST;
-    speed_boost             = F_SPEED_BOOST;
+    speed_boost             = 0.0f;
     speed_boost_decrement   = F_SPEED_BOOST_DECREMENT;
 }
 
@@ -109,6 +110,8 @@ void DragonController::update(float deltaTime) {
     last_fire_ball += deltaTime;
 
     speed_boost = fmax(speed_boost - speed_boost_decrement, 0.0f);
+
+    fuel += fuel_recovery;
 }
 
 float DragonController::getFuel() {
@@ -120,5 +123,9 @@ void DragonController::addFuel() {
 }
 
 void DragonController::addSpeedBoost() {
-    this->speed_boost += 200.0f;
+    this->speed_boost += F_SPEED_BOOST;
+}
+
+void DragonController::stop() {
+    this->speed = 0.0f;
 }

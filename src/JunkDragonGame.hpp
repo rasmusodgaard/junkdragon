@@ -79,6 +79,10 @@ private:
     std::shared_ptr<FloatTrackComponent> fuelTrackComp;
     std::shared_ptr<FloatTrackComponent> scoreTrackComp;
     std::shared_ptr<FloatTrackComponent> houseTrackComp;
+    std::shared_ptr<FloatTrackComponent> timeTrackComp;
+
+
+    bool checkGameOver();
 
     // Physics members
     b2World * world = nullptr;
@@ -90,10 +94,12 @@ private:
     bool doDebugDraw = false;
     friend class PhysicsComponent;
 
-    bool    burninationHasBegun;
-    float   timeElapsed;
+    bool    burnination_has_begun;
+    float   time_elapsed;
+    float   time_remaining;
     int     n_houses;
 
     // Game globals
     float score;
+    bool game_over;
 };
