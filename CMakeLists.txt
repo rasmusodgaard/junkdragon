@@ -33,6 +33,10 @@ file(COPY src/level0.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
 file(COPY src/level0.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
 file(COPY src/level0.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
+file(COPY src/level1.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+file(COPY src/level1.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
+file(COPY src/level1.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 IF (WIN32)
     # Copy dll files to ${CMAKE_CURRENT_BINARY_DIR}/Debug
     file(COPY ${DLLFileList} DESTINATION Debug)

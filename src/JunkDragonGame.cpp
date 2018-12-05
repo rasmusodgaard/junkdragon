@@ -156,8 +156,6 @@ void JunkDragonGame::update(float time){
         }
     }
 
-    
-
     // Update GUI elements last
     fuelTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
     scoreTrackComp->setVal( this->score );
@@ -334,7 +332,7 @@ void JunkDragonGame::createFireBall( ) {
 
     auto fireballSprite = spriteAtlas->get("fireball_3.png");
     
-    fireballSprite.setScale({0.5,0.5});
+    fireballSprite.setScale({0.9,0.9});
     auto fireballSpriteComponent = fireballObj->addComponent<SpriteComponent>();
     fireballSpriteComponent->setSprite(fireballSprite);
 
@@ -347,12 +345,12 @@ void JunkDragonGame::createFireBall( ) {
         {spriteAtlas->get("fireball_1.png"),spriteAtlas->get("fireball_2.png"),spriteAtlas->get("fireball_3.png"),spriteAtlas->get("fireball_4.png")}
         );
     
-    fireballACC->setScale({0.8,0.8});
+    fireballACC->setScale({0.9,0.9});
     fireballACC->setState("shooting");
     fireballACC->setLayer(U_FIREBALL_LAYER);
 
     auto fireballPhysics = fireballObj->addComponent<PhysicsComponent>();
-    fireballPhysics->initCircle(b2_dynamicBody, 10/physicsScale, fireballObj->getPosition()/physicsScale, fireballObj->getRotation(), 1);
+    fireballPhysics->initCircle(b2_dynamicBody, 20/physicsScale, fireballObj->getPosition()/physicsScale, fireballObj->getRotation(), 1);
     
     auto trajectory = glm::rotateZ(glm::vec3(0,fireballController->getSpeed(),0), glm::radians(fireballObj->getRotation() ));
     fireballPhysics->setLinearVelocity( trajectory );
@@ -370,7 +368,7 @@ void JunkDragonGame::createHouse( glm::vec2 pos ) {
     auto houseBC = HouseObj->addComponent<BurnableComponent>();
     
     auto HousePhysics = HouseObj->addComponent<PhysicsComponent>();
-    HousePhysics->initCircle(b2_staticBody, 50/physicsScale, HouseObj->getPosition()/physicsScale, HouseObj->getRotation(), 1);
+    HousePhysics->initCircle(b2_staticBody, 70/physicsScale, HouseObj->getPosition()/physicsScale, HouseObj->getRotation(), 1);
     HousePhysics->setSensor(true);
 
     auto houseACC = HouseObj->addComponent<AnimationControllerComponent>();
