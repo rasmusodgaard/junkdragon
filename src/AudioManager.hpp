@@ -25,13 +25,13 @@ public:
     ~AudioManager();
     static AudioManager* instance;
     
-    enum SoundsEnum{
+    // enum keys for map mapOfSounds
+    enum soundKeys{
         breathe_fire,
-        fireball_hit,
         house_burning
     };
     
-    void playSound(SoundsEnum);
+    void playSound(soundKeys key);
     
     // Load all sound effects (Chunks)
     void LoadSoundChunks();
@@ -39,9 +39,10 @@ public:
     // Unload all sound effects (Chunks)
     void UnloadSoundChunks();
    
+    std::map <soundKeys, Mix_Chunk> mapOfSounds;
 private:
    
-    std::vector<Mix_Chunk> sounds;
+    //std::vector<Mix_Chunk> sounds;
     Mix_Chunk *breathe_fire_s;
 
 };

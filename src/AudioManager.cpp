@@ -23,9 +23,13 @@ AudioManager::AudioManager(){
 }
 
 void AudioManager::UnloadSoundChunks(){
-    for (int i = 0; i < sounds.size(); i++){
-        Mix_FreeChunk(&sounds[i]);
+    std::map<soundKeys, Mix_Chunk>::iterator it;
+    
+    for ( it = mapOfSounds.begin(); it != mapOfSounds.end(); it++ )
+    {
+        Mix_FreeChunk(&it->second);
     }
+    mapOfSounds.clear();
 }
 
 void AudioManager::LoadSoundChunks(){
@@ -36,13 +40,12 @@ void AudioManager::LoadSoundChunks(){
         std::cout << "breathe_fire sound was not loaded" << std::endl;
     }
     
-    sounds.push_back(*breathe_fire_s);
-    
+    mapOfSounds[breathe_fire] = *breathe_fire_s;
     
 }
 
-void AudioManager::playSound(SoundsEnum){
-    Mix_PlayChannel( -1, &sounds[breathe_fire], 0 );
+void AudioManager::playSound(soundKeys key){
+    Mix_PlayChannel( -1, &mapOfSounds[key], 0 );
 }
 
 
