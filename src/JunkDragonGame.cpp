@@ -85,9 +85,12 @@ void JunkDragonGame::init(){
     currentLevel = std::make_shared<Level>();
     currentLevel->LoadLevel("level1");
     
+    createWalls(currentLevel->GetWallDimensions(), INT_WALL_THICKNESS);
+    
     // Camera Object
     auto camObj = createGameObject();
     camera = camObj->addComponent<CameraFollow>();
+    
     
     // Dragon Game Object (Player)
     dragonObj = createGameObject();
@@ -122,7 +125,6 @@ void JunkDragonGame::init(){
     dragonC->setPhysicsComponent(dragonObj->getComponent<PhysicsComponent>());
 
     DragonPhysics->initCircle(b2_dynamicBody, 30/physicsScale, dragonObj->getPosition()/physicsScale, dragonObj->getRotation(), 1);
-    DragonPhysics->setSensor(true);
 
     // Add background
     backgroundComponent.init("background.png", {INT_BACKGROUND_STARTPOS,INT_BACKGROUND_STARTPOS}, 
@@ -360,6 +362,8 @@ void JunkDragonGame::createFireBall( ) {
     fireballPhysics->setLinearVelocity( trajectory );
 }
 
+
+
 void JunkDragonGame::createHouse( glm::vec2 pos ) {
     auto HouseObj = createGameObject();
     HouseObj->setPosition(pos);
@@ -424,6 +428,23 @@ void JunkDragonGame::createPickUp(glm::vec2 pos, sre::Sprite pickUpSprite, Comma
     auto PUPhys = PUObj->addComponent<PhysicsComponent>();
     PUPhys->initCircle(b2_staticBody, 40/physicsScale, PUObj->getPosition()/physicsScale, PUObj->getRotation(), 1);
     PUPhys->setSensor(true);
+}
+
+void JunkDragonGame::createWalls(glm::vec2 dimensions, int thickness){
+    wallTop = createGameObject();
+    wallBottom = createGameObject();
+    wallLeft = createGameObject();
+    wallRight = createGameObject();
+    auto levelPhysT = wallTop->addComponent<PhysicsComponent>();
+    auto levelPhysB = wallBottom->addComponent<PhysicsComponent>();
+    auto levelPhysL = wallLeft->addComponent<PhysicsComponent>();
+    auto levelPhysR = wallRight->addComponent<PhysicsComponent>();
+    
+    levelPhysT->initBox(b2_staticBody, glm::vec2 {(dimensions.x + thickness)/physicsScale,thickness/physicsScale}, glm::vec2 {0,(dimensions.y+thickness)/physicsScale}, 1);
+    levelPhysB->initBox(b2_staticBody, glm::vec2 {(dimensions.x + thickness)/physicsScale,thickness/physicsScale}, glm::vec2 {0,-(dimensions.y+thickness)/physicsScale}, 1);
+    
+    levelPhysL->initBox(b2_staticBody, glm::vec2 {thickness/physicsScale,dimensions.y/physicsScale}, glm::vec2 {-dimensions.x/physicsScale,0}, 1);
+    levelPhysR->initBox(b2_staticBody, glm::vec2 {thickness/physicsScale,dimensions.y/physicsScale}, glm::vec2 {dimensions.x/physicsScale,0}, 1);
 }
 
 bool JunkDragonGame::checkGameOver() {

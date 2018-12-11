@@ -19,10 +19,12 @@
 #define INT_WINDOWSIZE_WIDTH          600
 #define INT_DRAGON_SCALE                3
 #define INT_BACKGROUND_RESOLUTION      50
-#define INT_BACKGROUND_STARTPOS     -2000
+#define INT_BACKGROUND_STARTPOS     -2800
 #define INT_BACKGROUND_SIZE         10000
+#define INT_WALL_THICKNESS             50
 #define F_PHYSICS_TIMESTEP              0.3f
 #define F_ROTATION_NORTH                0.0f
+#define F_WALL_THICKNESS               50.0f
 
 // Layers
 #define U_GROUND_LAYER                 1
@@ -46,6 +48,7 @@ public:
     void createFireBall( );
     void createHouse( glm::vec2 pos );
     void createPickUp( glm::vec2 pos, sre::Sprite pickUpSprite, Command cmd );
+    void createWalls(glm::vec2 dimensions, int thickness);
 
     // Physics
     static constexpr float32 timeStep = 1.0f / 60.0f;
@@ -62,7 +65,14 @@ private:
     std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
     std::vector<std::shared_ptr<GameObject>> sceneObjects;
 
-    BackgroundComponent backgroundComponent;    
+    BackgroundComponent backgroundComponent;
+    
+    // Walls
+    std::shared_ptr<GameObject> wallTop;
+    std::shared_ptr<GameObject> wallBottom;
+    std::shared_ptr<GameObject> wallLeft;
+    std::shared_ptr<GameObject> wallRight;
+    
 
     sre::SDLRenderer r;
     

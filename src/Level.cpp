@@ -15,7 +15,7 @@
 
 
 
-
+//needs assertion or check for relevance! Menu will not have the same objects.
 
 //load level
 void Level::LoadLevel(std::string level){
@@ -27,30 +27,27 @@ void Level::LoadLevel(std::string level){
     d.ParseStream(isw);
 
     const rapidjson::Value& spawn = d["spawn"];
+    const rapidjson::Value& dimensions = d["dimensions"];
     const rapidjson::Value& hpX = d["housePositionsX"];
     const rapidjson::Value& hpY = d["housePositionsY"];
+    
+    
     
     //Get spawnpoint in level
     spawnPoint.x = spawn["x"].GetInt();
     spawnPoint.y = spawn["y"].GetInt();
     
-    
+    //Get surrounding wall dimensions
+    wallDimensions.x = dimensions["x"].GetInt();
+    wallDimensions.y = dimensions["y"].GetInt();
     
 
     for (rapidjson::SizeType i = 0; i < hpX.Size(); i++)
     {
-       // housePositions.push_back({hpX[i][0].GetInt()});
         int tempX = hpX[i].GetInt();
         int tempY = hpY[i].GetInt();
         housePositions.push_back({tempX,tempY});
-        
     }
-    
-    //std::cout<<housePositions.size() << std::endl;
-
-
-    
-     
 }
 
 glm::vec2 Level::GetStartingPosition(){
@@ -59,6 +56,10 @@ glm::vec2 Level::GetStartingPosition(){
 
 std::vector<glm::vec2> Level::GetHousePositions(){
     return housePositions;
+}
+
+glm::vec2 Level::GetWallDimensions(){
+    return wallDimensions;
 }
 
 //init level
