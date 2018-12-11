@@ -32,7 +32,7 @@ public:
     };
     
     void playSound(soundKeys key);
-    
+    void PlayMusic();
     // Load/unload all audio
     void LoadSoundChunks();
     void UnloadSoundChunks();
@@ -45,5 +45,6 @@ private:
     // Sound effects
     Mix_Chunk *breathe_fire_s;
     Mix_Chunk *pick_up_s;
-    Mix_Music *music;
+    
+    Mix_Music *currentMusic;
 };

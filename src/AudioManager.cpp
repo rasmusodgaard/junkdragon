@@ -20,6 +20,8 @@ AudioManager::AudioManager(){
     }
     
     LoadSoundChunks();
+    LoadMusic();
+    PlayMusic();
 }
 
 void AudioManager::UnloadSoundChunks(){
@@ -46,11 +48,26 @@ void AudioManager::LoadSoundChunks(){
     
 }
 
-void LoadMusic(){
-    
+void AudioManager::LoadMusic(){
+    currentMusic = Mix_LoadMUS("game_music.wav");
+    if( currentMusic == nullptr)
+    {
+        std::cout << "Cannot load music"<< std::endl;
+        return;
+    }
+
 }
 
-void UnloadMusic(){
+void AudioManager::UnloadMusic(){
+    Mix_FreeMusic(currentMusic);
+}
+
+void AudioManager::PlayMusic(){
+    if( Mix_PlayingMusic() == 0 )
+    {
+        // Start the music
+        Mix_PlayMusic( currentMusic, -1 );
+    }
     
 }
 
@@ -61,4 +78,5 @@ void AudioManager::playSound(soundKeys key){
 
 AudioManager::~AudioManager(){
     UnloadSoundChunks();
+    UnloadMusic();
 }

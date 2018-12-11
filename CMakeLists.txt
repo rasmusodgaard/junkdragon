@@ -37,9 +37,9 @@ file(COPY src/level1.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
 file(COPY src/level1.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
 file(COPY src/level1.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-file(COPY assets/Explosion1.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
-file(COPY assets/Explosion1.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
-file(COPY assets/Explosion1.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY assets/menu_music.wav assets/game_music.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+file(COPY assets/menu_music.wav assets/game_music.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
+file(COPY assets/menu_music.wav assets/game_music.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 file(COPY assets/breathe_fire.wav assets/pick_up.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
 file(COPY assets/breathe_fire.wav assets/pick_up.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
