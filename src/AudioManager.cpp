@@ -71,7 +71,7 @@ void AudioManager::PlayMusic(){
     
 }
 
-void AudioManager::playSound(soundKeys key){
+void AudioManager::PlaySound(soundKeys key){
     Mix_PlayChannel( -1, &mapOfSounds[key], 0 );
 }
 

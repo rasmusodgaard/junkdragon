@@ -31,7 +31,7 @@ public:
         pick_up
     };
     
-    void playSound(soundKeys key);
+    void PlaySound(soundKeys key);
     void PlayMusic();
     // Load/unload all audio
     void LoadSoundChunks();
