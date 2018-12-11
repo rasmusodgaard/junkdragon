@@ -41,9 +41,9 @@ file(COPY assets/Explosion1.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
 file(COPY assets/Explosion1.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
 file(COPY assets/Explosion1.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-file(COPY assets/breathe_fire.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
-file(COPY assets/breathe_fire.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
-file(COPY assets/breathe_fire.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY assets/breathe_fire.wav assets/pick_up.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+file(COPY assets/breathe_fire.wav assets/pick_up.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
+file(COPY assets/breathe_fire.wav assets/pick_up.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 IF (WIN32)
     # Copy dll files to ${CMAKE_CURRENT_BINARY_DIR}/Debug

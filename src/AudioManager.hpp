@@ -28,21 +28,22 @@ public:
     // enum keys for map mapOfSounds
     enum soundKeys{
         breathe_fire,
-        house_burning
+        pick_up
     };
     
     void playSound(soundKeys key);
     
-    // Load all sound effects (Chunks)
+    // Load/unload all audio
     void LoadSoundChunks();
-    
-    // Unload all sound effects (Chunks)
     void UnloadSoundChunks();
+    void LoadMusic();
+    void UnloadMusic();
    
     std::map <soundKeys, Mix_Chunk> mapOfSounds;
 private:
    
-    //std::vector<Mix_Chunk> sounds;
+    // Sound effects
     Mix_Chunk *breathe_fire_s;
-
+    Mix_Chunk *pick_up_s;
+    Mix_Music *music;
 };

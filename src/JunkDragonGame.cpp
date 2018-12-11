@@ -83,7 +83,7 @@ void JunkDragonGame::init(){
     spriteAtlas = sre::SpriteAtlas::create("junkdragon.json","junkdragon.png");
 
     currentLevel = std::make_shared<Level>();
-    currentLevel->LoadLevel("level0");
+    currentLevel->LoadLevel("level1");
     
     // Camera Object
     auto camObj = createGameObject();
