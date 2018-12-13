@@ -16,6 +16,7 @@
 #include "Command.hpp"
 #include "AudioManager.hpp"
 #include "PlayingState.hpp"
+#include "EndState.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
@@ -74,6 +75,7 @@ void JunkDragonGame::init(){
     initPhysics();
     
     gs_playingstate = std::shared_ptr<GameState>( new PlayingState() );
+    gs_endstate     = std::shared_ptr<GameState>( new EndState() );
     changeState(gs_playingstate);
     
 
@@ -81,7 +83,7 @@ void JunkDragonGame::init(){
     burnination_has_begun   = false;
     time_elapsed            = 0.0f;
     n_houses                = 0;
-    time_remaining          = 60.0f;
+    time_remaining          = 10.0f;
     game_over               = false;
 
     // Spritesheet for the game
@@ -175,11 +177,14 @@ void JunkDragonGame::update(float time){
 
 
     if( !game_over && checkGameOver() ) {
-            dragonObj->getComponent<DragonController>()->stop();
             game_over = true;
+            changeState(gs_endstate);
     } else {
         time_remaining = fmax(time_remaining - time, 0.0f);
     }
+
+    // TODO put everything into the GameState update
+    gs_currentstate->update(time);
 }
 
 void JunkDragonGame::render() {
@@ -214,6 +219,9 @@ void JunkDragonGame::render() {
             comp->onGui();
         }
     }
+
+    // TODO put everything into the gamestate render function
+    gs_currentstate->render();
 }
 
 

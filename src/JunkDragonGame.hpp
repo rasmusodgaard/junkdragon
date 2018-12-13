@@ -59,6 +59,7 @@ public:
     void decrementHouses();
 
     void changeState(std::shared_ptr<GameState> gs_state);
+    std::shared_ptr<GameObject> dragonObj;
 
 private:
     std::shared_ptr<Level> currentLevel;
@@ -77,6 +78,7 @@ private:
     std::shared_ptr<GameState> gs_currentstate = nullptr;
     std::shared_ptr<GameState> gs_nextstate;
     std::shared_ptr<GameState> gs_playingstate;
+    std::shared_ptr<GameState> gs_endstate;
 
     sre::SDLRenderer r;
     
@@ -89,7 +91,6 @@ private:
     void onKey(SDL_Event &event);
     void handleContact(b2Contact *contact, bool begin);
     
-    std::shared_ptr<GameObject> dragonObj;
     std::shared_ptr<FloatTrackComponent> fuelTrackComp;
     std::shared_ptr<FloatTrackComponent> scoreTrackComp;
     std::shared_ptr<FloatTrackComponent> houseTrackComp;
