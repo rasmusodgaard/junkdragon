@@ -13,7 +13,6 @@
 #include "Level.hpp"
 
 #define F_GRAVITY                       0.0f
-
 #define INT_POSITION_ITERATIONS         4
 #define INT_VELOCITY_ITERATIONS        12
 #define INT_WINDOWSIZE_HEIGHT         800
@@ -77,6 +76,7 @@ private:
     
     std::shared_ptr<GameState> gs_currentstate = nullptr;
     std::shared_ptr<GameState> gs_nextstate;
+    std::shared_ptr<GameState> gs_startstate;
     std::shared_ptr<GameState> gs_playingstate;
     std::shared_ptr<GameState> gs_endstate;
 
@@ -90,7 +90,8 @@ private:
     void render();
     void onKey(SDL_Event &event);
     void handleContact(b2Contact *contact, bool begin);
-    
+    void endTheGame();
+    void startTheGame();
     
     std::shared_ptr<GameObject> dragonObj;
 
@@ -111,15 +112,10 @@ private:
     Box2DDebugDraw debugDraw;
     bool doDebugDraw = false;
     friend class PhysicsComponent;
+    friend class StartState;
     friend class PlayingState;
     friend class EndState;
 
-    bool    burnination_has_begun;
-    float   time_elapsed;
-    float   time_remaining;
     int     n_houses;
 
-    // Game globals
-    float score;
-    bool game_over;
 };

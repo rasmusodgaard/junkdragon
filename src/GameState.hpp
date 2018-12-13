@@ -4,9 +4,10 @@
 //
 //  Created by John O'Donnell
 //
-#include <string>
 
 #pragma once
+
+#include <string>
 
 class GameState {
     public:
@@ -14,6 +15,7 @@ class GameState {
         virtual void exitState();
         virtual void update(float time);
         virtual void render();
+        virtual bool onKey(SDL_Event &event);   
 
         std::string name = "_";
     private:

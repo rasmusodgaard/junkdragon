@@ -15,6 +15,7 @@
 #include "PickUpComponent.hpp"
 #include "Command.hpp"
 #include "AudioManager.hpp"
+#include "StartState.hpp"
 #include "PlayingState.hpp"
 #include "EndState.hpp"
 
@@ -58,13 +59,13 @@ void JunkDragonGame::buildGUI() {
     fuelTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
     fuelTrackComp->init("Fuel", dragonObj->getComponent<DragonController>()->getFuel(), {0.0f, 0.9f}, {0.3f,0.1f});
 
-    auto timeTrackerObj = createGameObject();
-    timeTrackComp = timeTrackerObj->addComponent<FloatTrackComponent>();
-    timeTrackComp->init("time", time_remaining, {0.0f, 0.8f}, {0.3f, 0.1f} );
+    // auto timeTrackerObj = createGameObject();
+    // timeTrackComp = timeTrackerObj->addComponent<FloatTrackComponent>();
+    // timeTrackComp->init("time", time_remaining, {0.0f, 0.8f}, {0.3f, 0.1f} );
 
-    auto scoreTrackerObj = createGameObject();
-    scoreTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
-    scoreTrackComp->init("Score", dragonObj->getComponent<DragonController>()->getFuel(), {0.7f, 0.9f}, {0.3f, 0.1f} );
+    // auto scoreTrackerObj = createGameObject();
+    // scoreTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
+    // scoreTrackComp->init("Score", dragonObj->getComponent<DragonController>()->getFuel(), {0.7f, 0.9f}, {0.3f, 0.1f} );
 
     auto houseTrackerObj = createGameObject();
     houseTrackComp = houseTrackerObj->addComponent<FloatTrackComponent>();
@@ -74,17 +75,12 @@ void JunkDragonGame::buildGUI() {
 void JunkDragonGame::init(){
     initPhysics();
     
+    gs_startstate   = std::shared_ptr<GameState>( new StartState() );
     gs_playingstate = std::shared_ptr<GameState>( new PlayingState() );
     gs_endstate     = std::shared_ptr<GameState>( new EndState() );
-    changeState(gs_playingstate);
-    
+    changeState(gs_startstate);
 
-    score                   = 0.0f;
-    burnination_has_begun   = false;
-    time_elapsed            = 0.0f;
-    n_houses                = 0;
-    time_remaining          = 10.0f;
-    game_over               = false;
+    
 
     // Spritesheet for the game
     spriteAtlas = sre::SpriteAtlas::create("junkdragon.json","junkdragon.png");
@@ -158,27 +154,13 @@ void JunkDragonGame::init(){
 void JunkDragonGame::update(float time){
     gs_currentstate->update(time);
     
-    for (int i=0;i<sceneObjects.size();i++){
-        sceneObjects[i]->update(time);
-        if (sceneObjects[i]->getDeleteMe()) {
-            sceneObjects.erase(sceneObjects.begin() + i);
-        }
-    }
 
     // Update GUI elements last
     fuelTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
-    scoreTrackComp->setVal( this->score );
+    // scoreTrackComp->setVal( this->score );
     houseTrackComp->setVal( this->n_houses );
-    timeTrackComp->setVal(this->time_remaining);
+    // timeTrackComp->setVal(this->time_remaining);
 
-
-    if( !game_over && checkGameOver() ) {
-            game_over = true;
-            changeState(gs_endstate);
-    } else {
-        time_remaining = fmax(time_remaining - time, 0.0f);
-    }
-    
 }
 
 void JunkDragonGame::render() {
@@ -257,11 +239,19 @@ void JunkDragonGame::EndContact(b2Contact *contact) {
 }
 
 void JunkDragonGame::increaseScore(float i_score) {
-    this->score += i_score;
+    // gs_playingstate->score += i_score;
 }
 
 void JunkDragonGame::decrementHouses() {
     this->n_houses--;
+}
+
+void JunkDragonGame::endTheGame() {
+    changeState(gs_endstate);
+}
+
+void JunkDragonGame::startTheGame() {
+    changeState(gs_playingstate);
 }
 
 void JunkDragonGame::handleContact(b2Contact *contact, bool begin) {
@@ -303,6 +293,9 @@ void JunkDragonGame::deregisterPhysicsComponent(PhysicsComponent *r) {
 }
 
 void JunkDragonGame::onKey(SDL_Event &event) {
+    // TODO any significance of this bool? 
+    gs_currentstate->onKey(event);
+    
     for (auto & gameObject: sceneObjects) {
         for (auto & c : gameObject->getComponents()){
             bool consumed = c->onKey(event);
@@ -369,8 +362,6 @@ void JunkDragonGame::createFireBall( ) {
     
     fireballPhysics->setLinearVelocity( trajectory * fireballController->getSpeed() );
 }
-
-
 
 void JunkDragonGame::createHouse( glm::vec2 pos ) {
     auto HouseObj = createGameObject();
@@ -454,18 +445,6 @@ void JunkDragonGame::createWalls(glm::vec2 dimensions, int thickness){
     
     levelPhysL->initBox(b2_staticBody, glm::vec2 {thickness/physicsScale,dimensions.y/physicsScale}, glm::vec2 {-dimensions.x/physicsScale,0}, 1);
     levelPhysR->initBox(b2_staticBody, glm::vec2 {thickness/physicsScale,dimensions.y/physicsScale}, glm::vec2 {dimensions.x/physicsScale,0}, 1);
-}
-
-bool JunkDragonGame::checkGameOver() {
-    if (n_houses == 0) {
-        return true;
-    }
-
-    if (time_remaining <= 0.0f) {
-        return true;
-    }
-
-    return false;
 }
 
 void JunkDragonGame::changeState( std::shared_ptr<GameState> gs_state ) {
