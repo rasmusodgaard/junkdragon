@@ -15,6 +15,7 @@
 #include "PickUpComponent.hpp"
 #include "Command.hpp"
 #include "AudioManager.hpp"
+#include "PlayingState.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
@@ -72,6 +73,10 @@ void JunkDragonGame::buildGUI() {
 void JunkDragonGame::init(){
     initPhysics();
     
+    gs_playingstate = std::shared_ptr<GameState>( new PlayingState() );
+    changeState(gs_playingstate);
+    
+
     score                   = 0.0f;
     burnination_has_begun   = false;
     time_elapsed            = 0.0f;
@@ -457,4 +462,17 @@ bool JunkDragonGame::checkGameOver() {
     }
 
     return false;
+}
+
+void JunkDragonGame::changeState( std::shared_ptr<GameState> gs_state ) {
+    gs_nextstate = gs_state;
+
+    if(gs_currentstate != nullptr) {
+        gs_currentstate->exitState();
+    }
+    gs_nextstate->enterState();
+
+    gs_currentstate = gs_nextstate;
+    gs_nextstate = nullptr;
+
 }

@@ -32,10 +32,9 @@
 #define U_FIREBALL_LAYER               3
 #define U_DRAGON_LAYER                 4
 
-
-
 class Command;
 class PhysicsComponent;
+class GameState;
 
 class JunkDragonGame : public b2ContactListener {
 public:
@@ -59,6 +58,8 @@ public:
     void increaseScore(float i_score);
     void decrementHouses();
 
+    void changeState(std::shared_ptr<GameState> gs_state);
+
 private:
     std::shared_ptr<Level> currentLevel;
     std::shared_ptr<CameraFollow> camera;
@@ -73,6 +74,9 @@ private:
     std::shared_ptr<GameObject> wallLeft;
     std::shared_ptr<GameObject> wallRight;
     
+    std::shared_ptr<GameState> gs_currentstate = nullptr;
+    std::shared_ptr<GameState> gs_nextstate;
+    std::shared_ptr<GameState> gs_playingstate;
 
     sre::SDLRenderer r;
     
