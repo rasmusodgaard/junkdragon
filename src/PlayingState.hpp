@@ -5,9 +5,12 @@
 //  Created by John O'Donnell
 //
 
-#include "GameState.hpp"
 
 #pragma once
+
+#include "GameState.hpp"
+
+#define F_PHYSICS_TIMESTEP              0.3f
 
 class PlayingState : public GameState {
     public:

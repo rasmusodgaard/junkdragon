@@ -25,7 +25,8 @@ FireBallController::FireBallController(GameObject *gameObject) : Component(gameO
 }
 
 void FireBallController::onCollisionStart(PhysicsComponent *comp) {
-    if (comp->getGameObject()->name.compare("Dragon") != 0 && comp->getGameObject()->name.compare("Fireball") != 0){
+    // comp->getGameObject()->name.compare("Dragon") != 0 && comp->getGameObject()->name.compare("Fireball") != 0
+    if (comp->getGameObject()->name.compare("House") == 0 ){
         deleteGameObject();
     }
     

@@ -13,18 +13,19 @@
 #include "Level.hpp"
 
 #define F_GRAVITY                       0.0f
+
 #define INT_POSITION_ITERATIONS         4
 #define INT_VELOCITY_ITERATIONS        12
 #define INT_WINDOWSIZE_HEIGHT         800
 #define INT_WINDOWSIZE_WIDTH          600
 #define INT_DRAGON_SCALE                3
 #define INT_BACKGROUND_RESOLUTION      50
-#define INT_BACKGROUND_STARTPOS     -2800
-#define INT_BACKGROUND_SIZE         10000
+#define INT_BACKGROUND_STARTPOS     -2000
+#define INT_BACKGROUND_SIZE          4000
 #define INT_WALL_THICKNESS             50
-#define F_PHYSICS_TIMESTEP              0.3f
 #define F_ROTATION_NORTH                0.0f
 #define F_WALL_THICKNESS               50.0f
+#define F_FIREBALL_OFFSET             120.0f
 
 // Layers
 #define U_GROUND_LAYER                 1
@@ -59,7 +60,6 @@ public:
     void decrementHouses();
 
     void changeState(std::shared_ptr<GameState> gs_state);
-    std::shared_ptr<GameObject> dragonObj;
 
 private:
     std::shared_ptr<Level> currentLevel;
@@ -91,6 +91,9 @@ private:
     void onKey(SDL_Event &event);
     void handleContact(b2Contact *contact, bool begin);
     
+    
+    std::shared_ptr<GameObject> dragonObj;
+
     std::shared_ptr<FloatTrackComponent> fuelTrackComp;
     std::shared_ptr<FloatTrackComponent> scoreTrackComp;
     std::shared_ptr<FloatTrackComponent> houseTrackComp;
@@ -108,6 +111,8 @@ private:
     Box2DDebugDraw debugDraw;
     bool doDebugDraw = false;
     friend class PhysicsComponent;
+    friend class PlayingState;
+    friend class EndState;
 
     bool    burnination_has_begun;
     float   time_elapsed;

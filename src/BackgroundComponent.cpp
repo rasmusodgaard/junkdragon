@@ -34,8 +34,8 @@ void BackgroundComponent::init(std::string filename, glm::vec2 start_pos, glm::v
     auto atlas = SpriteAtlas::createSingleSprite(tex, "background", vec2(0,0));
     auto sprite = atlas->get("background");
     // float scale = JunkDragonGame::windowSize.y / tex->getHeight();
-    float scale_x = size.x / (tex->getHeight() * resolution);
-    float scale_y = size.y / (tex->getWidth()  * resolution);
+    float scale_x = size.x / (tex->getWidth() * resolution);
+    float scale_y = size.y / (tex->getHeight()  * resolution);
 
     sprite.setScale({scale_x,scale_y});
     auto batchBuilder = SpriteBatch::create();

@@ -14,7 +14,7 @@
 #define F_DRAGON_SPEED            400.0f
 #define F_ROTATION_SPEED            2.0f
 #define F_LAST_FIRE_BALL        	0.0f
-#define F_COOL_DOWN                 0.08f
+#define F_COOL_DOWN                 0.2f
 #define F_FUEL                     10.0f
 #define F_FUEL_RECOVERY             0.001f
 #define F_FIREBALLFUELCOST          0.5f

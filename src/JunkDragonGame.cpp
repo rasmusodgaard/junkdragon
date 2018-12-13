@@ -120,7 +120,7 @@ void JunkDragonGame::init(){
 
     animCC->addState(
         "flying",
-        0.2f,
+        0.4f,
         { spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_12.png"), spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_10.png") }
         );
 
@@ -156,12 +156,8 @@ void JunkDragonGame::init(){
 }
 
 void JunkDragonGame::update(float time){
-    updatePhysics();
-    if (time > F_PHYSICS_TIMESTEP) // if framerate approx 30 fps then run two physics steps
-	{
-		updatePhysics();
-	}
-
+    gs_currentstate->update(time);
+    
     for (int i=0;i<sceneObjects.size();i++){
         sceneObjects[i]->update(time);
         if (sceneObjects[i]->getDeleteMe()) {
@@ -182,9 +178,7 @@ void JunkDragonGame::update(float time){
     } else {
         time_remaining = fmax(time_remaining - time, 0.0f);
     }
-
-    // TODO put everything into the GameState update
-    gs_currentstate->update(time);
+    
 }
 
 void JunkDragonGame::render() {
@@ -224,7 +218,6 @@ void JunkDragonGame::render() {
     gs_currentstate->render();
 }
 
-
 void JunkDragonGame::updatePhysics() {
     const int positionIterations = INT_POSITION_ITERATIONS;
     const int velocityIterations = INT_VELOCITY_ITERATIONS;
@@ -240,6 +233,7 @@ void JunkDragonGame::updatePhysics() {
         gameObject->setRotation(angle);
     }
 }
+
 
 void JunkDragonGame::initPhysics() {
     float gravity = F_GRAVITY;
@@ -344,9 +338,11 @@ std::shared_ptr<GameObject> JunkDragonGame::createGameObject() {
 void JunkDragonGame::createFireBall( ) {
     auto fireballObj = createGameObject();
     fireballObj->name = "Fireball";
-    fireballObj->setPosition( dragonObj->getPosition() );
+
+    auto trajectory = glm::rotateZ(glm::vec3(0,1.0f,0), glm::radians(dragonObj->getRotation() ));
+    fireballObj->setPosition( dragonObj->getPosition() + (glm::vec2)(trajectory * F_FIREBALL_OFFSET) );
     fireballObj->setRotation( dragonObj->getRotation() );
-    
+
     auto fireballController = fireballObj->addComponent<FireBallController>();
 
     auto fireballSprite = spriteAtlas->get("fireball_3.png");
@@ -371,14 +367,14 @@ void JunkDragonGame::createFireBall( ) {
     auto fireballPhysics = fireballObj->addComponent<PhysicsComponent>();
     fireballPhysics->initCircle(b2_dynamicBody, 20/physicsScale, fireballObj->getPosition()/physicsScale, fireballObj->getRotation(), 1);
     
-    auto trajectory = glm::rotateZ(glm::vec3(0,fireballController->getSpeed(),0), glm::radians(fireballObj->getRotation() ));
-    fireballPhysics->setLinearVelocity( trajectory );
+    fireballPhysics->setLinearVelocity( trajectory * fireballController->getSpeed() );
 }
 
 
 
 void JunkDragonGame::createHouse( glm::vec2 pos ) {
     auto HouseObj = createGameObject();
+    HouseObj->name = "House";
     HouseObj->setPosition(pos);
     HouseObj->setRotation(F_ROTATION_NORTH);
     auto houseSprite = spriteAtlas->get("farmhouse_2.png");
@@ -402,7 +398,7 @@ void JunkDragonGame::createHouse( glm::vec2 pos ) {
         );
     houseACC->addState(
         "onfire",
-        0.1f,
+        0.2f,
         {spriteAtlas->get("farmhouse_2_burn1.png"), spriteAtlas->get("farmhouse_2_burn2.png")}
         );
     houseACC->addState(
@@ -412,7 +408,7 @@ void JunkDragonGame::createHouse( glm::vec2 pos ) {
         );
     houseACC->addState(
         "singed_onfire",
-        0.1f,
+        0.2f,
         {spriteAtlas->get("farmhouse_3_burn1.png"), spriteAtlas->get("farmhouse_3_burn2.png")}
         );
     
