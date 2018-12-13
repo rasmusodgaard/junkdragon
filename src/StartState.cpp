@@ -29,7 +29,6 @@ bool StartState::onKey(SDL_Event &event) {
 
     if (event.key.keysym.sym == SDLK_SPACE) {
         if (event.type == SDL_KEYDOWN) {
-            std::cout << "SPACE PRESSED" << std::endl;
             JunkDragonGame::instance->startTheGame();
         }
     }

@@ -10,7 +10,6 @@
 #include "CameraFollow.hpp"
 #include "BackgroundComponent.hpp"
 #include "Box2DDebugDraw.hpp"
-#include "Level.hpp"
 
 #define F_GRAVITY                       0.0f
 #define INT_POSITION_ITERATIONS         4
@@ -21,9 +20,7 @@
 #define INT_BACKGROUND_RESOLUTION      50
 #define INT_BACKGROUND_STARTPOS     -2000
 #define INT_BACKGROUND_SIZE          4000
-#define INT_WALL_THICKNESS             50
 #define F_ROTATION_NORTH                0.0f
-#define F_WALL_THICKNESS               50.0f
 #define F_FIREBALL_OFFSET             120.0f
 
 // Layers
@@ -44,6 +41,8 @@ public:
     
     // Gameobject existance
     std::shared_ptr<GameObject> createGameObject();
+    void createCamera();
+    void createDragon( glm::vec2 starting_position );
     void createFireBall( );
     void createHouse( glm::vec2 pos );
     void createPickUp( glm::vec2 pos, sre::Sprite pickUpSprite, Command cmd );
@@ -61,7 +60,7 @@ public:
     void changeState(std::shared_ptr<GameState> gs_state);
 
 private:
-    std::shared_ptr<Level> currentLevel;
+    std::shared_ptr<GameObject> camObj;
     std::shared_ptr<CameraFollow> camera;
     std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
     std::vector<std::shared_ptr<GameObject>> sceneObjects;

@@ -9,6 +9,7 @@
 #include "PhysicsComponent.hpp"
 #include "PlayingState.hpp"
 #include <iostream>
+#include <cassert>
 
 void PlayingState::enterState() {
     std::cout << "PLAYING STATE" << std::endl;
@@ -18,10 +19,48 @@ void PlayingState::enterState() {
     time_elapsed            = 0.0f;
     time_remaining          = 10.0f;
     game_over               = false;
+
+    current_level = std::make_shared<Level>();
+    assert(next_level_to_load != "_");
+    current_level->LoadLevel( next_level_to_load );
+    
+    // build the level
+    JunkDragonGame::instance->createDragon( current_level->GetStartingPosition() );
+    JunkDragonGame::instance->camera->setFollowObject(JunkDragonGame::instance->dragonObj, {0.0f,0.0f});
+
+    glm::vec2 wall_dimensions = current_level->GetWallDimensions();
+    JunkDragonGame::instance->createWalls(wall_dimensions, INT_WALL_THICKNESS);
+
+    // Add Houses
+    std::vector<glm::vec2> houses = current_level->GetHousePositions();
+    for (int i = 0; i < houses.size(); i++) {
+        JunkDragonGame::instance->createHouse(houses[i]);
+    }
+
+    // Add background
+    JunkDragonGame::instance->backgroundComponent.init("background.png", {-wall_dimensions.x,-wall_dimensions.y}, 
+        {2.0f*wall_dimensions.x, 2.0f*wall_dimensions.y}, INT_BACKGROUND_RESOLUTION);
+    
+    // if (auto dragonC = dragonObj->getComponent<DragonController>() ) {
+    //     // Add pickups
+    //     JunkDragonGame::instance->createPickUp({500, 400}, JunkDragonGame::instance->spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addFuel ) );
+    //     JunkDragonGame::instance->createPickUp({700, 800}, JunkDragonGame::instance->spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
+    //     JunkDragonGame::instance->createPickUp({1100, 200}, JunkDragonGame::instance->spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
+    //     JunkDragonGame::instance->createPickUp({400, -300}, JunkDragonGame::instance->spriteAtlas->get("pizza.png"), Command( dragonC->self, &DragonController::addFuel ) );  
+
+    //     JunkDragonGame::instance->createPickUp({900, -400}, JunkDragonGame::instance->spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addFuel ) );
+    //     JunkDragonGame::instance->createPickUp({-300, 400}, JunkDragonGame::instance->spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
+    //     JunkDragonGame::instance->createPickUp({-800, 500}, JunkDragonGame::instance->spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
+    //     JunkDragonGame::instance->createPickUp({-1000, -100}, JunkDragonGame::instance->spriteAtlas->get("pizza.png"), Command( dragonC->self, &DragonController::addFuel ) );   
+    // }
 }
 
 void PlayingState::exitState() {
-    
+    // for (int i=0;i<JunkDragonGame::instance->sceneObjects.size();i++){        
+    //         // JunkDragonGame::instance->sceneObjects.erase(JunkDragonGame::instance->sceneObjects.begin() + i);
+    // }
+    JunkDragonGame::instance->sceneObjects.erase(JunkDragonGame::instance->sceneObjects.begin(), JunkDragonGame::instance->sceneObjects.end());
+    JunkDragonGame::instance->camera->unsetFollowObject();
 }
 
 void PlayingState::update( float time ) {
@@ -46,6 +85,7 @@ void PlayingState::update( float time ) {
         time_remaining = fmax(time_remaining - time, 0.0f);
     }
     
+
 }
 
 void PlayingState::render() {
@@ -67,5 +107,9 @@ bool PlayingState::checkGameOver() {
 bool PlayingState::onKey(SDL_Event &event) {
 
     return false;
+}
+
+void PlayingState::setNextLevelToLoad(std::string next_level) {
+    next_level_to_load = next_level;
 }
 

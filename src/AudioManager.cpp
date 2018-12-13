@@ -12,7 +12,6 @@ AudioManager* AudioManager::instance = nullptr;
 AudioManager::AudioManager(){
     instance = this;
     
-    
     if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 1024 ) == -1 )
     {
         std::cout << "Cannot initialize audio output"<< std::endl;

@@ -42,7 +42,8 @@ void BackgroundComponent::init(std::string filename, glm::vec2 start_pos, glm::v
 
     for (int i=0;i<resolution;i++){
         for (int j=0; j<resolution; j++) {
-            sprite.setPosition(start_pos.x + vec2(tex->getWidth() * i * scale_x, start_pos.y + tex->getHeight() * j * scale_y ));
+            sprite.setPosition(vec2(start_pos.x + tex->getWidth() * i * scale_x, 
+                                start_pos.y + tex->getHeight() * j * scale_y) );
             batchBuilder.addSprite(sprite);
         }
     }

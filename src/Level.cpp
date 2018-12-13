@@ -31,8 +31,6 @@ void Level::LoadLevel(std::string level){
     const rapidjson::Value& hpX = d["housePositionsX"];
     const rapidjson::Value& hpY = d["housePositionsY"];
     
-    
-    
     //Get spawnpoint in level
     spawnPoint.x = spawn["x"].GetInt();
     spawnPoint.y = spawn["y"].GetInt();
@@ -41,7 +39,6 @@ void Level::LoadLevel(std::string level){
     wallDimensions.x = dimensions["x"].GetInt();
     wallDimensions.y = dimensions["y"].GetInt();
     
-
     for (rapidjson::SizeType i = 0; i < hpX.Size(); i++)
     {
         int tempX = hpX[i].GetInt();

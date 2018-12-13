@@ -37,8 +37,8 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
     init();
     
     new AudioManager();
-    
-    buildGUI();
+
+    // buildGUI();
 
     r.keyEvent = [&](SDL_Event& e){
         onKey(e);
@@ -75,95 +75,33 @@ void JunkDragonGame::buildGUI() {
 void JunkDragonGame::init(){
     initPhysics();
     
-    gs_startstate   = std::shared_ptr<GameState>( new StartState() );
-    gs_playingstate = std::shared_ptr<GameState>( new PlayingState() );
-    gs_endstate     = std::shared_ptr<GameState>( new EndState() );
-    changeState(gs_startstate);
-
-    
-
     // Spritesheet for the game
     spriteAtlas = sre::SpriteAtlas::create("junkdragon.json","junkdragon.png");
 
-    currentLevel = std::make_shared<Level>();
-    currentLevel->LoadLevel("level1");
-    
-    createWalls(currentLevel->GetWallDimensions(), INT_WALL_THICKNESS);
-    
-    // Camera Object
-    auto camObj = createGameObject();
-    camera = camObj->addComponent<CameraFollow>();
-    
-    
-    // Dragon Game Object (Player)
-    dragonObj = createGameObject();
-    dragonObj->name = "Dragon";
-    camera->setFollowObject(dragonObj, {0,0});
-    glm::vec2 spawnPosition = currentLevel->GetStartingPosition();
-    dragonObj->setPosition(spawnPosition);
-    dragonObj->setRotation(F_ROTATION_NORTH);
+    createCamera();
 
-    auto dragonC = dragonObj->addComponent<DragonController>();
-    
-    auto sprite = spriteAtlas->get("dragon_11.png");
-    sprite.setScale({3,3});
-    sprite.setOrderInBatch(U_DRAGON_LAYER);
-    auto spriteC = dragonObj->addComponent<SpriteComponent>();
-    spriteC->setSprite(sprite);
-    
-    auto animCC = dragonObj->addComponent<AnimationControllerComponent>();
-    animCC->setLayer(U_DRAGON_LAYER);
-
-    animCC->addState(
-        "flying",
-        0.4f,
-        { spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_12.png"), spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_10.png") }
-        );
-
-    animCC->setScale({INT_DRAGON_SCALE,INT_DRAGON_SCALE});
-    animCC->setState("flying");
-    dragonC->SetAnimationControllerComponent( animCC );
-    
-    auto DragonPhysics = dragonObj->addComponent<PhysicsComponent>();
-    dragonC->setPhysicsComponent(dragonObj->getComponent<PhysicsComponent>());
-
-    DragonPhysics->initCircle(b2_dynamicBody, 30/physicsScale, dragonObj->getPosition()/physicsScale, dragonObj->getRotation(), 1);
-
-    // Add background
-    backgroundComponent.init("background.png", {INT_BACKGROUND_STARTPOS,INT_BACKGROUND_STARTPOS}, 
-        {INT_BACKGROUND_SIZE, INT_BACKGROUND_SIZE}, INT_BACKGROUND_RESOLUTION);
-    
-    // Add Houses
-    std::vector<glm::vec2> houses = currentLevel->GetHousePositions();
-    for (int i = 0; i < houses.size(); i++) {
-        createHouse(houses[i]);
+    // Create the various game states
+    gs_startstate   = std::shared_ptr<GameState>( new StartState() );
+    gs_playingstate = std::shared_ptr<GameState>( new PlayingState() );
+    if(auto ps = std::dynamic_pointer_cast<PlayingState>(gs_playingstate) ) {
+        ps->setNextLevelToLoad("level1");
     }
-    
-    // Add pickups
-    createPickUp({500, 400}, spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addFuel ) );
-    createPickUp({700, 800}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
-    createPickUp({1100, 200}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
-    createPickUp({400, -300}, spriteAtlas->get("pizza.png"), Command( dragonC->self, &DragonController::addFuel ) );  
-
-    createPickUp({900, -400}, spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addFuel ) );
-    createPickUp({-300, 400}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
-    createPickUp({-800, 500}, spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
-    createPickUp({-1000, -100}, spriteAtlas->get("pizza.png"), Command( dragonC->self, &DragonController::addFuel ) );   
+    gs_endstate     = std::shared_ptr<GameState>( new EndState() );
+    changeState(gs_startstate);
 }
 
 void JunkDragonGame::update(float time){
     gs_currentstate->update(time);
-    
-
+    camObj->update(time);
     // Update GUI elements last
-    fuelTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
+    // fuelTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
     // scoreTrackComp->setVal( this->score );
-    houseTrackComp->setVal( this->n_houses );
+    // houseTrackComp->setVal( this->n_houses );
     // timeTrackComp->setVal(this->time_remaining);
-
 }
 
 void JunkDragonGame::render() {
+
     auto rp = sre::RenderPass::create()
     .withCamera(camera->getCamera())
     .build();
@@ -328,6 +266,49 @@ std::shared_ptr<GameObject> JunkDragonGame::createGameObject() {
     return obj;
 }
 
+void JunkDragonGame::createCamera( ) {
+    // Camera Object
+    camObj = std::shared_ptr<GameObject>(new GameObject());
+    camera = camObj->addComponent<CameraFollow>();
+    camera->setFollowObject(nullptr, {0,0});
+}
+
+void JunkDragonGame::createDragon( glm::vec2 starting_position ) {
+    // Dragon Game Object (Player)
+    dragonObj = createGameObject();
+    dragonObj->name = "Dragon";
+    glm::vec2 spawnPosition = starting_position;
+    dragonObj->setPosition(spawnPosition);
+    dragonObj->setRotation(F_ROTATION_NORTH);
+
+    auto dragonC = dragonObj->addComponent<DragonController>();
+    
+    auto sprite = spriteAtlas->get("dragon_11.png");
+    sprite.setScale({3,3});
+    sprite.setOrderInBatch(U_DRAGON_LAYER);
+    auto spriteC = dragonObj->addComponent<SpriteComponent>();
+    spriteC->setSprite(sprite);
+    
+    auto animCC = dragonObj->addComponent<AnimationControllerComponent>();
+    animCC->setLayer(U_DRAGON_LAYER);
+
+    animCC->addState(
+        "flying",
+        0.2f,
+        { spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_12.png"), spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_10.png") }
+        );
+
+    animCC->setScale({INT_DRAGON_SCALE,INT_DRAGON_SCALE});
+    animCC->setState("flying");
+    dragonC->SetAnimationControllerComponent( animCC );
+    
+    auto DragonPhysics = dragonObj->addComponent<PhysicsComponent>();
+    dragonC->setPhysicsComponent(dragonObj->getComponent<PhysicsComponent>());
+
+    DragonPhysics->initCircle(b2_dynamicBody, 30/physicsScale, dragonObj->getPosition()/physicsScale, dragonObj->getRotation(), 1);
+
+}
+
 void JunkDragonGame::createFireBall( ) {
     auto fireballObj = createGameObject();
     fireballObj->name = "Fireball";
@@ -352,14 +333,14 @@ void JunkDragonGame::createFireBall( ) {
         0.1f,
         {spriteAtlas->get("fireball_1.png"),spriteAtlas->get("fireball_2.png"),spriteAtlas->get("fireball_3.png"),spriteAtlas->get("fireball_4.png")}
         );
-    
+
     fireballACC->setScale({0.9,0.9});
     fireballACC->setState("shooting");
     fireballACC->setLayer(U_FIREBALL_LAYER);
 
     auto fireballPhysics = fireballObj->addComponent<PhysicsComponent>();
     fireballPhysics->initCircle(b2_dynamicBody, 20/physicsScale, fireballObj->getPosition()/physicsScale, fireballObj->getRotation(), 1);
-    
+
     fireballPhysics->setLinearVelocity( trajectory * fireballController->getSpeed() );
 }
 
@@ -389,7 +370,7 @@ void JunkDragonGame::createHouse( glm::vec2 pos ) {
         );
     houseACC->addState(
         "onfire",
-        0.2f,
+        0.15f,
         {spriteAtlas->get("farmhouse_2_burn1.png"), spriteAtlas->get("farmhouse_2_burn2.png")}
         );
     houseACC->addState(
@@ -399,7 +380,7 @@ void JunkDragonGame::createHouse( glm::vec2 pos ) {
         );
     houseACC->addState(
         "singed_onfire",
-        0.2f,
+        0.15f,
         {spriteAtlas->get("farmhouse_3_burn1.png"), spriteAtlas->get("farmhouse_3_burn2.png")}
         );
     
