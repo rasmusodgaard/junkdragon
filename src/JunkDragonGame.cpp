@@ -55,9 +55,9 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
 }
 
 void JunkDragonGame::buildGUI() {
-    auto fuelTrackerObj = createGameObject();
-    fuelTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
-    fuelTrackComp->init("Fuel", dragonObj->getComponent<DragonController>()->getFuel(), {0.0f, 0.9f}, {0.3f,0.1f});
+    // auto fuelTrackerObj = createGameObject();
+    // fuelTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
+    // fuelTrackComp->init("Fuel", dragonObj->getComponent<DragonController>()->getFuel(), {0.0f, 0.9f}, {0.3f,0.1f});
 
     // auto timeTrackerObj = createGameObject();
     // timeTrackComp = timeTrackerObj->addComponent<FloatTrackComponent>();

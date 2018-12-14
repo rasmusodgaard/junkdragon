@@ -11,7 +11,7 @@
 
 void EndState::enterState() {
     std::cout << "END STATE" << std::endl;
-    JunkDragonGame::instance->dragonObj->getComponent<DragonController>()->stop();
+    // JunkDragonGame::instance->dragonObj->getComponent<DragonController>()->stop();
 }
 
 void EndState::exitState() {

@@ -59,33 +59,42 @@ void PlayingState::exitState() {
     // for (int i=0;i<JunkDragonGame::instance->sceneObjects.size();i++){        
     //         // JunkDragonGame::instance->sceneObjects.erase(JunkDragonGame::instance->sceneObjects.begin() + i);
     // }
+    
     JunkDragonGame::instance->sceneObjects.erase(JunkDragonGame::instance->sceneObjects.begin(), JunkDragonGame::instance->sceneObjects.end());
     JunkDragonGame::instance->camera->unsetFollowObject();
+
+    // WALLS
+    JunkDragonGame::instance->dragonObj = nullptr;
+    JunkDragonGame::instance->wallTop = nullptr;
+    JunkDragonGame::instance->wallLeft = nullptr;
+    JunkDragonGame::instance->wallRight = nullptr;
+    JunkDragonGame::instance->wallBottom = nullptr;
+
+    JunkDragonGame::instance->backgroundComponent.terminate();
+
 }
 
 void PlayingState::update( float time ) {
-
-    JunkDragonGame::instance->updatePhysics();
-    if (time > F_PHYSICS_TIMESTEP) // if framerate approx 30 fps then run two physics steps
-	{
-		JunkDragonGame::instance->updatePhysics();
-	}
-
-    for (int i=0;i<JunkDragonGame::instance->sceneObjects.size();i++){
-        JunkDragonGame::instance->sceneObjects[i]->update(time);
-        if (JunkDragonGame::instance->sceneObjects[i]->getDeleteMe()) {
-            JunkDragonGame::instance->sceneObjects.erase(JunkDragonGame::instance->sceneObjects.begin() + i);
-        }
-    }
 
     if( !game_over && checkGameOver() ) {
             game_over = true;
             JunkDragonGame::instance->endTheGame();
     } else {
         time_remaining = fmax(time_remaining - time, 0.0f);
-    }
-    
 
+        JunkDragonGame::instance->updatePhysics();
+        if (time > F_PHYSICS_TIMESTEP) // if framerate approx 30 fps then run two physics steps
+        {
+            JunkDragonGame::instance->updatePhysics();
+        }
+
+        for (int i=0;i<JunkDragonGame::instance->sceneObjects.size();i++){
+            JunkDragonGame::instance->sceneObjects[i]->update(time);
+            if (JunkDragonGame::instance->sceneObjects[i]->getDeleteMe()) {
+                JunkDragonGame::instance->sceneObjects.erase(JunkDragonGame::instance->sceneObjects.begin() + i);
+            }
+        }
+    }
 }
 
 void PlayingState::render() {

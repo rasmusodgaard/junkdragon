@@ -49,3 +49,8 @@ void BackgroundComponent::init(std::string filename, glm::vec2 start_pos, glm::v
     }
     batch = batchBuilder.build();
 }
+
+void BackgroundComponent::terminate() {
+    tex = nullptr;
+    batch = nullptr;
+}
