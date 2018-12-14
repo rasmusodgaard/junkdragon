@@ -17,7 +17,7 @@ void PlayingState::enterState() {
     score                   = 0.0f;
     burnination_has_begun   = false;
     time_elapsed            = 0.0f;
-    time_remaining          = 10.0f;
+    time_remaining          = 1.0f;
     game_over               = false;
 
     current_level = std::make_shared<Level>();
@@ -37,7 +37,7 @@ void PlayingState::enterState() {
         JunkDragonGame::instance->createHouse(houses[i]);
     }
 
-    // Add background
+    // // Add background
     JunkDragonGame::instance->backgroundComponent.init("background.png", {-wall_dimensions.x,-wall_dimensions.y}, 
         {2.0f*wall_dimensions.x, 2.0f*wall_dimensions.y}, INT_BACKGROUND_RESOLUTION);
     
@@ -56,9 +56,6 @@ void PlayingState::enterState() {
 }
 
 void PlayingState::exitState() {
-    // for (int i=0;i<JunkDragonGame::instance->sceneObjects.size();i++){        
-    //         // JunkDragonGame::instance->sceneObjects.erase(JunkDragonGame::instance->sceneObjects.begin() + i);
-    // }
     
     JunkDragonGame::instance->sceneObjects.erase(JunkDragonGame::instance->sceneObjects.begin(), JunkDragonGame::instance->sceneObjects.end());
     JunkDragonGame::instance->camera->unsetFollowObject();
@@ -71,6 +68,8 @@ void PlayingState::exitState() {
     JunkDragonGame::instance->wallBottom = nullptr;
 
     JunkDragonGame::instance->backgroundComponent.terminate();
+
+    current_level = nullptr;
 
 }
 
@@ -102,9 +101,9 @@ void PlayingState::render() {
 }
 
 bool PlayingState::checkGameOver() {
-    if (JunkDragonGame::instance->n_houses == 0) {
-        return true;
-    }
+    // if (JunkDragonGame::instance->n_houses == 0) {
+    //     return true;
+    // }
 
     if (time_remaining <= 0.0f) {
         return true;

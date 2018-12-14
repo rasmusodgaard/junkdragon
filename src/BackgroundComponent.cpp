@@ -27,10 +27,10 @@ void BackgroundComponent::renderBackground(sre::RenderPass &renderPass, float of
 }
 
 void BackgroundComponent::init(std::string filename, glm::vec2 start_pos, glm::vec2 size, float resolution) {
-    tex = Texture::create().withFile(filename)
-            .withFilterSampling(false)
-            .build();
-
+    // tex = Texture::create().withFile(filename)
+    //         .withFilterSampling(false)
+    //         .build();
+    tex = Texture::create().withFile(filename).build();
     auto atlas = SpriteAtlas::createSingleSprite(tex, "background", vec2(0,0));
     auto sprite = atlas->get("background");
     // float scale = JunkDragonGame::windowSize.y / tex->getHeight();
@@ -48,9 +48,10 @@ void BackgroundComponent::init(std::string filename, glm::vec2 start_pos, glm::v
         }
     }
     batch = batchBuilder.build();
+
 }
 
 void BackgroundComponent::terminate() {
-    tex = nullptr;
+    tex.reset();
     batch = nullptr;
 }
