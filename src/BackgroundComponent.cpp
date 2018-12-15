@@ -53,5 +53,5 @@ void BackgroundComponent::init(std::string filename, glm::vec2 start_pos, glm::v
 
 void BackgroundComponent::terminate() {
     tex.reset();
-    batch = nullptr;
+    batch.reset();
 }

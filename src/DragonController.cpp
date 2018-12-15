@@ -14,6 +14,7 @@
 #include "PhysicsComponent.hpp"
 #include <math.h>
 #include "AudioManager.hpp"
+#include "FloatTrackComponent.hpp"
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/rotate_vector.hpp>
@@ -114,6 +115,8 @@ void DragonController::update(float deltaTime) {
     speed_boost = fmax(speed_boost - speed_boost_decrement, 0.0f);
 
     fuel += fuel_recovery;
+
+    this->getGameObject()->getComponent<FloatTrackComponent>()->setVal(fuel);
 }
 
 float DragonController::getFuel() {

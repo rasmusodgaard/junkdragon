@@ -38,8 +38,6 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
     
     new AudioManager();
 
-    // buildGUI();
-
     r.keyEvent = [&](SDL_Event& e){
         onKey(e);
     };
@@ -55,26 +53,14 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
 }
 
 void JunkDragonGame::buildGUI() {
-    // auto fuelTrackerObj = createGameObject();
-    // fuelTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
-    // fuelTrackComp->init("Fuel", dragonObj->getComponent<DragonController>()->getFuel(), {0.0f, 0.9f}, {0.3f,0.1f});
 
-    // auto timeTrackerObj = createGameObject();
-    // timeTrackComp = timeTrackerObj->addComponent<FloatTrackComponent>();
-    // timeTrackComp->init("time", time_remaining, {0.0f, 0.8f}, {0.3f, 0.1f} );
+    guiObj = createGameObject();
 
-    // auto scoreTrackerObj = createGameObject();
-    // scoreTrackComp = fuelTrackerObj->addComponent<FloatTrackComponent>();
-    // scoreTrackComp->init("Score", dragonObj->getComponent<DragonController>()->getFuel(), {0.7f, 0.9f}, {0.3f, 0.1f} );
-
-    auto houseTrackerObj = createGameObject();
-    houseTrackComp = houseTrackerObj->addComponent<FloatTrackComponent>();
-    houseTrackComp->init("Houses", (float)n_houses, {0.7f, 0.8f}, {0.3f, 0.1f} );
 }
 
 void JunkDragonGame::init(){
     initPhysics();
-    
+
     // Spritesheet for the game
     spriteAtlas = sre::SpriteAtlas::create("junkdragon.json","junkdragon.png");
 
@@ -177,11 +163,11 @@ void JunkDragonGame::EndContact(b2Contact *contact) {
 }
 
 void JunkDragonGame::increaseScore(float i_score) {
-    // gs_playingstate->score += i_score;
+    score += i_score;
 }
 
 void JunkDragonGame::decrementHouses() {
-    this->n_houses--;
+    n_houses--;
 }
 
 void JunkDragonGame::endTheGame() {
@@ -307,6 +293,9 @@ void JunkDragonGame::createDragon( glm::vec2 starting_position ) {
 
     DragonPhysics->initCircle(b2_dynamicBody, 30/physicsScale, dragonObj->getPosition()/physicsScale, dragonObj->getRotation(), 1);
 
+    // Track fuel with gui element Gui Element
+    dragonObj->addComponent<FloatTrackComponent>();
+    dragonObj->getComponent<FloatTrackComponent>()->init("Fuel", dragonC->getFuel(), {0.0f, 0.9f}, {0.3f,0.1f});
 }
 
 void JunkDragonGame::createFireBall( ) {

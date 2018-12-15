@@ -14,11 +14,14 @@
 void PlayingState::enterState() {
     std::cout << "PLAYING STATE" << std::endl;
 
-    score                   = 0.0f;
     burnination_has_begun   = false;
     time_elapsed            = 0.0f;
-    time_remaining          = 1.0f;
+    time_remaining          = 10.0f;
     game_over               = false;
+    score                   = &JunkDragonGame::instance->score;
+    *score = 0.0f;
+    n_houses                = &JunkDragonGame::instance->n_houses;;
+    *n_houses = 0;
 
     current_level = std::make_shared<Level>();
     assert(next_level_to_load != "_");
@@ -53,6 +56,17 @@ void PlayingState::enterState() {
     //     JunkDragonGame::instance->createPickUp({-800, 500}, JunkDragonGame::instance->spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
     //     JunkDragonGame::instance->createPickUp({-1000, -100}, JunkDragonGame::instance->spriteAtlas->get("pizza.png"), Command( dragonC->self, &DragonController::addFuel ) );   
     // }
+
+    JunkDragonGame::instance->buildGUI();
+
+    timeTrackComp = JunkDragonGame::instance->guiObj->addComponent<FloatTrackComponent>();
+    timeTrackComp->init("time", time_remaining, {0.0f, 0.8f}, {0.3f, 0.1f} );
+
+    scoreTrackComp = JunkDragonGame::instance->guiObj->addComponent<FloatTrackComponent>();
+    scoreTrackComp->init("score", *score, {0.7f, 0.9f}, {0.3f, 0.1f} );
+
+    houseTrackComp = JunkDragonGame::instance->guiObj->addComponent<FloatTrackComponent>();
+    houseTrackComp->init("Houses", (float)(*n_houses), {0.7f, 0.8f}, {0.3f, 0.1f} );
 }
 
 void PlayingState::exitState() {
@@ -70,6 +84,10 @@ void PlayingState::exitState() {
     JunkDragonGame::instance->backgroundComponent.terminate();
 
     current_level = nullptr;
+
+    timeTrackComp   = nullptr;
+    scoreTrackComp  = nullptr;
+    houseTrackComp  = nullptr;
 
 }
 
@@ -93,7 +111,13 @@ void PlayingState::update( float time ) {
                 JunkDragonGame::instance->sceneObjects.erase(JunkDragonGame::instance->sceneObjects.begin() + i);
             }
         }
+        // update gui elements
+        timeTrackComp->setVal(time_remaining);
+        scoreTrackComp->setVal(*score);
+        houseTrackComp->setVal((float)(*n_houses));
     }
+
+    
 }
 
 void PlayingState::render() {

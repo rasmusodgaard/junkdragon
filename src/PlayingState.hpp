@@ -15,6 +15,7 @@
 #define F_PHYSICS_TIMESTEP              0.3f
 #define INT_WALL_THICKNESS             50
 
+class FloatTrackComponent;
 
 class PlayingState : public GameState {
     public:
@@ -30,9 +31,14 @@ class PlayingState : public GameState {
         std::string next_level_to_load = "_"; 
     private:
         std::shared_ptr<Level> current_level;
-        bool burnination_has_begun;
-        float time_elapsed;
-        float time_remaining;
-        float score;
-        bool game_over;
+        bool    burnination_has_begun;
+        float   time_elapsed;
+        float   time_remaining;
+        bool    game_over;
+        int*    n_houses;
+        float*  score;
+
+        std::shared_ptr<FloatTrackComponent> timeTrackComp;
+        std::shared_ptr<FloatTrackComponent> scoreTrackComp;
+        std::shared_ptr<FloatTrackComponent> houseTrackComp;
 };

@@ -93,12 +93,7 @@ private:
     void startTheGame();
     
     std::shared_ptr<GameObject> dragonObj;
-
-    std::shared_ptr<FloatTrackComponent> fuelTrackComp;
-    std::shared_ptr<FloatTrackComponent> scoreTrackComp;
-    std::shared_ptr<FloatTrackComponent> houseTrackComp;
-    std::shared_ptr<FloatTrackComponent> timeTrackComp;
-
+    std::shared_ptr<GameObject> guiObj;
 
     bool checkGameOver();
 
@@ -114,7 +109,10 @@ private:
     friend class StartState;
     friend class PlayingState;
     friend class EndState;
+    int n_houses;
+    float score;
 
-    int     n_houses;
+    
+
 
 };
