@@ -17,8 +17,14 @@
 
 //needs assertion or check for relevance! Menu will not have the same objects.
 
+Level::Level(){
+}
+
+
 //load level
 void Level::LoadLevel(std::string level){
+    
+    
     
     std::ifstream fis("level1.json");
     
@@ -28,39 +34,40 @@ void Level::LoadLevel(std::string level){
 
     const rapidjson::Value& spawn = d["spawn"];
     const rapidjson::Value& dimensions = d["dimensions"];
-    const rapidjson::Value& hpX = d["housePositionsX"];
-    const rapidjson::Value& hpY = d["housePositionsY"];
+    
+    const rapidjson::Value& housePosX = d["housePositionsX"];
+    const rapidjson::Value& housePosY = d["housePositionsY"];
+    
+    const rapidjson::Value& pickUpPosX = d["pickUpPositionX"];
+    const rapidjson::Value& pickUpPosY = d["pickUpPositionY"];
+    const rapidjson::Value& pickUpSprites = d["pickUpSprites"];
     
     //Get spawnpoint in level
-    spawnPoint.x = spawn["x"].GetInt();
-    spawnPoint.y = spawn["y"].GetInt();
+    level_values.starting_position.x = spawn["x"].GetInt();
+    level_values.starting_position.y = spawn["y"].GetInt();
     
     //Get surrounding wall dimensions
-    wallDimensions.x = dimensions["x"].GetInt();
-    wallDimensions.y = dimensions["y"].GetInt();
+    level_values.wall_dimensions.x = dimensions["x"].GetInt();
+    level_values.wall_dimensions.y = dimensions["y"].GetInt();
     
-    for (rapidjson::SizeType i = 0; i < hpX.Size(); i++)
+    for (rapidjson::SizeType i = 0; i < housePosX.Size(); i++)
     {
-        int tempX = hpX[i].GetInt();
-        int tempY = hpY[i].GetInt();
-        housePositions.push_back({tempX,tempY});
+        level_values.house_positions.push_back({housePosX[i].GetInt(),housePosY[i].GetInt()});
     }
+    
+    for (rapidjson::SizeType i = 0; i < pickUpPosX.Size(); i++)
+    {
+        level_values.pick_up_positions.push_back({pickUpPosX[i].GetInt(),pickUpPosY[i].GetInt()});
+        level_values.pick_up_sprite.push_back(pickUpSprites[i].GetString());
+    }
+    
+    
 }
 
-glm::vec2 Level::GetStartingPosition(){
-    return spawnPoint;
+LevelValues Level::GetLevelValues(){
+    return level_values;
 }
 
-std::vector<glm::vec2> Level::GetHousePositions(){
-    return housePositions;
-}
 
-glm::vec2 Level::GetWallDimensions(){
-    return wallDimensions;
-}
 
-//init level
 
-//Set Background
-
-//

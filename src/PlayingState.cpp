@@ -37,7 +37,7 @@ void PlayingState::enterState() {
 
     burnination_has_begun   = false;
     time_elapsed            = 0.0f;
-    time_remaining          = 10.0f;
+    time_remaining          = 100.0f;
     game_over               = false;
     score                   = &JunkDragonGame::instance->score;
     *score = 0.0f;
@@ -48,22 +48,31 @@ void PlayingState::enterState() {
     assert(next_level_to_load != "_");
     current_level->LoadLevel( next_level_to_load );
     
+    LevelValues level_values = current_level->GetLevelValues();
+    
     // build the level
-    createDragon( current_level->GetStartingPosition() );
+    createDragon( level_values.starting_position );
     camera->setFollowObject(dragonObj, {0.0f,0.0f});
-
-    glm::vec2 wall_dimensions = current_level->GetWallDimensions();
-    createWalls(wall_dimensions, INT_WALL_THICKNESS);
-
+    
+    createWalls(level_values.wall_dimensions, INT_WALL_THICKNESS);
+    
     // Add Houses
-    std::vector<glm::vec2> houses = current_level->GetHousePositions();
-    for (int i = 0; i < houses.size(); i++) {
-        createHouse(houses[i]);
+    //std::vector<glm::vec2> houses = current_level->GetHousePositions();
+    for (int i = 0; i < level_values.house_positions.size(); i++) {
+        createHouse(level_values.house_positions[i]);
     }
-
+    
+    // Add pick-ups
+    
+    for (int i = 0; i<level_values.pick_up_positions.size(); i++) {
+        //createPickUp(<#glm::vec2 pos#>, <#sre::Sprite pickUpSprite#>, <#Command cmd#>)
+        //"chilli.png", "donut.png", "pizza.png", "milk.png"
+        
+    }
+    
     // // Add background
-    backgroundComponent.init("background.png", {-wall_dimensions.x,-wall_dimensions.y}, 
-        {2.0f*wall_dimensions.x, 2.0f*wall_dimensions.y}, INT_BACKGROUND_RESOLUTION);
+    backgroundComponent.init("background.png", -level_values.wall_dimensions,
+        2.0f*level_values.wall_dimensions, INT_BACKGROUND_RESOLUTION);
 
     buildGUI();
 
