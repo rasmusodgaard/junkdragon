@@ -17,9 +17,6 @@
 
 //needs assertion or check for relevance! Menu will not have the same objects.
 
-Level::Level(){
-}
-
 
 //load level
 void Level::LoadLevel(std::string level){

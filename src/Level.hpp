@@ -23,30 +23,11 @@ struct LevelValues{
 };
 
 class Level{
-  
-    
-    
 public:
-    Level();
-    
-    
     void LoadLevel(std::string level);
     LevelValues GetLevelValues();
-    //glm::vec2 GetStartingPosition();
-    //glm::vec2 GetWallDimensions();
-    //
-    //std::vector<glm::vec2> GetHousePositions();
-    //std::vector<glm::vec2> GetPickUpPositions();
 private:
     LevelValues level_values;
-
-    
-    //glm::vec2 spawnPoint;
-    //glm::vec2 wallDimensions;
-    
-    //std::vector<glm::vec2> housePositionVector;
-    //std::vector<glm::vec2> pickUpPositionVector;
-    //std::vector<std::string> pickUpSprites;
 };
 
 
