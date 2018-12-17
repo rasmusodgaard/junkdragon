@@ -1,26 +1,16 @@
 #include "JunkDragonGame.hpp"
 #include <iostream>
-#include "GameObject.hpp"
 #include "sre/RenderPass.hpp"
-#include "SpriteComponent.hpp"
-#include "AnimationControllerComponent.hpp"
 #include "Box2D/Dynamics/Contacts/b2Contact.h"
 #include "PhysicsComponent.hpp"
 #include "FloatTrackComponent.hpp"
 #include <sre/Inspector.hpp>
 #include <math.h>
-#include "DragonController.hpp"
-#include "FireBallController.hpp"
-#include "BurnableComponent.hpp"
-#include "PickUpComponent.hpp"
 #include "Command.hpp"
 #include "AudioManager.hpp"
 #include "StartState.hpp"
 #include "PlayingState.hpp"
 #include "EndState.hpp"
-
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm/gtx/rotate_vector.hpp>
 
 const glm::vec2 JunkDragonGame::windowSize(INT_WINDOWSIZE_HEIGHT, INT_WINDOWSIZE_WIDTH);
 JunkDragonGame* JunkDragonGame::instance = nullptr;
@@ -52,19 +42,9 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
     r.startEventLoop();
 }
 
-void JunkDragonGame::buildGUI() {
-
-    guiObj = createGameObject();
-
-}
-
 void JunkDragonGame::init(){
     initPhysics();
 
-    // Spritesheet for the game
-    spriteAtlas = sre::SpriteAtlas::create("junkdragon.json","junkdragon.png");
-
-    createCamera();
 
     // Create the various game states
     gs_startstate   = std::shared_ptr<GameState>( new StartState() );
@@ -74,11 +54,11 @@ void JunkDragonGame::init(){
     }
     gs_endstate     = std::shared_ptr<GameState>( new EndState() );
     changeState(gs_startstate);
+
 }
 
 void JunkDragonGame::update(float time){
     gs_currentstate->update(time);
-    camObj->update(time);
     // Update GUI elements last
     // fuelTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
     // scoreTrackComp->setVal( this->score );
@@ -89,14 +69,14 @@ void JunkDragonGame::update(float time){
 void JunkDragonGame::render() {
 
     auto rp = sre::RenderPass::create()
-    .withCamera(camera->getCamera())
-    .build();
+            .withCamera(gs_currentstate->camera->getCamera())
+            .build();
     
-    backgroundComponent.renderBackground(rp,0.0f);
-    
+    gs_currentstate->backgroundComponent.renderBackground(rp,0.0f);
+
     auto spriteBatchBuilder = sre::SpriteBatch::create();
     
-    for (auto & go : sceneObjects){
+    for (auto & go : gs_currentstate->sceneObjects){
         go->renderSprite(spriteBatchBuilder);
     }
     
@@ -114,7 +94,7 @@ void JunkDragonGame::render() {
     }
 
     // Render the GUI components last
-    for (auto & go : sceneObjects){
+    for (auto & go : gs_currentstate->sceneObjects){
         for (auto & comp : go->getComponents()){
             comp->onGui();
         }
@@ -220,7 +200,7 @@ void JunkDragonGame::onKey(SDL_Event &event) {
     // TODO any significance of this bool? 
     gs_currentstate->onKey(event);
     
-    for (auto & gameObject: sceneObjects) {
+    for (auto & gameObject: gs_currentstate->sceneObjects) {
         for (auto & c : gameObject->getComponents()){
             bool consumed = c->onKey(event);
             if (consumed){
@@ -246,176 +226,7 @@ void JunkDragonGame::onKey(SDL_Event &event) {
     }
 }
 
-std::shared_ptr<GameObject> JunkDragonGame::createGameObject() {
-    auto obj = std::shared_ptr<GameObject>(new GameObject());
-    sceneObjects.push_back(obj);
-    return obj;
-}
 
-void JunkDragonGame::createCamera( ) {
-    // Camera Object
-    camObj = std::shared_ptr<GameObject>(new GameObject());
-    camera = camObj->addComponent<CameraFollow>();
-    camera->setFollowObject(nullptr, {0,0});
-}
-
-void JunkDragonGame::createDragon( glm::vec2 starting_position ) {
-    // Dragon Game Object (Player)
-    dragonObj = createGameObject();
-    dragonObj->name = "Dragon";
-    glm::vec2 spawnPosition = starting_position;
-    dragonObj->setPosition(spawnPosition);
-    dragonObj->setRotation(F_ROTATION_NORTH);
-
-    auto dragonC = dragonObj->addComponent<DragonController>();
-    
-    auto sprite = spriteAtlas->get("dragon_11.png");
-    sprite.setScale({3,3});
-    sprite.setOrderInBatch(U_DRAGON_LAYER);
-    auto spriteC = dragonObj->addComponent<SpriteComponent>();
-    spriteC->setSprite(sprite);
-    
-    auto animCC = dragonObj->addComponent<AnimationControllerComponent>();
-    animCC->setLayer(U_DRAGON_LAYER);
-
-    animCC->addState(
-        "flying",
-        0.2f,
-        { spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_12.png"), spriteAtlas->get("dragon_11.png"), spriteAtlas->get("dragon_10.png") }
-        );
-
-    animCC->setScale({INT_DRAGON_SCALE,INT_DRAGON_SCALE});
-    animCC->setState("flying");
-    dragonC->SetAnimationControllerComponent( animCC );
-    
-    auto DragonPhysics = dragonObj->addComponent<PhysicsComponent>();
-    dragonC->setPhysicsComponent(dragonObj->getComponent<PhysicsComponent>());
-
-    DragonPhysics->initCircle(b2_dynamicBody, 30/physicsScale, dragonObj->getPosition()/physicsScale, dragonObj->getRotation(), 1);
-
-    // Track fuel with gui element Gui Element
-    dragonObj->addComponent<FloatTrackComponent>();
-    dragonObj->getComponent<FloatTrackComponent>()->init("Fuel", dragonC->getFuel(), {0.0f, 0.9f}, {0.3f,0.1f});
-}
-
-void JunkDragonGame::createFireBall( ) {
-    auto fireballObj = createGameObject();
-    fireballObj->name = "Fireball";
-
-    auto trajectory = glm::rotateZ(glm::vec3(0,1.0f,0), glm::radians(dragonObj->getRotation() ));
-    fireballObj->setPosition( dragonObj->getPosition() + (glm::vec2)(trajectory * F_FIREBALL_OFFSET) );
-    fireballObj->setRotation( dragonObj->getRotation() );
-
-    auto fireballController = fireballObj->addComponent<FireBallController>();
-
-    auto fireballSprite = spriteAtlas->get("fireball_3.png");
-    
-    fireballSprite.setScale({0.9,0.9});
-    auto fireballSpriteComponent = fireballObj->addComponent<SpriteComponent>();
-    fireballSpriteComponent->setSprite(fireballSprite);
-
-    auto fireballACC = fireballObj->addComponent<AnimationControllerComponent>();
-
-    // Could animate the not burning buildings
-    fireballACC->addState(
-        "shooting",
-        0.1f,
-        {spriteAtlas->get("fireball_1.png"),spriteAtlas->get("fireball_2.png"),spriteAtlas->get("fireball_3.png"),spriteAtlas->get("fireball_4.png")}
-        );
-
-    fireballACC->setScale({0.9,0.9});
-    fireballACC->setState("shooting");
-    fireballACC->setLayer(U_FIREBALL_LAYER);
-
-    auto fireballPhysics = fireballObj->addComponent<PhysicsComponent>();
-    fireballPhysics->initCircle(b2_dynamicBody, 20/physicsScale, fireballObj->getPosition()/physicsScale, fireballObj->getRotation(), 1);
-
-    fireballPhysics->setLinearVelocity( trajectory * fireballController->getSpeed() );
-}
-
-void JunkDragonGame::createHouse( glm::vec2 pos ) {
-    auto HouseObj = createGameObject();
-    HouseObj->name = "House";
-    HouseObj->setPosition(pos);
-    HouseObj->setRotation(F_ROTATION_NORTH);
-    auto houseSprite = spriteAtlas->get("farmhouse_2.png");
-    houseSprite.setOrderInBatch(U_GROUND_LAYER);
-    auto houseSpriteC = HouseObj->addComponent<SpriteComponent>();
-    houseSprite.setScale({1,1});
-    houseSpriteC->setSprite(houseSprite);
-    auto houseBC = HouseObj->addComponent<BurnableComponent>();
-    
-    auto HousePhysics = HouseObj->addComponent<PhysicsComponent>();
-    HousePhysics->initCircle(b2_staticBody, 70/physicsScale, HouseObj->getPosition()/physicsScale, HouseObj->getRotation(), 1);
-    HousePhysics->setSensor(true);
-
-    auto houseACC = HouseObj->addComponent<AnimationControllerComponent>();
-
-    // Could animate the not burning buildings
-    houseACC->addState(
-        "notburning",
-        1.0f,
-        {spriteAtlas->get("farmhouse_2.png")}
-        );
-    houseACC->addState(
-        "onfire",
-        0.15f,
-        {spriteAtlas->get("farmhouse_2_burn1.png"), spriteAtlas->get("farmhouse_2_burn2.png")}
-        );
-    houseACC->addState(
-        "singed",
-        1.0f,
-        {spriteAtlas->get("farmhouse_3.png")}
-        );
-    houseACC->addState(
-        "singed_onfire",
-        0.15f,
-        {spriteAtlas->get("farmhouse_3_burn1.png"), spriteAtlas->get("farmhouse_3_burn2.png")}
-        );
-    
-    houseACC->setScale({1,1});
-    houseACC->setState("notburning");
-    houseACC->setLayer(U_GROUND_LAYER);
-
-    houseBC->SetAnimationControllerComponent( houseACC );
-
-    // Game Junk
-    n_houses++;
-}
-
-void JunkDragonGame::createPickUp(glm::vec2 pos, sre::Sprite pickUpSprite, Command cmd) {
-    auto PUObj = createGameObject();
-    PUObj->setPosition(pos);
-    PUObj->setRotation(F_ROTATION_NORTH);
-    
-    pickUpSprite.setScale({0.5,0.5});
-    pickUpSprite.setOrderInBatch(U_POWERUP_LAYER);
-    auto PUSpriteC = PUObj->addComponent<SpriteComponent>();
-    PUSpriteC->setSprite(pickUpSprite);
-    auto pickUpC = PUObj->addComponent<PickUpComponent>();
-    pickUpC -> SetCommand( cmd );
-    
-    auto PUPhys = PUObj->addComponent<PhysicsComponent>();
-    PUPhys->initCircle(b2_staticBody, 40/physicsScale, PUObj->getPosition()/physicsScale, PUObj->getRotation(), 1);
-    PUPhys->setSensor(true);
-}
-
-void JunkDragonGame::createWalls(glm::vec2 dimensions, int thickness){
-    wallTop = createGameObject();
-    wallBottom = createGameObject();
-    wallLeft = createGameObject();
-    wallRight = createGameObject();
-    auto levelPhysT = wallTop->addComponent<PhysicsComponent>();
-    auto levelPhysB = wallBottom->addComponent<PhysicsComponent>();
-    auto levelPhysL = wallLeft->addComponent<PhysicsComponent>();
-    auto levelPhysR = wallRight->addComponent<PhysicsComponent>();
-    
-    levelPhysT->initBox(b2_staticBody, glm::vec2 {(dimensions.x + thickness)/physicsScale,thickness/physicsScale}, glm::vec2 {0,(dimensions.y+thickness)/physicsScale}, 1);
-    levelPhysB->initBox(b2_staticBody, glm::vec2 {(dimensions.x + thickness)/physicsScale,thickness/physicsScale}, glm::vec2 {0,-(dimensions.y+thickness)/physicsScale}, 1);
-    
-    levelPhysL->initBox(b2_staticBody, glm::vec2 {thickness/physicsScale,dimensions.y/physicsScale}, glm::vec2 {-dimensions.x/physicsScale,0}, 1);
-    levelPhysR->initBox(b2_staticBody, glm::vec2 {thickness/physicsScale,dimensions.y/physicsScale}, glm::vec2 {dimensions.x/physicsScale,0}, 1);
-}
 
 void JunkDragonGame::changeState( std::shared_ptr<GameState> gs_state ) {
     gs_nextstate = gs_state;

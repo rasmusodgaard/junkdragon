@@ -16,6 +16,7 @@ class EndState : public GameState {
         void update(float time) override;
         void render() override;
         bool onKey(SDL_Event &event) override;
+        void createCamera() override;
 
 
     private:

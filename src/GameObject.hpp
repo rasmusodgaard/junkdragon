@@ -48,7 +48,11 @@ class GameObject {
 
         bool deleteMe = false;
 
-        friend class JunkDragonGame;
+        // TODO remove friend relationship
+        friend class GameState;
+        friend class PlayingState;
+        friend class StartState;
+        friend class EndState;
 };
 
 template <class T>

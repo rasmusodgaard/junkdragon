@@ -82,7 +82,7 @@ void DragonController::onCollisionEnd(PhysicsComponent *comp) {
 }
 
 void DragonController::breathe_fire() {
-    JunkDragonGame::instance->createFireBall();
+    //JunkDragonGame::instance->createFireBall();
     fuel = fuel - fireBallFuelCost;
     AudioManager::instance->PlaySound(AudioManager::breathe_fire);
 }

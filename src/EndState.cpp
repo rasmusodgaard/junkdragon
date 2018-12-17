@@ -11,7 +11,7 @@
 
 void EndState::enterState() {
     std::cout << "END STATE" << std::endl;
-    // JunkDragonGame::instance->dragonObj->getComponent<DragonController>()->stop();
+    createCamera();
 }
 
 void EndState::exitState() {
@@ -24,6 +24,13 @@ void EndState::update( float time ) {
 
 void EndState::render() {
     
+}
+
+void EndState::createCamera( ) {
+    // Camera Object
+    camObj = std::shared_ptr<GameObject>(new GameObject());
+    camera = camObj->addComponent<CameraFollow>();
+    camera->setFollowObject(nullptr, {0,0});
 }
 
 bool EndState::onKey(SDL_Event &event) {

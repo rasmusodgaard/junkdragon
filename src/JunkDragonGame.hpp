@@ -1,7 +1,6 @@
 #pragma once
 
 #include "sre/SDLRenderer.hpp"
-#include "sre/SpriteAtlas.hpp"
 #include <vector>
 #include "Box2D/Dynamics/b2World.h"
 #include "GameObject.hpp"
@@ -16,18 +15,6 @@
 #define INT_VELOCITY_ITERATIONS        12
 #define INT_WINDOWSIZE_HEIGHT         800
 #define INT_WINDOWSIZE_WIDTH          600
-#define INT_DRAGON_SCALE                3
-#define INT_BACKGROUND_RESOLUTION      50
-#define INT_BACKGROUND_STARTPOS     -2000
-#define INT_BACKGROUND_SIZE          4000
-#define F_ROTATION_NORTH                0.0f
-#define F_FIREBALL_OFFSET             120.0f
-
-// Layers
-#define U_GROUND_LAYER                 1
-#define U_POWERUP_LAYER                2
-#define U_FIREBALL_LAYER               3
-#define U_DRAGON_LAYER                 4
 
 class Command;
 class PhysicsComponent;
@@ -39,15 +26,6 @@ public:
     static JunkDragonGame* instance;
     static const glm::vec2 windowSize;
     
-    // Gameobject existance
-    std::shared_ptr<GameObject> createGameObject();
-    void createCamera();
-    void createDragon( glm::vec2 starting_position );
-    void createFireBall( );
-    void createHouse( glm::vec2 pos );
-    void createPickUp( glm::vec2 pos, sre::Sprite pickUpSprite, Command cmd );
-    void createWalls(glm::vec2 dimensions, int thickness);
-
     // Physics
     static constexpr float32 timeStep = 1.0f / 60.0f;
     void BeginContact(b2Contact *contact) override;
@@ -60,19 +38,9 @@ public:
     void changeState(std::shared_ptr<GameState> gs_state);
 
 private:
-    std::shared_ptr<GameObject> camObj;
-    std::shared_ptr<CameraFollow> camera;
-    std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
-    std::vector<std::shared_ptr<GameObject>> sceneObjects;
+            const float physicsScale = 100;
 
-    BackgroundComponent backgroundComponent;
-    
-    // Walls
-    std::shared_ptr<GameObject> wallTop;
-    std::shared_ptr<GameObject> wallBottom;
-    std::shared_ptr<GameObject> wallLeft;
-    std::shared_ptr<GameObject> wallRight;
-    
+
     std::shared_ptr<GameState> gs_currentstate = nullptr;
     std::shared_ptr<GameState> gs_nextstate;
     std::shared_ptr<GameState> gs_startstate;
@@ -83,7 +51,6 @@ private:
     
     void init();
     void initPhysics();
-    void buildGUI();
     void update(float time);
     void updatePhysics();
     void render();
@@ -91,15 +58,11 @@ private:
     void handleContact(b2Contact *contact, bool begin);
     void endTheGame();
     void startTheGame();
-    
-    std::shared_ptr<GameObject> dragonObj;
-    std::shared_ptr<GameObject> guiObj;
 
     bool checkGameOver();
 
     // Physics members
     b2World * world = nullptr;
-    const float physicsScale = 100;
     void registerPhysicsComponent(PhysicsComponent *r);
     void deregisterPhysicsComponent(PhysicsComponent *d);
     std::map<b2Fixture*,PhysicsComponent *> physicsComponentLookup;
