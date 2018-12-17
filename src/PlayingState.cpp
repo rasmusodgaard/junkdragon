@@ -65,9 +65,7 @@ void PlayingState::enterState() {
     // Add pick-ups
     
     for (int i = 0; i<level_values.pick_up_positions.size(); i++) {
-        //createPickUp(<#glm::vec2 pos#>, <#sre::Sprite pickUpSprite#>, <#Command cmd#>)
-        //"chilli.png", "donut.png", "pizza.png", "milk.png"
-        
+        //createPickUp(level_values.pick_up_positions[i], spriteAtlas->get(level_values.pick_up_sprite[i]), ???)        
     }
     
     // // Add background
