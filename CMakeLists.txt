@@ -25,9 +25,9 @@ file(COPY src/junkdragon.json src/junkdragon.png DESTINATION ${CMAKE_CURRENT_BIN
 file(COPY src/junkdragon.json src/junkdragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
 file(COPY src/junkdragon.json src/junkdragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-file(COPY src/background.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
-file(COPY src/background.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
-file(COPY src/background.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY assets/background.png assets/wall.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+file(COPY assets/background.png assets/wall.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
+file(COPY assets/background.png assets/wall.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 file(COPY src/level0.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
 file(COPY src/level0.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)

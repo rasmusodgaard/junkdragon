@@ -56,9 +56,7 @@ void Level::LoadLevel(std::string level){
     {
         level_values.pick_up_positions.push_back({pickUpPosX[i].GetInt(),pickUpPosY[i].GetInt()});
         level_values.pick_up_sprite.push_back(pickUpSprites[i].GetString());
-    }
-    
-    
+    } 
 }
 
 LevelValues Level::GetLevelValues(){
