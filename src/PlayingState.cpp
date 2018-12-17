@@ -8,6 +8,7 @@
 #include "JunkDragonGame.hpp"
 #include "PhysicsComponent.hpp"
 #include "PlayingState.hpp"
+#include "Command.hpp"
 #include <iostream>
 #include <cassert>
 
@@ -44,9 +45,13 @@ void PlayingState::enterState() {
     JunkDragonGame::instance->backgroundComponent.init("background.png", {-wall_dimensions.x,-wall_dimensions.y}, 
         {2.0f*wall_dimensions.x, 2.0f*wall_dimensions.y}, INT_BACKGROUND_RESOLUTION);
     
-    // if (auto dragonC = dragonObj->getComponent<DragonController>() ) {
+    // if (auto dragonC = JunkDragonGame::instance->dragonObj->getComponent<DragonController>() ) {
     //     // Add pickups
-    //     JunkDragonGame::instance->createPickUp({500, 400}, JunkDragonGame::instance->spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addFuel ) );
+        //auto my_cmd = Command(dragonC->self, &DragonController::printy);
+        //JunkDragonGame::instance->createPickUp({500, 400}, JunkDragonGame::instance->spriteAtlas->get("chilli.png"), my_cmd );
+    
+    //JunkDragonGame::instance->createPickUp({500, 400}, JunkDragonGame::instance->spriteAtlas->get("chilli.png"), Command( dragonC->self, &DragonController::addFuel ) );
+    
     //     JunkDragonGame::instance->createPickUp({700, 800}, JunkDragonGame::instance->spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
     //     JunkDragonGame::instance->createPickUp({1100, 200}, JunkDragonGame::instance->spriteAtlas->get("donut.png"), Command( dragonC->self, &DragonController::addSpeedBoost ) );
     //     JunkDragonGame::instance->createPickUp({400, -300}, JunkDragonGame::instance->spriteAtlas->get("pizza.png"), Command( dragonC->self, &DragonController::addFuel ) );  

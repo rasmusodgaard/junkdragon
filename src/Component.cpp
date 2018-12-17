@@ -7,6 +7,7 @@
 
 #include "Component.hpp"
 #include "GameObject.hpp"
+#include <iostream>
 
 Component::Component(GameObject *gameObject)
 :gameObject(gameObject)
@@ -23,6 +24,10 @@ void Component::update(float deltaTime) {
 
 GameObject *Component::getGameObject() {
     return gameObject;
+}
+
+void Component::printy(){
+    std::cout << "PRINTY" << std::endl;
 }
 
 bool Component::onKey(SDL_Event &event) {
