@@ -18,7 +18,7 @@ class GameState {
         virtual void enterState();
         virtual void exitState();
         virtual void update(float time);
-        virtual void render();
+        virtual void render( sre::RenderPass &renderPass );
         virtual bool onKey(SDL_Event &event);  
         virtual void createCamera();
         std::shared_ptr<GameObject> createGameObject();

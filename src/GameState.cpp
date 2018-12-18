@@ -20,7 +20,7 @@ void GameState::update(float time) {
 
 }
 
-void GameState::render() {
+void GameState::render( sre::RenderPass &renderPass ) {
 
 }
 

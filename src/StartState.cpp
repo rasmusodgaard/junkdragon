@@ -60,7 +60,7 @@ void StartState::createTitleSprite( std::string sprite_name, glm::vec2 pos, glm:
     title_objSC->setSprite(title_objS);
 }
 
-void StartState::render() {
+void StartState::render( sre::RenderPass &renderPass ) {
     
 }
 

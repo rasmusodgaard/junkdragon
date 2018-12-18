@@ -80,6 +80,8 @@ void JunkDragonGame::render() {
         go->renderSprite(spriteBatchBuilder);
     }
     
+    gs_currentstate->render(rp);
+
     auto sb = spriteBatchBuilder.build();
     rp.draw(sb);
 
@@ -100,8 +102,7 @@ void JunkDragonGame::render() {
         }
     }
 
-    // TODO put everything into the gamestate render function
-    gs_currentstate->render();
+    
 }
 
 void JunkDragonGame::updatePhysics() {

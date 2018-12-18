@@ -19,7 +19,7 @@ class StartState : public GameState {
         void enterState() override;
         void exitState() override;
         void update(float time) override;
-        void render() override;
+        void render( sre::RenderPass &renderPass ) override;
         bool onKey(SDL_Event &event) override;
         void createCamera() override;
         void createTitleSprite( std::string sprite_name, glm::vec2 pos, glm::vec2 scale );

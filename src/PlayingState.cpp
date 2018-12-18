@@ -152,7 +152,7 @@ void PlayingState::update( float time ) {
     }
 }
 
-void PlayingState::render() {
+void PlayingState::render( sre::RenderPass &renderPass  ) {
     
 }
 

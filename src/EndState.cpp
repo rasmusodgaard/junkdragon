@@ -28,7 +28,7 @@ void EndState::update( float time ) {
     
 }
 
-void EndState::render() {
+void EndState::render( sre::RenderPass &renderPass ) {
     
 }
 
