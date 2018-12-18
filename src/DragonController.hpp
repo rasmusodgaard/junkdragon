@@ -7,6 +7,7 @@
 
 #pragma once
 #include "Component.hpp"
+#include "Command.hpp"
 
 #define B_CW_ROTATION       true
 #define B_BREATHING_FIRE    false
@@ -26,7 +27,7 @@ class AnimationControllerComponent;
 
 class DragonController : public Component {
     public:
-        DragonController *self;
+        // DragonController *self;
         
         explicit DragonController(GameObject *gameObject);
         void setPhysicsComponent(std::shared_ptr<PhysicsComponent> pC);
@@ -42,16 +43,20 @@ class DragonController : public Component {
         float getFuel();
 
         // Power up effects
-        void addFuel();
+        void addFuel( float fuel_to_add);
         void addSpeedBoost(); // spoodbeest in some languages
 
         void stop();
+
+        void setFireballCmd( Command fireball_cmd );
 
     private:
         std::shared_ptr<PhysicsComponent> physicsComponent;
         std::shared_ptr<AnimationControllerComponent> animationControllerComponent;
 
         void breathe_fire();
+
+        Command fireball_cmd;
 
         bool CW_rotation;
         bool breathing_fire;

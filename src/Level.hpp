@@ -5,7 +5,6 @@
 //  Created by Rasmus Odgaard on 14/11/2018.
 //
 #include <string>
-#include <variant>
 #include "glm/glm.hpp"
 #include "sre/SpriteAtlas.hpp"
 

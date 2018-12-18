@@ -37,3 +37,4 @@ std::shared_ptr<GameObject> GameState::createGameObject() {
     sceneObjects.push_back(obj);
     return obj;
 }
+

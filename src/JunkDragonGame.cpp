@@ -142,20 +142,18 @@ void JunkDragonGame::EndContact(b2Contact *contact) {
     handleContact(contact, false);
 }
 
-void JunkDragonGame::increaseScore(float i_score) {
-    score += i_score;
-}
-
-void JunkDragonGame::decrementHouses() {
-    n_houses--;
-}
-
 void JunkDragonGame::endTheGame() {
     changeState(gs_endstate);
 }
 
 void JunkDragonGame::startTheGame() {
     changeState(gs_playingstate);
+}
+
+void JunkDragonGame::recordScore( float final_score ) {
+    if(auto es = std::dynamic_pointer_cast<EndState>(gs_endstate) ) {
+        es->recordScore( final_score );
+    }
 }
 
 void JunkDragonGame::handleContact(b2Contact *contact, bool begin) {

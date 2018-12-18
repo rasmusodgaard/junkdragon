@@ -51,13 +51,16 @@ void BurnableComponent::onCollisionStart(PhysicsComponent *comp){
     }
 }
 
+void BurnableComponent::setBurnCmd( Command burn_cmd ) {
+    this->burn_cmd = burn_cmd;
+}
+
 void BurnableComponent::extinguishFire(){
     onFire = false;
 }
 
 void BurnableComponent::burnedDown(){
-    JunkDragonGame::instance->increaseScore(100.0f);
-    JunkDragonGame::instance->decrementHouses();
+    burn_cmd.execute();
     deleteGameObject();
 }
 

@@ -21,7 +21,7 @@
 
 
 DragonController::DragonController(GameObject *gameObject) : Component(gameObject) {
-    self = this;
+    // self = this;
     
     // initiate dragon physics
     CW_rotation = B_CW_ROTATION;
@@ -82,9 +82,13 @@ void DragonController::onCollisionEnd(PhysicsComponent *comp) {
 }
 
 void DragonController::breathe_fire() {
-    //JunkDragonGame::instance->createFireBall();
+    fireball_cmd.execute();
     fuel = fuel - fireBallFuelCost;
     AudioManager::instance->PlaySound(AudioManager::breathe_fire);
+}
+
+void DragonController::setFireballCmd( Command fireball_cmd ) {
+    this->fireball_cmd = fireball_cmd;
 }
 
 void DragonController::update(float deltaTime) {
@@ -123,8 +127,8 @@ float DragonController::getFuel() {
     return this->fuel;
 }
 
-void DragonController::addFuel() {
-    this->fuel += 10.0f;
+void DragonController::addFuel( float fuel_to_add) {
+    this->fuel += fuel_to_add;
 }
 
 void DragonController::addSpeedBoost() {

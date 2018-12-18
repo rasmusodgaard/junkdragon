@@ -58,6 +58,7 @@ private:
     void handleContact(b2Contact *contact, bool begin);
     void endTheGame();
     void startTheGame();
+    void recordScore( float final_score );
 
     bool checkGameOver();
 
@@ -72,10 +73,5 @@ private:
     friend class StartState;
     friend class PlayingState;
     friend class EndState;
-    int n_houses;
-    float score;
-
-    
-
 
 };

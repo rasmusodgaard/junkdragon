@@ -55,9 +55,12 @@ class PlayingState : public GameState {
         void createPickUp( glm::vec2 pos, sre::Sprite pickUpSprite, Command cmd );
         void createWalls(glm::vec2 dimensions, int thickness);
         void createCamera() override;
+        void houseBurnedDown();
+        void buildGUI();
+        void addFuelToDragon();
+        std::shared_ptr<GameObject> guiObj;
 
     private:   
-        void buildGUI();
         const float physicsScale = 100;
 
 
@@ -67,13 +70,12 @@ class PlayingState : public GameState {
         float   time_elapsed;
         float   time_remaining;
         bool    game_over;
-        int*    n_houses;
-        float*  score;
+        int     n_houses;
+        float   score;
 
         std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
 
         std::shared_ptr<GameObject> dragonObj;
-        std::shared_ptr<GameObject> guiObj;
 
         std::shared_ptr<FloatTrackComponent> timeTrackComp;
         std::shared_ptr<FloatTrackComponent> scoreTrackComp;

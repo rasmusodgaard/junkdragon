@@ -5,9 +5,11 @@
 //  Created by John O'Donnell
 //
 
+#pragma once
+
 #include "GameState.hpp"
 
-#pragma once
+class FloatTrackComponent;
 
 class EndState : public GameState {
     public:
@@ -17,7 +19,12 @@ class EndState : public GameState {
         void render() override;
         bool onKey(SDL_Event &event) override;
         void createCamera() override;
+        void recordScore( float final_score );
+        void buildGUI();
+        std::shared_ptr<GameObject> guiObj; 
+        std::shared_ptr<FloatTrackComponent> high_score_comp;
 
 
     private:
+        float new_score;
 };

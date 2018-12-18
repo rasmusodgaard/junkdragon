@@ -30,9 +30,9 @@ class GameState {
 
         BackgroundComponent backgroundComponent;
 
+
     protected:
         std::vector<std::shared_ptr<GameObject>> sceneObjects;
-
 
     private:
 

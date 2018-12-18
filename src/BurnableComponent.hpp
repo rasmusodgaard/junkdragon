@@ -7,6 +7,7 @@
 
 #pragma once
 #include "Component.hpp"
+#include "Command.hpp"
 
 class PhysicsComponent;
 class AnimationControllerComponent;
@@ -22,10 +23,10 @@ public:
     void onCollisionStart(PhysicsComponent *comp) override;
     void extinguishFire ();
     void burnedDown();
-
+    void setBurnCmd( Command burn_cmd );
     
 private:
-
+    Command burn_cmd;
     std::shared_ptr<AnimationControllerComponent> animationControllerComponent;
     bool onFire;
     bool destroyed;

@@ -31,18 +31,14 @@ void PlayingState::enterState() {
     // Spritesheet for the game
     spriteAtlas = sre::SpriteAtlas::create("junkdragon.json","junkdragon.png");
 
-    std::cout << "Yaw" << std::endl;
-
     createCamera();
 
     burnination_has_begun   = false;
     time_elapsed            = 0.0f;
     time_remaining          = 100.0f;
     game_over               = false;
-    score                   = &JunkDragonGame::instance->score;
-    *score = 0.0f;
-    n_houses                = &JunkDragonGame::instance->n_houses;;
-    *n_houses = 0;
+    score = 0.0f;
+    n_houses = 0;
 
     current_level = std::make_shared<Level>();
     assert(next_level_to_load != "_");
@@ -53,9 +49,9 @@ void PlayingState::enterState() {
     // build the level
     createDragon( level_values.starting_position );
     camera->setFollowObject(dragonObj, {0.0f,0.0f});
-    
+
     createWalls(level_values.wall_dimensions, INT_WALL_THICKNESS);
-    
+
     // Add Houses
     //std::vector<glm::vec2> houses = current_level->GetHousePositions();
     for (int i = 0; i < level_values.house_positions.size(); i++) {
@@ -65,7 +61,7 @@ void PlayingState::enterState() {
     // Add pick-ups
     
     for (int i = 0; i<level_values.pick_up_positions.size(); i++) {
-        //createPickUp(level_values.pick_up_positions[i], spriteAtlas->get(level_values.pick_up_sprite[i]), ???)
+        createPickUp(level_values.pick_up_positions[i], spriteAtlas->get(level_values.pick_up_sprite[i]), Command(this, &PlayingState::addFuelToDragon) );
     }
     
     // // Add background
@@ -78,10 +74,10 @@ void PlayingState::enterState() {
     timeTrackComp->init("time", time_remaining, {0.0f, 0.8f}, {0.3f, 0.1f} );
 
     scoreTrackComp = guiObj->addComponent<FloatTrackComponent>();
-    scoreTrackComp->init("score", *score, {0.7f, 0.9f}, {0.3f, 0.1f} );
+    scoreTrackComp->init("score", score, {0.7f, 0.9f}, {0.3f, 0.1f} );
 
     houseTrackComp = guiObj->addComponent<FloatTrackComponent>();
-    houseTrackComp->init("Houses", (float)(*n_houses), {0.7f, 0.8f}, {0.3f, 0.1f} );
+    houseTrackComp->init("Houses", (float)n_houses, {0.7f, 0.8f}, {0.3f, 0.1f} );
 }
 
 void PlayingState::createCamera( ) {
@@ -106,10 +102,19 @@ void PlayingState::exitState() {
     backgroundComponent.terminate();
 
     current_level = nullptr;
+    spriteAtlas = nullptr;
+    dragonObj = nullptr;
+
+    guiObj->removeComponent(timeTrackComp);
+    guiObj->removeComponent(scoreTrackComp);
+    guiObj->removeComponent(houseTrackComp);
 
     timeTrackComp   = nullptr;
     scoreTrackComp  = nullptr;
     houseTrackComp  = nullptr;
+    guiObj          = nullptr;
+
+    JunkDragonGame::instance->recordScore(score);
 }
 
 void PlayingState::update( float time ) {
@@ -136,8 +141,8 @@ void PlayingState::update( float time ) {
         }
         // update gui elements
         timeTrackComp->setVal(time_remaining);
-        scoreTrackComp->setVal(*score);
-        houseTrackComp->setVal((float)(*n_houses));
+        scoreTrackComp->setVal(score);
+        houseTrackComp->setVal((float)n_houses);
     }
 }
 
@@ -146,9 +151,9 @@ void PlayingState::render() {
 }
 
 bool PlayingState::checkGameOver() {
-    // if (JunkDragonGame::instance->n_houses == 0) {
-    //     return true;
-    // }
+    if (n_houses == 0) {
+        return true;
+    }
 
     if (time_remaining <= 0.0f) {
         return true;
@@ -175,6 +180,7 @@ void PlayingState::createDragon( glm::vec2 starting_position ) {
     dragonObj->setRotation(F_ROTATION_NORTH);
 
     auto dragonC = dragonObj->addComponent<DragonController>();
+    dragonC->setFireballCmd( Command(this, &PlayingState::createFireBall ) );
     
     auto sprite = spriteAtlas->get("dragon_11.png");
     sprite.setScale({3,3});
@@ -240,6 +246,15 @@ void PlayingState::createFireBall( ) {
     fireballPhysics->setLinearVelocity( trajectory * fireballController->getSpeed() );
 }
 
+void PlayingState::houseBurnedDown() {
+    score += 100.0f;
+    n_houses--;
+}
+
+void PlayingState::addFuelToDragon() {
+    dragonObj->getComponent<DragonController>()->addFuel( 10.0f );
+}
+
 void PlayingState::createHouse( glm::vec2 pos ) {
     auto HouseObj = createGameObject();
     HouseObj->name = "House";
@@ -251,10 +266,10 @@ void PlayingState::createHouse( glm::vec2 pos ) {
     houseSprite.setScale({1,1});
     houseSpriteC->setSprite(houseSprite);
     auto houseBC = HouseObj->addComponent<BurnableComponent>();
+    houseBC->setBurnCmd( Command( this, &PlayingState::houseBurnedDown ) );
     
     auto HousePhysics = HouseObj->addComponent<PhysicsComponent>();
-    //HousePhysics->initCircle(b2_staticBody, 70/physicsScale, HouseObj->getPosition()/physicsScale, HouseObj->getRotation(), 1);
-    HousePhysics->initBox(b2_staticBody, {INT_HOUSE_COL_WIDTH/physicsScale,INT_HOUSE_COL_HEIGHT/physicsScale}, HouseObj->getPosition()/physicsScale, 1);
+    HousePhysics->initCircle(b2_staticBody, 70/physicsScale, HouseObj->getPosition()/physicsScale, HouseObj->getRotation(), 1);
     HousePhysics->setSensor(true);
 
     auto houseACC = HouseObj->addComponent<AnimationControllerComponent>();

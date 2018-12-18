@@ -9,6 +9,8 @@
 
 #include "GameState.hpp"
 
+class MenuOptionComponent;
+
 class StartState : public GameState {
     public:
         void enterState() override;
@@ -19,4 +21,6 @@ class StartState : public GameState {
         void createCamera() override;
 
     private:
+        std::shared_ptr<GameObject> optionObj;
+        std::shared_ptr<MenuOptionComponent> optionC;
 };

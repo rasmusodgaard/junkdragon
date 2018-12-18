@@ -12,10 +12,16 @@
 void EndState::enterState() {
     std::cout << "END STATE" << std::endl;
     createCamera();
+    buildGUI();
+
+    high_score_comp = guiObj->addComponent<FloatTrackComponent>();
+    high_score_comp->init( "High score:", new_score, {0.375f, 0.45f}, {0.3f,0.1f} );
 }
 
 void EndState::exitState() {
-    
+    guiObj->removeComponent(high_score_comp);
+    high_score_comp = nullptr;
+    guiObj          = nullptr;
 }
 
 void EndState::update( float time ) {
@@ -42,4 +48,14 @@ bool EndState::onKey(SDL_Event &event) {
     }
 
     return false;
+}
+
+void EndState::recordScore( float final_score ) {
+    new_score = final_score;
+}
+
+void EndState::buildGUI() {
+
+    guiObj = createGameObject();
+
 }
