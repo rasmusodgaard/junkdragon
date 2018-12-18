@@ -65,7 +65,7 @@ void PlayingState::enterState() {
     // Add pick-ups
     
     for (int i = 0; i<level_values.pick_up_positions.size(); i++) {
-        //createPickUp(level_values.pick_up_positions[i], spriteAtlas->get(level_values.pick_up_sprite[i]), ???)        
+        //createPickUp(level_values.pick_up_positions[i], spriteAtlas->get(level_values.pick_up_sprite[i]), ???)
     }
     
     // // Add background
@@ -253,7 +253,8 @@ void PlayingState::createHouse( glm::vec2 pos ) {
     auto houseBC = HouseObj->addComponent<BurnableComponent>();
     
     auto HousePhysics = HouseObj->addComponent<PhysicsComponent>();
-    HousePhysics->initCircle(b2_staticBody, 70/physicsScale, HouseObj->getPosition()/physicsScale, HouseObj->getRotation(), 1);
+    //HousePhysics->initCircle(b2_staticBody, 70/physicsScale, HouseObj->getPosition()/physicsScale, HouseObj->getRotation(), 1);
+    HousePhysics->initBox(b2_staticBody, {INT_HOUSE_COL_WIDTH/physicsScale,INT_HOUSE_COL_HEIGHT/physicsScale}, HouseObj->getPosition()/physicsScale, 1);
     HousePhysics->setSensor(true);
 
     auto houseACC = HouseObj->addComponent<AnimationControllerComponent>();

@@ -15,6 +15,8 @@
 
 #define F_PHYSICS_TIMESTEP              0.3f
 #define INT_WALL_THICKNESS             50
+#define INT_HOUSE_COL_WIDTH           100
+#define INT_HOUSE_COL_HEIGHT           80
 
 #define INT_DRAGON_SCALE                3
 #define INT_BACKGROUND_RESOLUTION      50
