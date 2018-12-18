@@ -13,7 +13,13 @@ class MenuOptionComponent : public Component {
 public:
     explicit MenuOptionComponent(GameObject *gameObject);
     void update(float deltaTime) override;
+
+    void playPressed();
+    void settingsPressed();
+    void onGui() override;
+
     std::string name = "_";
+    bool play_pressed;
+
 private:    
-    bool highlighted;
 };

@@ -36,10 +36,11 @@ public:
     void decrementHouses();
 
     void changeState(std::shared_ptr<GameState> gs_state);
-
+    void endTheGame();
+    void startTheGame();
 private:
-            const float physicsScale = 100;
-
+    
+    const float physicsScale = 100;
 
     std::shared_ptr<GameState> gs_currentstate = nullptr;
     std::shared_ptr<GameState> gs_nextstate;
@@ -56,8 +57,7 @@ private:
     void render();
     void onKey(SDL_Event &event);
     void handleContact(b2Contact *contact, bool begin);
-    void endTheGame();
-    void startTheGame();
+    
     void recordScore( float final_score );
 
     bool checkGameOver();

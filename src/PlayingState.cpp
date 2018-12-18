@@ -95,9 +95,8 @@ void PlayingState::createCamera( ) {
 }
 
 void PlayingState::exitState() {
-    
-    sceneObjects.erase(sceneObjects.begin(), sceneObjects.end());
     camera->unsetFollowObject();
+    sceneObjects.erase(sceneObjects.begin(), sceneObjects.end());
 
     // WALLS
     dragonObj = nullptr;
