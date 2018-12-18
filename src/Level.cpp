@@ -17,13 +17,17 @@
 
 //needs assertion or check for relevance! Menu will not have the same objects.
 
+Level::Level(){
+    
+}
+
 
 //load level
 void Level::LoadLevel(std::string level){
     
     
     
-    std::ifstream fis("level1.json");
+    std::ifstream fis(level);
     
     rapidjson::IStreamWrapper isw(fis);
     rapidjson::Document d;

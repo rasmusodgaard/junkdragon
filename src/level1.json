@@ -4,8 +4,8 @@
     "housePositionsY":  [   -500,   -300,   -800,   -600,   800,    300,    1200,   200,    1200,   1200,   400,    800,    
                             1000,   900,    700,    400,    -1200,  -1000,  -700,   -300],
     
-    "pickUpPositionX":  [-600,    -700,   -1800,    1100],
-    "pickUpPositionY":  [-1000,   -200,   -1100,    -1900],
+    "pickUpPositionX":  [-600,    -700,   -1800,    -1900],
+    "pickUpPositionY":  [-1000,   -200,   -1100,    1100],
     "pickUpSprites":    ["chilli.png", "donut.png", "pizza.png", "milk.png"],
     "spawn":{"x":-1700,"y":-1400,"angle":0},
     "dimensions": {"x": 2000, "y": 1500}

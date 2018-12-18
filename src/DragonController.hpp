@@ -45,6 +45,9 @@ class DragonController : public Component {
         // Power up effects
         void addFuel( float fuel_to_add);
         void addSpeedBoost(); // spoodbeest in some languages
+    
+        // Power down effect
+        void removeFuel( float fuel_to_remove);
 
         void stop();
 

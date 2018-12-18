@@ -28,7 +28,10 @@ public:
     // enum keys for map mapOfSounds
     enum soundKeys{
         breathe_fire,
-        pick_up
+        cough,
+        pick_up,
+        power_down
+        
     };
     
     void PlaySound(soundKeys key);
@@ -45,6 +48,8 @@ private:
     // Sound effects
     Mix_Chunk *breathe_fire_s;
     Mix_Chunk *pick_up_s;
+    Mix_Chunk *power_down_s;
+    Mix_Chunk *cough_s;
     
     Mix_Music *currentMusic;
 };

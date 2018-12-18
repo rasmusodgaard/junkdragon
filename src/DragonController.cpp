@@ -64,6 +64,9 @@ bool DragonController::onKey(SDL_Event &event) {
     if (event.key.keysym.sym == SDLK_SPACE) {
         if (event.type == SDL_KEYDOWN) {
             this->breathing_fire = true;
+            if (fuel < fireBallFuelCost) {
+                AudioManager::instance->PlaySound(AudioManager::cough);
+            }
         }
         if (event.type == SDL_KEYUP) {
             this->breathing_fire = false;
@@ -129,6 +132,10 @@ float DragonController::getFuel() {
 
 void DragonController::addFuel( float fuel_to_add) {
     this->fuel += fuel_to_add;
+}
+
+void DragonController::removeFuel( float fuel_to_remove) {
+    this->fuel -= fuel_to_remove;
 }
 
 void DragonController::addSpeedBoost() {

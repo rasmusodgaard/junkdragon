@@ -50,7 +50,7 @@ void JunkDragonGame::init(){
     gs_startstate   = std::shared_ptr<GameState>( new StartState() );
     gs_playingstate = std::shared_ptr<GameState>( new PlayingState() );
     if(auto ps = std::dynamic_pointer_cast<PlayingState>(gs_playingstate) ) {
-        ps->setNextLevelToLoad("level1");
+        ps->setNextLevelToLoad("level1.json");
     }
     gs_endstate     = std::shared_ptr<GameState>( new EndState() );
     changeState(gs_startstate);

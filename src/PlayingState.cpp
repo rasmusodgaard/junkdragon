@@ -8,6 +8,7 @@
 #include "JunkDragonGame.hpp"
 #include "PhysicsComponent.hpp"
 #include "PlayingState.hpp"
+#include "AudioManager.hpp"
 
 #include "DragonController.hpp"
 #include "FireBallController.hpp"
@@ -39,9 +40,15 @@ void PlayingState::enterState() {
     game_over               = false;
     score = 0.0f;
     n_houses = 0;
+    
+    command_map["chilli.png"] = Command(this, &PlayingState::addFuelToDragon);
+    command_map["pizza.png"] = Command(this, &PlayingState::addFuelToDragon);
+    command_map["milk.png"] = Command(this, &PlayingState::removeFuelFromDragon);
+    command_map["donut.png"] = Command(this, &PlayingState::fasterDragon);
 
     current_level = std::make_shared<Level>();
     assert(next_level_to_load != "_");
+    std::cout << "next level is: " << next_level_to_load << std::endl;
     current_level->LoadLevel( next_level_to_load );
     
     LevelValues level_values = current_level->GetLevelValues();
@@ -61,7 +68,7 @@ void PlayingState::enterState() {
     // Add pick-ups
     
     for (int i = 0; i<level_values.pick_up_positions.size(); i++) {
-        createPickUp(level_values.pick_up_positions[i], spriteAtlas->get(level_values.pick_up_sprite[i]), Command(this, &PlayingState::addFuelToDragon) );
+        createPickUp(level_values.pick_up_positions[i], spriteAtlas->get(level_values.pick_up_sprite[i]), command_map[level_values.pick_up_sprite[i]] );
     }
     
     // // Add background
@@ -253,6 +260,17 @@ void PlayingState::houseBurnedDown() {
 
 void PlayingState::addFuelToDragon() {
     dragonObj->getComponent<DragonController>()->addFuel( 10.0f );
+    AudioManager::instance->PlaySound(AudioManager::pick_up);
+}
+
+void PlayingState::removeFuelFromDragon() {
+    dragonObj->getComponent<DragonController>()->removeFuel(10);
+    AudioManager::instance->PlaySound(AudioManager::power_down);
+}
+
+void PlayingState::fasterDragon() {
+    dragonObj->getComponent<DragonController>()->addSpeedBoost();
+    AudioManager::instance->PlaySound(AudioManager::pick_up);
 }
 
 void PlayingState::createHouse( glm::vec2 pos ) {
@@ -306,11 +324,10 @@ void PlayingState::createHouse( glm::vec2 pos ) {
     n_houses++;
 }
 
-void PlayingState::createPickUp(glm::vec2 pos, sre::Sprite pickUpSprite, Command cmd) {
+void PlayingState::createPickUp(glm::vec2 pos,sre::Sprite pickUpSprite, Command cmd) {
     auto PUObj = createGameObject();
     PUObj->setPosition(pos);
     PUObj->setRotation(F_ROTATION_NORTH);
-    
     pickUpSprite.setScale({0.5,0.5});
     pickUpSprite.setOrderInBatch(U_POWERUP_LAYER);
     auto PUSpriteC = PUObj->addComponent<SpriteComponent>();

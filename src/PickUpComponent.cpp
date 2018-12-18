@@ -8,7 +8,6 @@
 #include "PickUpComponent.hpp"
 #include "GameObject.hpp"
 #include "PhysicsComponent.hpp"
-#include "AudioManager.hpp"
 
 #include <iostream>
 
@@ -24,7 +23,6 @@ void PickUpComponent::update(float deltaTime){
 void PickUpComponent::onCollisionStart(PhysicsComponent *comp){
     if (comp->getGameObject()->name.compare("Dragon") == 0 && !pickedUp){
         pickedUp = true;
-        AudioManager::instance->PlaySound(AudioManager::pick_up);
         cmd.execute();
         deleteGameObject();
     }

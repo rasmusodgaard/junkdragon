@@ -4,14 +4,17 @@
 //
 //  Created by Rasmus Odgaard on 14/11/2018.
 //
+#pragma once
+
+
 #include <string>
 #include "glm/glm.hpp"
 #include "sre/SpriteAtlas.hpp"
 
-#pragma once
 
 class JunkDragonGame;
 class GameObject;
+class Command;
 
 struct LevelValues{
     glm::vec2 starting_position;
@@ -23,6 +26,7 @@ struct LevelValues{
 
 class Level{
 public:
+    Level();
     void LoadLevel(std::string level);
     LevelValues GetLevelValues();
 private:

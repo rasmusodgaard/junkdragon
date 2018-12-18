@@ -9,6 +9,7 @@
 #pragma once
 
 #include <string>
+#include <map>
 #include "GameState.hpp"
 #include "sre/SpriteAtlas.hpp"
 #include "Level.hpp"
@@ -58,6 +59,8 @@ class PlayingState : public GameState {
         void houseBurnedDown();
         void buildGUI();
         void addFuelToDragon();
+        void removeFuelFromDragon();
+        void fasterDragon();
         std::shared_ptr<GameObject> guiObj;
 
     private:   
@@ -87,5 +90,7 @@ class PlayingState : public GameState {
         std::shared_ptr<GameObject> wallBottom;
         std::shared_ptr<GameObject> wallLeft;
         std::shared_ptr<GameObject> wallRight;
-
+    
+    
+        std::map<std::string, Command> command_map;
 };

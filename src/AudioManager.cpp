@@ -36,14 +36,15 @@ void AudioManager::UnloadSoundChunks(){
 void AudioManager::LoadSoundChunks(){
     
     breathe_fire_s = Mix_LoadWAV( "breathe_fire.wav" );
+    cough_s = Mix_LoadWAV("cough.wav");
     pick_up_s = Mix_LoadWAV("pick_up.wav");
+    power_down_s = Mix_LoadWAV("powerdown.wav");
     
-    if(breathe_fire_s == nullptr || pick_up_s == nullptr){
-        std::cout << "sound effect was not loaded" << std::endl;
-    }
     
     mapOfSounds[breathe_fire] = *breathe_fire_s;
+    mapOfSounds[cough] = *cough_s;
     mapOfSounds[pick_up] = *pick_up_s;
+    mapOfSounds[power_down] = *power_down_s;
     
 }
 
