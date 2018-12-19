@@ -26,10 +26,6 @@ GameObject *Component::getGameObject() {
     return gameObject;
 }
 
-void Component::printy(){
-    std::cout << "PRINTY" << std::endl;
-}
-
 bool Component::onKey(SDL_Event &event) {
     return false;
 }

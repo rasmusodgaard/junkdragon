@@ -21,7 +21,6 @@
 
 
 DragonController::DragonController(GameObject *gameObject) : Component(gameObject) {
-    // self = this;
     
     // initiate dragon physics
     CW_rotation = B_CW_ROTATION;

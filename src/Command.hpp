@@ -10,18 +10,20 @@
 
 class Command
 {
-    // 1. Create a class that encapsulates an object and a member function
-    // a pointer to a member function (the attribute's name is "method")
+    // Store reference to playing state
     PlayingState *object;
+    // Store reference to playing state method
     void(PlayingState:: *method)();
 public:
+    // Constructor
     Command(PlayingState *obj = 0, void(PlayingState:: *meth)() = 0)
     {
-        object = obj; // the argument's name is "meth"
+        object = obj;
         method = meth;
     }
     void execute()
     {
-        ((*object).*method)(); // invoke the method on the object
+        // invoke the method on the object
+        ((*object).*method)(); 
     }
 };

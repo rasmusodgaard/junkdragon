@@ -35,6 +35,7 @@ void FloatTrackComponent::onGui() {
     ImGui::SetNextWindowPos(pos, cond);
     ImGui::SetNextWindowSize(iWinSize, cond);
     ImGui::Begin(this->label.c_str(), open, flags);
+    
     ImGui::Text( "%s: %0.2f", this->label.c_str(), this->val );
 
     ImVec2 uv0(0,1); // flip y axis coordinates

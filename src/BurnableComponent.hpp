@@ -9,6 +9,9 @@
 #include "Component.hpp"
 #include "Command.hpp"
 
+#define F_TIME_TO_BURN  6.0f
+#define F_TIME_TO_SINGE 3.0f
+
 class PhysicsComponent;
 class AnimationControllerComponent;
 

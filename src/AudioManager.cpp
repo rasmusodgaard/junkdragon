@@ -7,11 +7,14 @@
 
 #include "AudioManager.hpp"
 
+// Singleton pattern
 AudioManager* AudioManager::instance = nullptr;
 
+// Constructor
 AudioManager::AudioManager(){
     instance = this;
     
+    // Open audio. Exit on fail
     if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 1024 ) == -1 )
     {
         std::cout << "Cannot initialize audio output"<< std::endl;
@@ -19,6 +22,7 @@ AudioManager::AudioManager(){
     }
 }
 
+// Unload audio samples from memory
 void AudioManager::UnloadSoundChunks(){
     
     Mix_FreeChunk(breathe_fire_s);
@@ -28,6 +32,7 @@ void AudioManager::UnloadSoundChunks(){
     
 }
 
+// Load audio samples into memory
 void AudioManager::LoadSoundChunks(){
     
     breathe_fire_s = Mix_LoadWAV( "breathe_fire.wav" );
@@ -42,6 +47,7 @@ void AudioManager::LoadSoundChunks(){
     mapOfSounds[power_down] = *power_down_s;
     
 }
+
 
 void AudioManager::LoadMusic(){
     currentMusic = Mix_LoadMUS("game_music.wav");
@@ -65,7 +71,7 @@ void AudioManager::PlaySound(soundKeys key){
     Mix_PlayChannel( -1, &mapOfSounds[key], 0 );
 }
 
-
+// Destructor
 AudioManager::~AudioManager(){
     UnloadSoundChunks();
     UnloadMusic();

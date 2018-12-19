@@ -27,31 +27,31 @@ class AnimationControllerComponent;
 
 class DragonController : public Component {
     public:
-        // DragonController *self;
         
+        // Constructor and preparation functions
         explicit DragonController(GameObject *gameObject);
         void setPhysicsComponent(std::shared_ptr<PhysicsComponent> pC);
         void SetAnimationControllerComponent(std::shared_ptr<AnimationControllerComponent> aC);
+        
+        // Dealing with key and physics 'events' 
         bool onKey(SDL_Event &event) override;
-
         void onCollisionStart(PhysicsComponent *comp) override;
-    
         void onCollisionEnd(PhysicsComponent *comp) override;
+        void setFireballCmd( Command fireball_cmd );
 
         void update(float deltaTime) override;
     
-        float getFuel();
-
         // Power up effects
+        float getFuel();
         void addFuel( float fuel_to_add);
         void addSpeedBoost(); // spoodbeest in some languages
     
         // Power down effect
         void removeFuel( float fuel_to_remove);
 
+        // Reduce the dragon's speed
         void stop();
 
-        void setFireballCmd( Command fireball_cmd );
 
     private:
         std::shared_ptr<PhysicsComponent> physicsComponent;

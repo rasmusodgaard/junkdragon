@@ -29,7 +29,6 @@ public:
 
     virtual void onGui();
 
-    void printy();
 protected:
     GameObject *gameObject;
     void deleteGameObject();

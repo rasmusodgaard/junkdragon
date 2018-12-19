@@ -26,9 +26,6 @@ class AnimationControllerComponent : public Component {
 
         int setState(std::string label);
 
-        // float getAnimationTimeForState(std::string label) const; // time between animations (s)
-        // void setAnimationTimeForState(float animationTime);
-
         void setScale(glm::vec2 i_scale);
 
         void print();
@@ -41,13 +38,16 @@ class AnimationControllerComponent : public Component {
         AnimationState* findState(std::string label);
     
     private:
+        // Vector of animation states
         std::vector<AnimationState> aStates;
 
+        // Parameters of current animation state
         AnimationState *currState;
-
-        uint16_t orderInBatch = 1;
         float time;
         int spriteIndex;
+
+        // Applied when set. Common to all animation states in this component instance.
+        uint16_t orderInBatch = 1;
         glm::vec2 sprite_scale;
 
 };

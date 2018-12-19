@@ -13,8 +13,6 @@
 
 #include "SDL_mixer.h"
 
-
-
 class AudioManager{
     
 public:
@@ -39,6 +37,7 @@ public:
     void LoadMusic();
     void UnloadMusic();
    
+    // Map enumerator to audio samples
     std::map <soundKeys, Mix_Chunk> mapOfSounds;
 private:
    
