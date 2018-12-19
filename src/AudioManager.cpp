@@ -17,20 +17,15 @@ AudioManager::AudioManager(){
         std::cout << "Cannot initialize audio output"<< std::endl;
         return;
     }
-    
-    LoadSoundChunks();
-    LoadMusic();
-    PlayMusic();
 }
 
 void AudioManager::UnloadSoundChunks(){
-    std::map<soundKeys, Mix_Chunk>::iterator it;
     
-    for ( it = mapOfSounds.begin(); it != mapOfSounds.end(); it++ )
-    {
-        Mix_FreeChunk(&it->second);
-    }
-    mapOfSounds.clear();
+    Mix_FreeChunk(breathe_fire_s);
+    Mix_FreeChunk(pick_up_s);
+    Mix_FreeChunk(power_down_s);
+    Mix_FreeChunk(cough_s);
+    
 }
 
 void AudioManager::LoadSoundChunks(){
@@ -50,13 +45,8 @@ void AudioManager::LoadSoundChunks(){
 
 void AudioManager::LoadMusic(){
     currentMusic = Mix_LoadMUS("game_music.wav");
-    if( currentMusic == nullptr)
-    {
-        std::cout << "Cannot load music"<< std::endl;
-        return;
-    }
-
 }
+
 
 void AudioManager::UnloadMusic(){
     Mix_FreeMusic(currentMusic);

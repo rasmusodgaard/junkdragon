@@ -24,9 +24,11 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
     .withSdlInitFlags(SDL_INIT_EVERYTHING)
     .withSdlWindowFlags(SDL_WINDOW_OPENGL);
     
+    new AudioManager();
+
+    
     init();
     
-    new AudioManager();
 
     r.keyEvent = [&](SDL_Event& e){
         onKey(e);

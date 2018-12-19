@@ -15,6 +15,7 @@
 #include "BurnableComponent.hpp"
 #include "PickUpComponent.hpp"
 
+#include "WallTileComponent.hpp"
 #include "AnimationControllerComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "GameObject.hpp"   
@@ -36,7 +37,7 @@ void PlayingState::enterState() {
 
     burnination_has_begun   = false;
     time_elapsed            = 0.0f;
-    time_remaining          = 100.0f;
+    time_remaining          = 10.0f;
     game_over               = false;
     score = 0.0f;
     n_houses = 0;
@@ -45,7 +46,16 @@ void PlayingState::enterState() {
     command_map["pizza.png"] = Command(this, &PlayingState::addFuelToDragon);
     command_map["milk.png"] = Command(this, &PlayingState::removeFuelFromDragon);
     command_map["donut.png"] = Command(this, &PlayingState::fasterDragon);
-
+    
+    if (!Mix_PlayingMusic()) {
+        AudioManager::instance->PlayMusic();
+    }
+    AudioManager::instance->LoadSoundChunks();
+    
+    
+    
+    
+    
     current_level = std::make_shared<Level>();
     assert(next_level_to_load != "_");
     std::cout << "next level is: " << next_level_to_load << std::endl;
@@ -97,7 +107,8 @@ void PlayingState::createCamera( ) {
 void PlayingState::exitState() {
     camera->unsetFollowObject();
     sceneObjects.erase(sceneObjects.begin(), sceneObjects.end());
-
+    if(Mix_PlayingMusic()){ Mix_HaltMusic();};
+    
     // WALLS
     dragonObj = nullptr;
     wallTop = nullptr;
@@ -153,7 +164,7 @@ void PlayingState::update( float time ) {
 }
 
 void PlayingState::render( sre::RenderPass &renderPass  ) {
-    
+    wallTop->getComponent<WallTileComponent>()->renderWalls(renderPass);
 }
 
 bool PlayingState::checkGameOver() {
@@ -211,7 +222,7 @@ void PlayingState::createDragon( glm::vec2 starting_position ) {
     dragonC->setPhysicsComponent(dragonObj->getComponent<PhysicsComponent>());
 
     DragonPhysics->initCircle(b2_dynamicBody, 30/physicsScale, dragonObj->getPosition()/physicsScale, dragonObj->getRotation(), 1);
-
+                    
     // Track fuel with gui element Gui Element
     dragonObj->addComponent<FloatTrackComponent>();
     dragonObj->getComponent<FloatTrackComponent>()->init("Fuel", dragonC->getFuel(), {0.0f, 0.9f}, {0.3f,0.1f});
@@ -341,19 +352,35 @@ void PlayingState::createPickUp(glm::vec2 pos,sre::Sprite pickUpSprite, Command 
 
 void PlayingState::createWalls(glm::vec2 dimensions, int thickness){
     wallTop = createGameObject();
+    wallTop->setPosition( glm::vec2 {0,(dimensions.y+thickness)});
+    
     wallBottom = createGameObject();
+    wallBottom->setPosition(glm::vec2 {0,-(dimensions.y+thickness)});
+    
     wallLeft = createGameObject();
+    wallLeft->setPosition(glm::vec2 {-dimensions.x,0});
+    
     wallRight = createGameObject();
+    wallRight->setPosition(glm::vec2 {dimensions.x,0});
+    
     auto levelPhysT = wallTop->addComponent<PhysicsComponent>();
     auto levelPhysB = wallBottom->addComponent<PhysicsComponent>();
     auto levelPhysL = wallLeft->addComponent<PhysicsComponent>();
     auto levelPhysR = wallRight->addComponent<PhysicsComponent>();
     
-    levelPhysT->initBox(b2_staticBody, glm::vec2 {(dimensions.x + thickness)/physicsScale,thickness/physicsScale}, glm::vec2 {0,(dimensions.y+thickness)/physicsScale}, 1);
-    levelPhysB->initBox(b2_staticBody, glm::vec2 {(dimensions.x + thickness)/physicsScale,thickness/physicsScale}, glm::vec2 {0,-(dimensions.y+thickness)/physicsScale}, 1);
+    //std::string filename, glm::vec2 pos, glm::vec2 size, float wall_thickness
     
-    levelPhysL->initBox(b2_staticBody, glm::vec2 {thickness/physicsScale,dimensions.y/physicsScale}, glm::vec2 {-dimensions.x/physicsScale,0}, 1);
-    levelPhysR->initBox(b2_staticBody, glm::vec2 {thickness/physicsScale,dimensions.y/physicsScale}, glm::vec2 {dimensions.x/physicsScale,0}, 1);
+    auto wallTopTiles = wallTop->addComponent<WallTileComponent>();
+    wallTopTiles->initWalls("wall.png", wallTop->getPosition(), glm::vec2 {dimensions.x,thickness} * 2.0f, 2*thickness);
+    
+    //auto wallLeftTiles = wallLeft->addComponent<WallTileComponent>();
+    //swallTopTiles->initWalls("wall.png", wallLeft->getPosition(), glm::vec2 {thickness,dimensions.y} * 2.0f, 2*thickness);
+    
+    levelPhysT->initBox(b2_staticBody, glm::vec2 {(dimensions.x + thickness)/physicsScale,thickness/physicsScale}, wallTop->getPosition()/physicsScale, 1);
+    levelPhysB->initBox(b2_staticBody, glm::vec2 {(dimensions.x + thickness)/physicsScale,thickness/physicsScale}, wallBottom->getPosition()/physicsScale, 1);
+    
+    levelPhysL->initBox(b2_staticBody, glm::vec2 {thickness/physicsScale,dimensions.y/physicsScale}, wallLeft->getPosition()/physicsScale, 1);
+    levelPhysR->initBox(b2_staticBody, glm::vec2 {thickness/physicsScale,dimensions.y/physicsScale}, wallRight->getPosition()/physicsScale, 1);
 }
 
 void PlayingState::buildGUI() {

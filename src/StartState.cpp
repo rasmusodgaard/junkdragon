@@ -11,6 +11,7 @@
 #include "MenuOptionComponent.hpp"
 #include <iostream>
 #include <string>
+#include "AudioManager.hpp"
 
 void StartState::enterState() {
     std::cout << "START STATE" << std::endl;
@@ -32,6 +33,9 @@ void StartState::enterState() {
     createTitleSprite("pizza.png",      {630.0f,-200.0f}, {1.5f,1.5f});
     createTitleSprite("donut.png",      {500.0f,-400.0f}, {1.0f,1.0f});
     createTitleSprite("milk.png",       {650.0f,-400.0f}, {1.2f,1.2f});
+    
+    AudioManager::instance->LoadMusic();
+    AudioManager::instance->PlayMusic();
 }
 
 void StartState::exitState() {

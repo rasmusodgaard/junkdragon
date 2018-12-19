@@ -16,9 +16,6 @@
 
 
 class AudioManager{
-  
-    
-    
     
 public:
     AudioManager();
@@ -31,8 +28,8 @@ public:
         cough,
         pick_up,
         power_down
-        
     };
+
     
     void PlaySound(soundKeys key);
     void PlayMusic();
