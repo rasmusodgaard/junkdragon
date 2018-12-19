@@ -34,7 +34,7 @@ void MenuOptionComponent::onGui() {
     auto win_size = r->getWindowSize();
     ImVec2 iWinSize(348, 125);
 
-    ImVec2 pos ((win_size.x - iWinSize.x)/2.0f, 3.0f*win_size.y/5.0f);
+    ImVec2 pos ((win_size.x - iWinSize.x)/2.0f, 5.0f*win_size.y/7.0f);
     auto cond = ImGuiCond_Always;
     ImGui::SetNextWindowPos(pos, cond);
     ImGui::SetNextWindowSize(iWinSize, cond);

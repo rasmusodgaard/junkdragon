@@ -39,6 +39,7 @@ void PlayingState::enterState() {
     time_elapsed            = 0.0f;
     time_remaining          = F_GAME_LENGTH;
     game_over               = false;
+    score                   = best_score;
     n_houses = 0;
     
     command_map["chilli.png"] = Command(this, &PlayingState::addFuelToDragon);
@@ -98,42 +99,45 @@ void PlayingState::createCamera( ) {
 }
 
 void PlayingState::setScore( float score ) {
-    this->score = score;
+    this->best_score = score;
 }
 
 void PlayingState::exitState() {
     camera->unsetFollowObject();
-    sceneObjects.erase(sceneObjects.begin(), sceneObjects.end());
     if(Mix_PlayingMusic()){ Mix_HaltMusic();};
-    
+    // AudioManager::instance->LoadSoundChunks();
     // WALLS
     dragonObj = nullptr;
-    wallTop = nullptr;
-    wallLeft = nullptr;
-    wallRight = nullptr;
-    wallBottom = nullptr;
 
     backgroundComponent.terminate();
 
     current_level = nullptr;
     spriteAtlas = nullptr;
-    dragonObj = nullptr;
 
     guiObj->removeComponent(timeTrackComp);
     guiObj->removeComponent(scoreTrackComp);
     guiObj->removeComponent(houseTrackComp);
-
-    timeTrackComp   = nullptr;
-    scoreTrackComp  = nullptr;
-    houseTrackComp  = nullptr;
     guiObj          = nullptr;
+
+    sceneObjects.erase(sceneObjects.begin(), sceneObjects.end());
 
 }
 
 void PlayingState::update( float time ) {
 
-    checkGameOver();
-    
+    if (checkGameOver()) {
+        if (n_houses == 0) {
+            best_score = score;
+            JunkDragonGame::instance->incrementLevel();
+            JunkDragonGame::instance->startTheGame();
+        }
+        
+        if (time_remaining <= 0.0f) {
+            JunkDragonGame::instance->recordScore(score);
+            JunkDragonGame::instance->endTheGame();
+        }
+    }
+
     camObj->update(time);
 
     time_remaining = fmax(time_remaining - time, 0.0f);
@@ -163,14 +167,11 @@ void PlayingState::render( sre::RenderPass &renderPass  ) {
 
 bool PlayingState::checkGameOver() {
     if (n_houses == 0) {
-        JunkDragonGame::instance->recordScore(score);
-        JunkDragonGame::instance->incrementLevel();
-        JunkDragonGame::instance->startTheGame();
         return true;
     }
 
     if (time_remaining <= 0.0f) {
-        JunkDragonGame::instance->endTheGame();
+        return true;
     }
 
     return false;
@@ -367,8 +368,8 @@ void PlayingState::createWalls(glm::vec2 dimensions, int thickness){
     
     //std::string filename, glm::vec2 pos, glm::vec2 size, float wall_thickness
     
-    auto wallTopTiles = wallTop->addComponent<WallTileComponent>();
-    wallTopTiles->initWalls("wall.png", wallTop->getPosition(), glm::vec2 {dimensions.x,thickness} * 2.0f, 2*thickness);
+    // auto wallTopTiles = wallTop->addComponent<WallTileComponent>();
+    // wallTopTiles->initWalls("wall.png", wallTop->getPosition(), glm::vec2 {dimensions.x,thickness} * 2.0f, 2*thickness);
     
     //auto wallLeftTiles = wallLeft->addComponent<WallTileComponent>();
     //swallTopTiles->initWalls("wall.png", wallLeft->getPosition(), glm::vec2 {thickness,dimensions.y} * 2.0f, 2*thickness);

@@ -26,5 +26,10 @@ class EndState : public GameState {
 
 
     private:
-        float new_score;
+        float new_score = 0.0f;
+
+        std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
+
+        std::shared_ptr<GameObject> optionObj;
+        std::shared_ptr<MenuOptionComponent> optionC;
 };

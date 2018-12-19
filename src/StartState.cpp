@@ -29,7 +29,8 @@ void StartState::enterState() {
 
     createTitleSprite("title.png",      {0.0f,250.0f}, {2.0f,2.0f});
     createTitleSprite("bigdragon.png",  {-620.0f,-250.0f}, {1.0f,1.0f} );
-    
+    createTitleSprite("credits.png",    {0.0f,-150.0f}, {1.0f,1.0f});
+
     createTitleSprite("chilli.png",     {500.0f,-150.0f}, {1.5f,1.5f});
     createTitleSprite("pizza.png",      {630.0f,-200.0f}, {1.5f,1.5f});
     createTitleSprite("donut.png",      {500.0f,-400.0f}, {1.0f,1.0f});

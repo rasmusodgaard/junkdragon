@@ -77,6 +77,7 @@ class PlayingState : public GameState {
         bool    game_over;
         int     n_houses;
         float   score = 0.0f;
+        float   best_score = score;
 
         std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
 

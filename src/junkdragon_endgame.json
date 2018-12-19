@@ -1,0 +1,21 @@
+{"frames": [
+
+{
+	"filename": "gameover.png",
+	"frame": {"x":0,"y":0,"w":512,"h":97},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":97},
+	"sourceSize": {"w":512,"h":97},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "junkdragon_endgame.png",
+	"format": "RGBA8888",
+	"size": {"w":512,"h":128},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:96e040db468867d69208aaaa73861d26:beb7f391ec209f08d14c3345630552be:7881fe7e780b5ea27bbfc371efb25aa4$"
+}
+}

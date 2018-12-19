@@ -1,0 +1,10 @@
+{   "housePositionsX":  [   -400,   400   ],
+ 
+    "housePositionsY":  [   400,   -400 ],
+    
+    "pickUpPositionX":  [400 ],
+    "pickUpPositionY":  [400 ],
+    "pickUpSprites":    ["pizza.png" ],
+    "spawn":{"x":-400,"y":-400,"angle":0},
+    "dimensions": {"x": 800, "y": 800}
+  }

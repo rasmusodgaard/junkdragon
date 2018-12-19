@@ -2,7 +2,7 @@
 
 {
 	"filename": "bigdragon.png",
-	"frame": {"x":0,"y":0,"w":512,"h":579},
+	"frame": {"x":0,"y":1066,"w":512,"h":579},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":579},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "chilli.png",
-	"frame": {"x":512,"y":0,"w":256,"h":211},
+	"frame": {"x":0,"y":0,"w":256,"h":211},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":211},
@@ -19,8 +19,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "credits.png",
+	"frame": {"x":0,"y":575,"w":512,"h":167},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":167},
+	"sourceSize": {"w":512,"h":167},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "donut.png",
-	"frame": {"x":768,"y":0,"w":256,"h":271},
+	"frame": {"x":0,"y":237,"w":256,"h":271},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":271},
@@ -29,7 +38,7 @@
 },
 {
 	"filename": "milk.png",
-	"frame": {"x":0,"y":579,"w":256,"h":338},
+	"frame": {"x":256,"y":237,"w":256,"h":338},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":338},
@@ -38,7 +47,7 @@
 },
 {
 	"filename": "pizza.png",
-	"frame": {"x":256,"y":579,"w":256,"h":237},
+	"frame": {"x":256,"y":0,"w":256,"h":237},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":237},
@@ -47,7 +56,7 @@
 },
 {
 	"filename": "title.png",
-	"frame": {"x":512,"y":579,"w":512,"h":324},
+	"frame": {"x":0,"y":742,"w":512,"h":324},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":324},
@@ -59,8 +68,8 @@
 	"version": "1.0",
 	"image": "junkdragon_title.png",
 	"format": "RGBA8888",
-	"size": {"w":1024,"h":1024},
+	"size": {"w":512,"h":2048},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:195489738d981c91c59539a5dd1e71d9:05ecf49b673c19bec5835df0f682cb22:9f5bfd4d9607b681a8e1f767c900de44$"
+	"smartupdate": "$TexturePacker:SmartUpdate:db0420a00eb65937ba592a37bd924bef:0d670e989674aec1b813ecbccc104bb3:9f5bfd4d9607b681a8e1f767c900de44$"
 }
 }
