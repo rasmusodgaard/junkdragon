@@ -15,6 +15,7 @@
 #define INT_VELOCITY_ITERATIONS        12
 #define INT_WINDOWSIZE_HEIGHT         800
 #define INT_WINDOWSIZE_WIDTH          600
+#define N_LEVELS                        2
 
 class Command;
 class PhysicsComponent;
@@ -38,6 +39,7 @@ public:
     void changeState(std::shared_ptr<GameState> gs_state);
     void endTheGame();
     void startTheGame();
+    void incrementLevel();
 private:
     
     const float physicsScale = 100;
@@ -49,6 +51,9 @@ private:
     std::shared_ptr<GameState> gs_endstate;
 
     sre::SDLRenderer r;
+
+    int current_level;
+    std::vector<std::string> levels = {"level2.json", "level1.json"};
     
     void init();
     void initPhysics();

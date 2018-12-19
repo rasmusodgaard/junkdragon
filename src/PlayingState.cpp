@@ -37,9 +37,8 @@ void PlayingState::enterState() {
 
     burnination_has_begun   = false;
     time_elapsed            = 0.0f;
-    time_remaining          = 10.0f;
+    time_remaining          = F_GAME_LENGTH;
     game_over               = false;
-    score = 0.0f;
     n_houses = 0;
     
     command_map["chilli.png"] = Command(this, &PlayingState::addFuelToDragon);
@@ -51,10 +50,6 @@ void PlayingState::enterState() {
         AudioManager::instance->PlayMusic();
     }
     AudioManager::instance->LoadSoundChunks();
-    
-    
-    
-    
     
     current_level = std::make_shared<Level>();
     assert(next_level_to_load != "_");
@@ -69,7 +64,7 @@ void PlayingState::enterState() {
 
     createWalls(level_values.wall_dimensions, INT_WALL_THICKNESS);
 
-    // Add Houses
+    // Add Houses 
     for (int i = 0; i < level_values.house_positions.size(); i++) {
         createHouse(level_values.house_positions[i]);
     }
@@ -102,6 +97,10 @@ void PlayingState::createCamera( ) {
     camera->setFollowObject(nullptr, {0,0});
 }
 
+void PlayingState::setScore( float score ) {
+    this->score = score;
+}
+
 void PlayingState::exitState() {
     camera->unsetFollowObject();
     sceneObjects.erase(sceneObjects.begin(), sceneObjects.end());
@@ -129,49 +128,49 @@ void PlayingState::exitState() {
     houseTrackComp  = nullptr;
     guiObj          = nullptr;
 
-    JunkDragonGame::instance->recordScore(score);
 }
 
 void PlayingState::update( float time ) {
 
-    if( !game_over && checkGameOver() ) {
-            game_over = true;
-            JunkDragonGame::instance->endTheGame();
-    } else {
-        camObj->update(time);
+    checkGameOver();
+    
+    camObj->update(time);
 
-        time_remaining = fmax(time_remaining - time, 0.0f);
+    time_remaining = fmax(time_remaining - time, 0.0f);
 
+    JunkDragonGame::instance->updatePhysics();
+    if (time > F_PHYSICS_TIMESTEP) // if framerate approx 30 fps then run two physics steps
+    {
         JunkDragonGame::instance->updatePhysics();
-        if (time > F_PHYSICS_TIMESTEP) // if framerate approx 30 fps then run two physics steps
-        {
-            JunkDragonGame::instance->updatePhysics();
-        }
-
-        for (int i=0;i<sceneObjects.size();i++){
-            sceneObjects[i]->update(time);
-            if (sceneObjects[i]->getDeleteMe()) {
-                sceneObjects.erase(sceneObjects.begin() + i);
-            }
-        }
-        // update gui elements
-        timeTrackComp->setVal(time_remaining);
-        scoreTrackComp->setVal(score);
-        houseTrackComp->setVal((float)n_houses);
     }
+
+    for (int i=0;i<sceneObjects.size();i++){
+        sceneObjects[i]->update(time);
+        if (sceneObjects[i]->getDeleteMe()) {
+            sceneObjects.erase(sceneObjects.begin() + i);
+        }
+    }
+    // update gui elements
+    timeTrackComp->setVal(time_remaining);
+    scoreTrackComp->setVal(score);
+    houseTrackComp->setVal((float)n_houses);
+    
 }
 
 void PlayingState::render( sre::RenderPass &renderPass  ) {
-    wallTop->getComponent<WallTileComponent>()->renderWalls(renderPass);
+    // wallTop->getComponent<WallTileComponent>()->renderWalls(renderPass);
 }
 
 bool PlayingState::checkGameOver() {
     if (n_houses == 0) {
+        JunkDragonGame::instance->recordScore(score);
+        JunkDragonGame::instance->incrementLevel();
+        JunkDragonGame::instance->startTheGame();
         return true;
     }
 
     if (time_remaining <= 0.0f) {
-        return true;
+        JunkDragonGame::instance->endTheGame();
     }
 
     return false;

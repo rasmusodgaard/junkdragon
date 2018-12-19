@@ -52,7 +52,7 @@ void JunkDragonGame::init(){
     gs_startstate   = std::shared_ptr<GameState>( new StartState() );
     gs_playingstate = std::shared_ptr<GameState>( new PlayingState() );
     if(auto ps = std::dynamic_pointer_cast<PlayingState>(gs_playingstate) ) {
-        ps->setNextLevelToLoad("level1.json");
+        ps->setNextLevelToLoad("level2.json");
     }
     gs_endstate     = std::shared_ptr<GameState>( new EndState() );
     changeState(gs_startstate);
@@ -61,11 +61,6 @@ void JunkDragonGame::init(){
 
 void JunkDragonGame::update(float time){
     gs_currentstate->update(time);
-    // Update GUI elements last
-    // fuelTrackComp->setVal( dragonObj->getComponent<DragonController>()->getFuel() );
-    // scoreTrackComp->setVal( this->score );
-    // houseTrackComp->setVal( this->n_houses );
-    // timeTrackComp->setVal(this->time_remaining);
 }
 
 void JunkDragonGame::render() {
@@ -159,6 +154,12 @@ void JunkDragonGame::recordScore( float final_score ) {
     }
 }
 
+void JunkDragonGame::incrementLevel( ) {
+    if(auto ps = std::dynamic_pointer_cast<PlayingState>(gs_playingstate) ) {
+        ps->setNextLevelToLoad(levels[ (current_level+1) % N_LEVELS ]);
+    }
+}
+
 void JunkDragonGame::handleContact(b2Contact *contact, bool begin) {
     auto fixA = contact->GetFixtureA();
     auto fixB = contact->GetFixtureB();
@@ -198,7 +199,7 @@ void JunkDragonGame::deregisterPhysicsComponent(PhysicsComponent *r) {
 }
 
 void JunkDragonGame::onKey(SDL_Event &event) {
-    // TODO any significance of this bool? 
+
     gs_currentstate->onKey(event);
     
     for (auto & gameObject: gs_currentstate->sceneObjects) {

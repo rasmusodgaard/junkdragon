@@ -25,6 +25,7 @@
 #define INT_BACKGROUND_SIZE          4000
 #define F_ROTATION_NORTH                0.0f
 #define F_FIREBALL_OFFSET             120.0f
+#define F_GAME_LENGTH                  60.0f
 
 // Layers
 #define U_GROUND_LAYER                 1
@@ -61,6 +62,7 @@ class PlayingState : public GameState {
         void addFuelToDragon();
         void removeFuelFromDragon();
         void fasterDragon();
+        void setScore(float score);
         std::shared_ptr<GameObject> guiObj;
 
     private:   
@@ -74,7 +76,7 @@ class PlayingState : public GameState {
         float   time_remaining;
         bool    game_over;
         int     n_houses;
-        float   score;
+        float   score = 0.0f;
 
         std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
 
