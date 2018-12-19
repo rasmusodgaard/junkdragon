@@ -23,6 +23,7 @@ void StartState::enterState() {
     auto optionC = optionObj->addComponent<MenuOptionComponent>();
     optionC->name = "Play";
 
+    // Place items to build the start screen scene
     backgroundComponent.init("background.png", {-1000.0f,-1000.0f},
         {2000.0f,2000.0f}, 25);
 
@@ -38,6 +39,7 @@ void StartState::enterState() {
     AudioManager::instance->PlayMusic();
 }
 
+// Tidy up
 void StartState::exitState() {
 
     camera->unsetFollowObject();
@@ -55,6 +57,7 @@ void StartState::update( float time ) {
     }
 }
 
+// Create sprite for start screen
 void StartState::createTitleSprite( std::string sprite_name, glm::vec2 pos, glm::vec2 scale) {
     auto title_obj = createGameObject();
     title_obj->setPosition( pos );
@@ -81,18 +84,6 @@ bool StartState::onKey(SDL_Event &event) {
             JunkDragonGame::instance->startTheGame();
         }
     }
-
-    // if (event.key.keysym.sym == SDLK_LEFT) {
-    //     if (event.type == SDL_KEYDOWN) {
-    //         // current_choice = option1;
-    //     }
-    // }
-
-    // if (event.key.keysym.sym == SDLK_RIGHT) {
-    //     if (event.type == SDL_KEYDOWN) {
-    //         // current_choice = option2;
-    //     }
-    // }
 
     return false;
 }

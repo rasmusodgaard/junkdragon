@@ -15,7 +15,6 @@ public:
     void update(float deltaTime) override;
 
     void playPressed();
-    void settingsPressed();
     void onGui() override;
 
     std::string name = "_";

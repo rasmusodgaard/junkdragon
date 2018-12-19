@@ -21,11 +21,9 @@ FireBallController::FireBallController(GameObject *gameObject) : Component(gameO
     speed = F_FIREBALL_SPEED;
     time_elapsed = F_TIME_ELAPSED;
     life_time = F_LIFE_TIME;
-    drag = F_DRAG;
 }
 
 void FireBallController::onCollisionStart(PhysicsComponent *comp) {
-    // comp->getGameObject()->name.compare("Dragon") != 0 && comp->getGameObject()->name.compare("Fireball") != 0
     if (comp->getGameObject()->name.compare("House") == 0 ){
         deleteGameObject();
     }

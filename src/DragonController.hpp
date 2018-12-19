@@ -57,8 +57,10 @@ class DragonController : public Component {
         std::shared_ptr<PhysicsComponent> physicsComponent;
         std::shared_ptr<AnimationControllerComponent> animationControllerComponent;
 
+        // Only the dragon decides when to breathe fire
         void breathe_fire();
 
+        // Store command to be exectuted when we breathe fire
         Command fireball_cmd;
 
         bool CW_rotation;

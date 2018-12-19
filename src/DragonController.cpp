@@ -99,6 +99,8 @@ void DragonController::update(float deltaTime) {
     float magnitude = deltaTime * (speed + speed_boost);
     glm::vec2 velocity = glm::rotateZ(glm::vec3(0,magnitude,0), glm::radians(rotation));
     physicsComponent->setLinearVelocity(velocity);
+    
+    // Update rotation of dragon
     if(CW_rotation) {
         physicsComponent->setAngularVelocity(-angularVelocity);
          this->getGameObject()->setRotation(rotation - rotation_speed);
@@ -116,6 +118,7 @@ void DragonController::update(float deltaTime) {
         }
     }
 
+    // Increase time since last fireball
     last_fire_ball += deltaTime;
 
     speed_boost = fmax(speed_boost - speed_boost_decrement, 0.0f);
@@ -129,6 +132,7 @@ float DragonController::getFuel() {
     return this->fuel;
 }
 
+// Pickup functions
 void DragonController::addFuel( float fuel_to_add) {
     this->fuel += fuel_to_add;
 }

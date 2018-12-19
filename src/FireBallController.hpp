@@ -33,7 +33,6 @@ class FireBallController : public Component {
         float speed;
         float time_elapsed;
         float life_time;
-        float drag;
 
         glm::vec2 velocity = {0,0};
 };

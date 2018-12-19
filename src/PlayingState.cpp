@@ -70,13 +70,11 @@ void PlayingState::enterState() {
     createWalls(level_values.wall_dimensions, INT_WALL_THICKNESS);
 
     // Add Houses
-    //std::vector<glm::vec2> houses = current_level->GetHousePositions();
     for (int i = 0; i < level_values.house_positions.size(); i++) {
         createHouse(level_values.house_positions[i]);
     }
     
     // Add pick-ups
-    
     for (int i = 0; i<level_values.pick_up_positions.size(); i++) {
         createPickUp(level_values.pick_up_positions[i], spriteAtlas->get(level_values.pick_up_sprite[i]), command_map[level_values.pick_up_sprite[i]] );
     }

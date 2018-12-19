@@ -2,7 +2,7 @@
 //  MenuOptionComponent.cpp
 //  SRE
 //
-//  Created by Rasmus Odgaard on 21/11/2018.
+//  Created by John O'Donnell
 //
 
 #include "sre/Renderer.hpp"
@@ -11,7 +11,6 @@
 
 MenuOptionComponent::MenuOptionComponent(GameObject *gameObject) : Component(gameObject)
 {
-    // TODO what does a button need?
     play_pressed = false;
 }
 
@@ -20,11 +19,6 @@ void MenuOptionComponent::update(float deltaTime){
 }
 
 void MenuOptionComponent::playPressed() {
-    // JunkDragonGame::instance->startTheGame();
-}
-
-void MenuOptionComponent::settingsPressed() {
-
 }
 
 void MenuOptionComponent::onGui() {
@@ -50,13 +44,8 @@ void MenuOptionComponent::onGui() {
         .withFile("play.png")
         .withFilterSampling(false)
         .build();
-    // static auto settingsTex = sre::Texture::create()
-    //     .withFile("play_hatch.png")
-    //     .withFilterSampling(false)
-    //     .build();
 
     void* playId = playTex->getNativeTexturePtr();
-    // void* settingsId = settingsTex->getNativeTexturePtr();
 
     ImVec2 uv0(0,1);
     ImVec2 uv1(1,0);
@@ -64,8 +53,6 @@ void MenuOptionComponent::onGui() {
     if(ImGui::ImageButton(playId, imageButtonSize, uv0, uv1)){
         play_pressed = true;
     }
-    // if(ImGui::ImageButton(settingsId, imageButtonSize, uv0, uv1)){
-    //     settingsPressed();
-    // }
+
     ImGui::End();
 }
