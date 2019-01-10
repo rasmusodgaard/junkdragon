@@ -24,8 +24,10 @@ void StartState::enterState() {
     optionC->name = "Play";
 
     // Place items to build the start screen scene
-    backgroundComponent.init("background.png", {-1000.0f,-1000.0f},
-        {2000.0f,2000.0f}, 25);
+    if( !backgroundComponent.getIsLoaded() ) {
+        backgroundComponent.init("background.png");
+    }
+    backgroundComponent.buildBackground({-1000.0f,-1000.0f}, {2000.0f,2000.0f}, 25);
 
     createTitleSprite("title.png",      {0.0f,250.0f}, {2.0f,2.0f});
     createTitleSprite("bigdragon.png",  {-620.0f,-250.0f}, {1.0f,1.0f} );

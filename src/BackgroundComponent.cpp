@@ -24,15 +24,24 @@ void BackgroundComponent::renderBackground(sre::RenderPass &renderPass, float of
     renderPass.draw(batch, glm::translate(vec3(offset, 0,0)));
 }
 
-void BackgroundComponent::init(std::string filename, glm::vec2 start_pos, glm::vec2 size, float resolution) {
+bool BackgroundComponent::getIsLoaded() {
+    return isLoaded;
+}
+
+void BackgroundComponent::init(std::string filename) {
     tex = Texture::create().withFile(filename)
             .withFilterSampling(false)
             .build();
 
     // Create atlas for background png
-    auto atlas = SpriteAtlas::createSingleSprite(tex, "background", vec2(0,0));
-    auto sprite = atlas->get("background");
-    
+    atlas = SpriteAtlas::createSingleSprite(tex, "background", vec2(0,0));
+    sprite = atlas->get("background");
+
+    // No need to init this background component again
+    isLoaded = true;
+}
+
+void BackgroundComponent::buildBackground(glm::vec2 start_pos, glm::vec2 size, float resolution) {
     // Scale factor is dependant on area to cover, texture width and resolution
     float scale_x = size.x / (tex->getWidth() * resolution);
     float scale_y = size.y / (tex->getHeight()  * resolution);
@@ -51,8 +60,8 @@ void BackgroundComponent::init(std::string filename, glm::vec2 start_pos, glm::v
     batch = batchBuilder.build();
 }
 
-// Remove reference to shared_ptrs, freeing memory (if not other references exist)
+// Remove reference to shared_ptrs, freeing memory (if no other references exist)
 void BackgroundComponent::terminate() {
-    tex.reset();
+    // tex.reset(); does not work
     batch.reset();
 }

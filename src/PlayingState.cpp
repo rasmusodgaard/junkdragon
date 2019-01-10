@@ -31,7 +31,10 @@ void PlayingState::enterState() {
     std::cout << "PLAYING STATE" << std::endl;
 
     // Spritesheet for the game
-    spriteAtlas = sre::SpriteAtlas::create("junkdragon.json","junkdragon.png");
+    if(!isLoaded){
+        spriteAtlas = sre::SpriteAtlas::create("junkdragon.json","junkdragon.png");
+        isLoaded = true;
+    }
 
     createCamera();
 
@@ -75,8 +78,11 @@ void PlayingState::enterState() {
         createPickUp(level_values.pick_up_positions[i], spriteAtlas->get(level_values.pick_up_sprite[i]), command_map[level_values.pick_up_sprite[i]] );
     }
     
-    // // Add background
-    backgroundComponent.init("background.png", -level_values.wall_dimensions,
+    // Add background
+    if( !backgroundComponent.getIsLoaded() ) {
+        backgroundComponent.init("background.png");
+    }
+    backgroundComponent.buildBackground( -level_values.wall_dimensions,
         2.0f*level_values.wall_dimensions, INT_BACKGROUND_RESOLUTION);
 
     buildGUI();
@@ -107,12 +113,13 @@ void PlayingState::exitState() {
     if(Mix_PlayingMusic()){ Mix_HaltMusic();};
     AudioManager::instance->UnloadSoundChunks();
     // WALLS
+
     dragonObj = nullptr;
 
     backgroundComponent.terminate();
 
     current_level = nullptr;
-    spriteAtlas = nullptr;
+    // spriteAtlas.reset();
 
     guiObj->removeComponent(timeTrackComp);
     guiObj->removeComponent(scoreTrackComp);
@@ -120,7 +127,6 @@ void PlayingState::exitState() {
     guiObj          = nullptr;
 
     sceneObjects.erase(sceneObjects.begin(), sceneObjects.end());
-
 }
 
 void PlayingState::update( float time ) {

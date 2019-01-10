@@ -17,7 +17,11 @@ void EndState::enterState() {
     createCamera();
     buildGUI();
 
-    spriteAtlas = sre::SpriteAtlas::create("junkdragon_endgame.json","junkdragon_endgame.png");
+    if(!isLoaded){
+        spriteAtlas = sre::SpriteAtlas::create("junkdragon_endgame.json","junkdragon_endgame.png");
+        isLoaded = true;
+    }
+    
     auto gameover_obj = createGameObject();
     gameover_obj->setPosition( {0.0f, 300.0f} );
     auto gameover_objS = spriteAtlas->get( "gameover.png" );
@@ -28,21 +32,25 @@ void EndState::enterState() {
     high_score_comp = guiObj->addComponent<FloatTrackComponent>();
     high_score_comp->init( "High score:", new_score, {0.35f, 0.45f}, {0.3f,0.1f} );
 
-    backgroundComponent.init("background.png", {-1000.0f,-1000.0f},
-        {2000.0f,2000.0f}, 25);
+    if( !backgroundComponent.getIsLoaded() ){
+        backgroundComponent.init("background.png");
+    }
+    backgroundComponent.buildBackground({-1000.0f,-1000.0f},{2000.0f,2000.0f}, 25);
 
     optionObj = createGameObject();
     auto optionC = optionObj->addComponent<MenuOptionComponent>();
     optionC->name = "Play";
-
 }
 
 void EndState::exitState() {
     guiObj->removeComponent(high_score_comp);
     high_score_comp = nullptr;
     guiObj          = nullptr;
+    camera->unsetFollowObject();
 
     backgroundComponent.terminate();
+
+    sceneObjects.erase(sceneObjects.begin(), sceneObjects.end());
 }
 
 void EndState::update( float time ) {
@@ -52,7 +60,7 @@ void EndState::update( float time ) {
 }
 
 void EndState::render( sre::RenderPass &renderPass ) {
-    
+
 }
 
 void EndState::createCamera( ) {

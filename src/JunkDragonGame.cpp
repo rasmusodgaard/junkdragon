@@ -98,8 +98,6 @@ void JunkDragonGame::render() {
             comp->onGui();
         }
     }
-
-    
 }
 
 void JunkDragonGame::updatePhysics() {
@@ -117,7 +115,6 @@ void JunkDragonGame::updatePhysics() {
         gameObject->setRotation(angle);
     }
 }
-
 
 void JunkDragonGame::initPhysics() {
     float gravity = F_GRAVITY;
@@ -242,5 +239,4 @@ void JunkDragonGame::changeState( std::shared_ptr<GameState> gs_state ) {
 
     gs_currentstate = gs_nextstate;
     gs_nextstate = nullptr;
-
 }

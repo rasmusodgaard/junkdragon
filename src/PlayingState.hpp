@@ -67,8 +67,6 @@ class PlayingState : public GameState {
 
     private:   
         const float physicsScale = 100;
-
-
         
         std::shared_ptr<Level> current_level;
         bool    burnination_has_begun;

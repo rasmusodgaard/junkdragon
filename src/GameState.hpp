@@ -33,9 +33,9 @@ class GameState {
 
     protected:
         std::vector<std::shared_ptr<GameObject>> sceneObjects;
+        bool isLoaded = false;
 
     private:
-
         friend class JunkDragonGame;
         
 
