@@ -32,6 +32,8 @@ void BurnableComponent::update(float deltaTime){
         life_time -= deltaTime;
         if (life_time <= singed_time) {
             animationControllerComponent->setState("singed_onfire");
+        } else {
+            animationControllerComponent->setState("onfire");
         }
     } else {
         // For future use: when the fire is extinguished
@@ -51,7 +53,6 @@ void BurnableComponent::update(float deltaTime){
 void BurnableComponent::onCollisionStart(PhysicsComponent *comp){
     if (comp->getGameObject()->name.compare("Fireball") == 0){
         onFire = true;
-        animationControllerComponent->setState("onfire");
     }
 }
 
