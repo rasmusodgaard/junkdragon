@@ -105,7 +105,7 @@ void PlayingState::setScore( float score ) {
 void PlayingState::exitState() {
     camera->unsetFollowObject();
     if(Mix_PlayingMusic()){ Mix_HaltMusic();};
-    // AudioManager::instance->LoadSoundChunks();
+    AudioManager::instance->UnloadSoundChunks();
     // WALLS
     dragonObj = nullptr;
 
