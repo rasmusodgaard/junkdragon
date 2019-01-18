@@ -52,7 +52,11 @@ void PlayingState::enterState() {
     if (!Mix_PlayingMusic()) {
         AudioManager::instance->PlayMusic();
     }
-    AudioManager::instance->LoadSoundChunks();
+    
+    if (!AudioManager::instance->getIsLoaded()) {
+        AudioManager::instance->LoadSoundChunks();
+    }
+    
     
     current_level = std::make_shared<Level>();
     assert(next_level_to_load != "_");
@@ -110,7 +114,7 @@ void PlayingState::setScore( float score ) {
 void PlayingState::exitState() {
     camera->unsetFollowObject();
     if(Mix_PlayingMusic()){ Mix_HaltMusic();};
-    AudioManager::instance->UnloadSoundChunks();
+    //AudioManager::instance->UnloadSoundChunks();
     // WALLS
 
     dragonObj = nullptr;

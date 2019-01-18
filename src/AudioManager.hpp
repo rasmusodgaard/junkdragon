@@ -36,6 +36,8 @@ public:
     void UnloadSoundChunks();
     void LoadMusic();
     void UnloadMusic();
+    
+    bool getIsLoaded();
    
     // Map enumerator to audio samples
     std::map <soundKeys, Mix_Chunk> mapOfSounds;
@@ -48,4 +50,7 @@ private:
     Mix_Chunk *cough_s;
     
     Mix_Music *currentMusic;
+    
+    
+    bool isLoaded = false;
 };

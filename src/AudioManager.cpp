@@ -22,6 +22,10 @@ AudioManager::AudioManager(){
     }
 }
 
+bool AudioManager::getIsLoaded(){
+    return isLoaded;
+}
+
 // Unload audio samples from memory
 void AudioManager::UnloadSoundChunks(){
     
@@ -29,6 +33,8 @@ void AudioManager::UnloadSoundChunks(){
     Mix_FreeChunk(pick_up_s);
     Mix_FreeChunk(power_down_s);
     Mix_FreeChunk(cough_s);
+    
+    isLoaded = false;
     
 }
 
@@ -45,6 +51,8 @@ void AudioManager::LoadSoundChunks(){
     mapOfSounds[cough] = *cough_s;
     mapOfSounds[pick_up] = *pick_up_s;
     mapOfSounds[power_down] = *power_down_s;
+    
+    isLoaded = true;
     
 }
 

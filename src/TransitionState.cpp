@@ -26,8 +26,9 @@ void TransitionState::enterState() {
     }
     backgroundComponent.buildBackground({-1000.0f,-1000.0f}, {2000.0f,2000.0f}, 1);
     
-    AudioManager::instance->LoadMusic();
-    AudioManager::instance->PlayMusic();
+    if (!Mix_PlayingMusic()) {
+        AudioManager::instance->PlayMusic();
+    }
 }
 
 // Tidy up
