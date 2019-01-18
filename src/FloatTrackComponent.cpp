@@ -8,6 +8,7 @@
 #include "FloatTrackComponent.hpp"
 #include "sre/Renderer.hpp"
 #include "JunkDragonGame.hpp"
+#include <iostream>
 
 FloatTrackComponent::FloatTrackComponent(GameObject *gameObject)
     : Component(gameObject) {
@@ -36,7 +37,11 @@ void FloatTrackComponent::onGui() {
     ImGui::SetNextWindowSize(iWinSize, cond);
     ImGui::Begin(this->label.c_str(), open, flags);
     
-    ImGui::Text( "%s: %0.2f", this->label.c_str(), this->val );
+    if(this->data_type == FLOAT) {
+        ImGui::Text( "%s: %0.2f", this->label.c_str(), this->f_val );
+    } else {
+        ImGui::Text( "%s: %d", this->label.c_str(), this->i_val );
+    }
 
     ImVec2 uv0(0,1); // flip y axis coordinates
     ImVec2 uv1(1,0);
@@ -44,13 +49,35 @@ void FloatTrackComponent::onGui() {
     ImGui::End();
 }
 
-void FloatTrackComponent::init( std::string label, float val, glm::vec2 pos, glm::vec2 size ) {
-    this->label = label;
-    this->val = val;
-    this->pos = pos;
-    this->size = size;
+void FloatTrackComponent::init( std::string label, float f_val, glm::vec2 pos, glm::vec2 size ) {
+    this->label     = label;
+    this->f_val     = f_val;
+    this->pos       = pos;
+    this->size      = size;
+    this->data_type = FLOAT;
 }
 
-void FloatTrackComponent::setVal( float val ) {
-    this->val = val;
+void FloatTrackComponent::setVal( float f_val ) {
+    if(this->data_type == FLOAT) {
+        this->f_val = f_val;
+    } else {
+        std::cerr << "GUI Element " << this->label << "set to INTEGER" << std::endl;
+    }
+}
+
+void FloatTrackComponent::init( std::string label, int i_val, glm::vec2 pos, glm::vec2 size ) {
+    this->label     = label;
+    this->i_val     = i_val;
+    this->pos       = pos;
+    this->size      = size;
+    this->data_type = INTEGER;
+
+}
+
+void FloatTrackComponent::setVal( int i_val ) {
+    if(this->data_type == INTEGER) {
+        this->i_val = i_val;
+    } else {
+        std::cerr << "GUI Element " << this->label << "set to FLOAT" << std::endl;
+    }
 }

@@ -26,7 +26,7 @@ class EndState : public GameState {
 
 
     private:
-        float new_score = 0.0f;
+        int new_score = 0.0f;
 
         std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
 

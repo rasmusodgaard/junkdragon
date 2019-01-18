@@ -91,13 +91,13 @@ void PlayingState::enterState() {
     buildGUI();
 
     timeTrackComp = guiObj->addComponent<FloatTrackComponent>();
-    timeTrackComp->init("time", time_remaining, {0.0f, 0.8f}, {0.3f, 0.1f} );
+    timeTrackComp->init("time", time_remaining, {0.0f, 0.8f}, {0.2f, 0.1f} );
 
     scoreTrackComp = guiObj->addComponent<FloatTrackComponent>();
-    scoreTrackComp->init("score", score, {0.7f, 0.9f}, {0.3f, 0.1f} );
+    scoreTrackComp->init("score", score, {0.8f, 0.9f}, {0.2f, 0.1f} );
 
     houseTrackComp = guiObj->addComponent<FloatTrackComponent>();
-    houseTrackComp->init("Houses", (float)n_houses, {0.7f, 0.8f}, {0.3f, 0.1f} );
+    houseTrackComp->init("Houses", n_houses, {0.8f, 0.8f}, {0.2f, 0.1f} );
 }
 
 void PlayingState::createCamera( ) {
@@ -166,7 +166,7 @@ void PlayingState::update( float time ) {
     // update gui elements
     timeTrackComp->setVal(time_remaining);
     scoreTrackComp->setVal(score);
-    houseTrackComp->setVal((float)n_houses);
+    houseTrackComp->setVal(n_houses);
     
 }
 
@@ -232,7 +232,7 @@ void PlayingState::createDragon( glm::vec2 starting_position ) {
                     
     // Track fuel with gui element Gui Element
     dragonObj->addComponent<FloatTrackComponent>();
-    dragonObj->getComponent<FloatTrackComponent>()->init("Fuel", dragonC->getFuel(), {0.0f, 0.9f}, {0.3f,0.1f});
+    dragonObj->getComponent<FloatTrackComponent>()->init("Fuel", dragonC->getFuel(), {0.0f, 0.9f}, {0.2f,0.1f});
 }
 
 void PlayingState::createFireBall( ) {

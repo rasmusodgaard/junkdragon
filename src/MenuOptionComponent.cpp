@@ -63,5 +63,7 @@ bool MenuOptionComponent::onKey(SDL_Event &event){
             play_pressed = true;
         }
     }
+
+    return false;
 }
 
