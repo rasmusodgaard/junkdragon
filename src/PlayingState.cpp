@@ -15,7 +15,6 @@
 #include "BurnableComponent.hpp"
 #include "PickUpComponent.hpp"
 
-#include "WallTileComponent.hpp"
 #include "AnimationControllerComponent.hpp"
 #include "SpriteComponent.hpp"
 #include "GameObject.hpp"   
