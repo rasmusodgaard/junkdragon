@@ -10,6 +10,7 @@
 #include "AudioManager.hpp"
 #include "StartState.hpp"
 #include "PlayingState.hpp"
+#include "TransitionState.hpp"
 #include "EndState.hpp"
 
 const glm::vec2 JunkDragonGame::windowSize(INT_WINDOWSIZE_HEIGHT, INT_WINDOWSIZE_WIDTH);
@@ -54,6 +55,7 @@ void JunkDragonGame::init(){
     if(auto ps = std::dynamic_pointer_cast<PlayingState>(gs_playingstate) ) {
         ps->setNextLevelToLoad( levels[current_level]);
     }
+    gs_transition   = std::shared_ptr<GameState>( new TransitionState() );
     gs_endstate     = std::shared_ptr<GameState>( new EndState() );
     changeState(gs_startstate);
 
@@ -143,6 +145,10 @@ void JunkDragonGame::endTheGame() {
 
 void JunkDragonGame::startTheGame() {
     changeState(gs_playingstate);
+}
+
+void JunkDragonGame::transition() {
+    changeState(gs_transition);
 }
 
 void JunkDragonGame::recordScore( float final_score ) {

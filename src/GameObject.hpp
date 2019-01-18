@@ -52,6 +52,7 @@ class GameObject {
         friend class GameState;
         friend class PlayingState;
         friend class StartState;
+        friend class TransitionState;
         friend class EndState;
 };
 

@@ -39,6 +39,7 @@ public:
     void changeState(std::shared_ptr<GameState> gs_state);
     void endTheGame();
     void startTheGame();
+    void transition();
     void incrementLevel();
 private:
     
@@ -48,6 +49,7 @@ private:
     std::shared_ptr<GameState> gs_nextstate;
     std::shared_ptr<GameState> gs_startstate;
     std::shared_ptr<GameState> gs_playingstate;
+    std::shared_ptr<GameState> gs_transition;
     std::shared_ptr<GameState> gs_endstate;
 
     sre::SDLRenderer r;

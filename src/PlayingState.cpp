@@ -134,7 +134,7 @@ void PlayingState::update( float time ) {
         if (n_houses == 0) {
             best_score = score;
             JunkDragonGame::instance->incrementLevel();
-            JunkDragonGame::instance->startTheGame();
+            JunkDragonGame::instance->transition();
         }
         
         if (time_remaining <= 0.0f) {
