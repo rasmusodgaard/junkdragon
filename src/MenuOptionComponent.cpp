@@ -56,3 +56,12 @@ void MenuOptionComponent::onGui() {
 
     ImGui::End();
 }
+
+bool MenuOptionComponent::onKey(SDL_Event &event){
+    if (event.key.keysym.sym == SDLK_RETURN) {
+        if (event.type == SDL_KEYDOWN) {
+            play_pressed = true;
+        }
+    }
+}
+

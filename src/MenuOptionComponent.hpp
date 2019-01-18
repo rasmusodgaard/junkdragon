@@ -16,6 +16,7 @@ public:
 
     void playPressed();
     void onGui() override;
+    bool onKey(SDL_Event &event) override;
 
     std::string name = "_";
     bool play_pressed;
