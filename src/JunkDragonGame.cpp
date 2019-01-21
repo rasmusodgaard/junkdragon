@@ -13,7 +13,7 @@
 #include "TransitionState.hpp"
 #include "EndState.hpp"
 
-const glm::vec2 JunkDragonGame::windowSize(INT_WINDOWSIZE_HEIGHT, INT_WINDOWSIZE_WIDTH);
+const glm::vec2 JunkDragonGame::windowSize(INT_WINDOWSIZE_WIDTH, INT_WINDOWSIZE_HEIGHT);
 JunkDragonGame* JunkDragonGame::instance = nullptr;
 
 JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {

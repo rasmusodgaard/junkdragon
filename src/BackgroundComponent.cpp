@@ -45,6 +45,25 @@ void BackgroundComponent::buildBackground(glm::vec2 start_pos, glm::vec2 size, f
     // Scale factor is dependant on area to cover, texture width and resolution
     float scale_x = size.x / (tex->getWidth() * resolution);
     float scale_y = size.y / (tex->getHeight()  * resolution);
+    
+    sprite.setScale({scale_x,scale_y});
+    auto batchBuilder = SpriteBatch::create();
+    
+    // Tile the area according to the size and resolution
+    for (int i=0;i<resolution;i++){
+        for (int j=0; j<resolution; j++) {
+            sprite.setPosition(vec2(start_pos.x + tex->getWidth() * i * scale_x,
+                                    start_pos.y + tex->getHeight() * j * scale_y) );
+            batchBuilder.addSprite(sprite);
+        }
+    }
+    batch = batchBuilder.build();
+}
+
+void BackgroundComponent::buildBackground(glm::vec2 start_pos, glm::vec2 size, float resolution, int thickness) {
+    // Scale factor is dependant on area to cover, texture width and resolution
+    float scale_x = (size.x-thickness*2)/ (tex->getWidth() * resolution);
+    float scale_y = size.y / (tex->getHeight()  * resolution);
 
     sprite.setScale({scale_x,scale_y});
     auto batchBuilder = SpriteBatch::create();
@@ -52,7 +71,7 @@ void BackgroundComponent::buildBackground(glm::vec2 start_pos, glm::vec2 size, f
     // Tile the area according to the size and resolution
     for (int i=0;i<resolution;i++){
         for (int j=0; j<resolution; j++) {
-            sprite.setPosition(vec2(start_pos.x + tex->getWidth() * i * scale_x, 
+            sprite.setPosition(vec2(start_pos.x + thickness + tex->getWidth() * i * scale_x, 
                                 start_pos.y + tex->getHeight() * j * scale_y) );
             batchBuilder.addSprite(sprite);
         }

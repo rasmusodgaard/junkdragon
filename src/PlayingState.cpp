@@ -37,9 +37,16 @@ void PlayingState::enterState() {
 
     createCamera();
 
+    current_level = std::make_shared<Level>();
+    assert(next_level_to_load != "_");
+    std::cout << "next level is: " << next_level_to_load << std::endl;
+    current_level->LoadLevel( next_level_to_load );
+    
+    LevelValues level_values = current_level->GetLevelValues();
+    
     burnination_has_begun   = false;
     time_elapsed            = 0.0f;
-    time_remaining          = F_GAME_LENGTH;
+    time_remaining          = level_values.time;
     game_over               = false;
     score                   = best_score;
     n_houses = 0;
@@ -58,12 +65,7 @@ void PlayingState::enterState() {
     }
     
     
-    current_level = std::make_shared<Level>();
-    assert(next_level_to_load != "_");
-    std::cout << "next level is: " << next_level_to_load << std::endl;
-    current_level->LoadLevel( next_level_to_load );
     
-    LevelValues level_values = current_level->GetLevelValues();
     
     // build the level
     createDragon( level_values.starting_position );
@@ -86,7 +88,7 @@ void PlayingState::enterState() {
         backgroundComponent.init("background.png");
     }
     backgroundComponent.buildBackground( -level_values.wall_dimensions,
-        2.0f*level_values.wall_dimensions, INT_BACKGROUND_RESOLUTION);
+        2.0f*level_values.wall_dimensions, INT_BACKGROUND_RESOLUTION, INT_WALL_THICKNESS);
 
     buildGUI();
 
@@ -228,7 +230,7 @@ void PlayingState::createDragon( glm::vec2 starting_position ) {
     auto DragonPhysics = dragonObj->addComponent<PhysicsComponent>();
     dragonC->setPhysicsComponent(dragonObj->getComponent<PhysicsComponent>());
 
-    DragonPhysics->initCircle(b2_dynamicBody, 30/physicsScale, dragonObj->getPosition()/physicsScale, dragonObj->getRotation(), 1);
+    DragonPhysics->initCircle(b2_dynamicBody, 60/physicsScale, dragonObj->getPosition()/physicsScale, dragonObj->getRotation(), 1);
                     
     // Track fuel with gui element Gui Element
     dragonObj->addComponent<FloatTrackComponent>();
@@ -374,14 +376,6 @@ void PlayingState::createWalls(glm::vec2 dimensions, int thickness){
     auto levelPhysB = wallBottom->addComponent<PhysicsComponent>();
     auto levelPhysL = wallLeft->addComponent<PhysicsComponent>();
     auto levelPhysR = wallRight->addComponent<PhysicsComponent>();
-    
-    //std::string filename, glm::vec2 pos, glm::vec2 size, float wall_thickness
-    
-    // auto wallTopTiles = wallTop->addComponent<WallTileComponent>();
-    // wallTopTiles->initWalls("wall.png", wallTop->getPosition(), glm::vec2 {dimensions.x,thickness} * 2.0f, 2*thickness);
-    
-    //auto wallLeftTiles = wallLeft->addComponent<WallTileComponent>();
-    //swallTopTiles->initWalls("wall.png", wallLeft->getPosition(), glm::vec2 {thickness,dimensions.y} * 2.0f, 2*thickness);
     
     levelPhysT->initBox(b2_staticBody, glm::vec2 {(dimensions.x + thickness)/physicsScale,thickness/physicsScale}, wallTop->getPosition()/physicsScale, 1);
     levelPhysB->initBox(b2_staticBody, glm::vec2 {(dimensions.x + thickness)/physicsScale,thickness/physicsScale}, wallBottom->getPosition()/physicsScale, 1);

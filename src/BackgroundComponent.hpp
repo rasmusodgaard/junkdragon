@@ -17,6 +17,7 @@ class BackgroundComponent {
         BackgroundComponent();
         void init(std::string filename);
         void buildBackground(glm::vec2 start_pos, glm::vec2 size, float resolution);
+        void buildBackground(glm::vec2 start_pos, glm::vec2 size, float resolution, int thickness);
         void terminate();
         void renderBackground(sre::RenderPass& renderPass, float offset);
         bool getIsLoaded();

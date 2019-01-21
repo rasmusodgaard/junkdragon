@@ -22,6 +22,7 @@ struct LevelValues{
     std::vector<glm::vec2> house_positions;
     std::vector<glm::vec2> pick_up_positions;
     std::vector<std::string> pick_up_sprite;
+    float time;
 };
 
 class Level{

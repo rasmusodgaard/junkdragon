@@ -1,10 +1,11 @@
-{   "housePositionsX":  [   -400,   400   ],
+{   "housePositionsX":  [   -400, -400, -200, -500, 0,   500, -500, 0,   550, -500, 0,    500,  -550, 0,    500,  -650, 0,    700  ],
  
-    "housePositionsY":  [   400,   -400 ],
+    "housePositionsY":  [   -500, -300, -200, 200,  200, 200, 700,  500, 800, 1050, 1150, 1250, 1500, 1400, 1550, 1950, 1800, 1900 ],
     
-    "pickUpPositionX":  [400 ],
-    "pickUpPositionY":  [400 ],
-    "pickUpSprites":    ["pizza.png" ],
-    "spawn":{"x":-400,"y":-400,"angle":0},
-    "dimensions": {"x": 800, "y": 800}
+    "pickUpPositionX":  [-400,  400,  0,     0,    100,  200],
+    "pickUpPositionY":  [-1000, -300, -1100, 1100, 2000, 3000],
+    "pickUpSprites":    ["donut.png", "donut.png", "chilli.png", "chilli.png", "chilli.png", "chilli.png"],
+    "spawn":{"x":0,"y":-1400},
+    "dimensions": {"x": 1000, "y": 3500},
+    "time": 80.0
   }

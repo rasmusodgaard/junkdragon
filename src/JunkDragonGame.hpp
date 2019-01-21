@@ -13,8 +13,8 @@
 #define F_GRAVITY                       0.0f
 #define INT_POSITION_ITERATIONS         4
 #define INT_VELOCITY_ITERATIONS        12
-#define INT_WINDOWSIZE_HEIGHT         800
-#define INT_WINDOWSIZE_WIDTH          600
+#define INT_WINDOWSIZE_HEIGHT         600
+#define INT_WINDOWSIZE_WIDTH          800
 #define N_LEVELS                        3
 
 class Command;
@@ -55,7 +55,7 @@ private:
     sre::SDLRenderer r;
 
     int current_level = 0;
-    std::vector<std::string> levels = {"level3.json", "level2.json", "level1.json"};
+    std::vector<std::string> levels = {"level1.json", "level2.json", "level3.json"};
     
     void init();
     void initPhysics();

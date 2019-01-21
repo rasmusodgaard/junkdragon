@@ -43,6 +43,8 @@ void Level::LoadLevel(std::string level){
     const rapidjson::Value& pickUpPosY = d["pickUpPositionY"];
     const rapidjson::Value& pickUpSprites = d["pickUpSprites"];
     
+    const rapidjson::Value& time = d["time"];
+    
     //Get spawnpoint in level
     level_values.starting_position.x = spawn["x"].GetInt();
     level_values.starting_position.y = spawn["y"].GetInt();
@@ -50,6 +52,8 @@ void Level::LoadLevel(std::string level){
     //Get surrounding wall dimensions
     level_values.wall_dimensions.x = dimensions["x"].GetInt();
     level_values.wall_dimensions.y = dimensions["y"].GetInt();
+    
+    level_values.time = (float)time.GetDouble();
     
     for (rapidjson::SizeType i = 0; i < housePosX.Size(); i++)
     {
