@@ -29,7 +29,7 @@ void EndState::enterState() {
     auto gameover_objSC = gameover_obj->addComponent<SpriteComponent>();
     gameover_objSC->setSprite(gameover_objS);
 
-    high_score_comp = guiObj->addComponent<FloatTrackComponent>();
+    high_score_comp = guiObj->addComponent<SingleVarGuiComponent>();
     high_score_comp->init( "High score:", new_score, {0.35f, 0.45f}, {0.3f,0.1f} );
 
     if( !backgroundComponent.getIsLoaded() ){

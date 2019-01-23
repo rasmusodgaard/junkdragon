@@ -1,21 +1,21 @@
 //
-//  FloatTrackComponent.cpp
+//  SingleVarGuiComponent.cpp
 //  SRE
 //
 //  Created by John O'Donnell
 //
 
-#include "FloatTrackComponent.hpp"
+#include "SingleVarGuiComponent.hpp"
 #include "sre/Renderer.hpp"
 #include "JunkDragonGame.hpp"
 #include <iostream>
 
-FloatTrackComponent::FloatTrackComponent(GameObject *gameObject)
+SingleVarGuiComponent::SingleVarGuiComponent(GameObject *gameObject)
     : Component(gameObject) {
 
     }
 
-void FloatTrackComponent::onGui() {
+void SingleVarGuiComponent::onGui() {
     float gui_height = 0.1f;
     
     auto r = sre::Renderer::instance;
@@ -49,7 +49,7 @@ void FloatTrackComponent::onGui() {
     ImGui::End();
 }
 
-void FloatTrackComponent::init( std::string label, float f_val, glm::vec2 pos, glm::vec2 size ) {
+void SingleVarGuiComponent::init( std::string label, float f_val, glm::vec2 pos, glm::vec2 size ) {
     this->label     = label;
     this->f_val     = f_val;
     this->pos       = pos;
@@ -57,7 +57,7 @@ void FloatTrackComponent::init( std::string label, float f_val, glm::vec2 pos, g
     this->data_type = FLOAT;
 }
 
-void FloatTrackComponent::setVal( float f_val ) {
+void SingleVarGuiComponent::setVal( float f_val ) {
     if(this->data_type == FLOAT) {
         this->f_val = f_val;
     } else {
@@ -65,7 +65,7 @@ void FloatTrackComponent::setVal( float f_val ) {
     }
 }
 
-void FloatTrackComponent::init( std::string label, int i_val, glm::vec2 pos, glm::vec2 size ) {
+void SingleVarGuiComponent::init( std::string label, int i_val, glm::vec2 pos, glm::vec2 size ) {
     this->label     = label;
     this->i_val     = i_val;
     this->pos       = pos;
@@ -74,7 +74,7 @@ void FloatTrackComponent::init( std::string label, int i_val, glm::vec2 pos, glm
 
 }
 
-void FloatTrackComponent::setVal( int i_val ) {
+void SingleVarGuiComponent::setVal( int i_val ) {
     if(this->data_type == INTEGER) {
         this->i_val = i_val;
     } else {

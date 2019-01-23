@@ -92,13 +92,13 @@ void PlayingState::enterState() {
 
     buildGUI();
 
-    timeTrackComp = guiObj->addComponent<FloatTrackComponent>();
+    timeTrackComp = guiObj->addComponent<SingleVarGuiComponent>();
     timeTrackComp->init("time", time_remaining, {0.0f, 0.8f}, {0.2f, 0.1f} );
 
-    scoreTrackComp = guiObj->addComponent<FloatTrackComponent>();
+    scoreTrackComp = guiObj->addComponent<SingleVarGuiComponent>();
     scoreTrackComp->init("score", score, {0.8f, 0.9f}, {0.2f, 0.1f} );
 
-    houseTrackComp = guiObj->addComponent<FloatTrackComponent>();
+    houseTrackComp = guiObj->addComponent<SingleVarGuiComponent>();
     houseTrackComp->init("Houses", n_houses, {0.8f, 0.8f}, {0.2f, 0.1f} );
 }
 
@@ -233,8 +233,8 @@ void PlayingState::createDragon( glm::vec2 starting_position ) {
     DragonPhysics->initCircle(b2_dynamicBody, 60/physicsScale, dragonObj->getPosition()/physicsScale, dragonObj->getRotation(), 1);
                     
     // Track fuel with gui element Gui Element
-    dragonObj->addComponent<FloatTrackComponent>();
-    dragonObj->getComponent<FloatTrackComponent>()->init("Fuel", dragonC->getFuel(), {0.0f, 0.9f}, {0.2f,0.1f});
+    dragonObj->addComponent<SingleVarGuiComponent>();
+    dragonObj->getComponent<SingleVarGuiComponent>()->init("Fuel", dragonC->getFuel(), {0.0f, 0.9f}, {0.2f,0.1f});
 }
 
 void PlayingState::createFireBall( ) {

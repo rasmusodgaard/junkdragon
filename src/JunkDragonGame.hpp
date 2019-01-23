@@ -5,7 +5,7 @@
 #include "Box2D/Dynamics/b2World.h"
 #include "GameObject.hpp"
 #include "DragonController.hpp"
-#include "FloatTrackComponent.hpp"
+#include "SingleVarGuiComponent.hpp"
 #include "CameraFollow.hpp"
 #include "BackgroundComponent.hpp"
 #include "Box2DDebugDraw.hpp"

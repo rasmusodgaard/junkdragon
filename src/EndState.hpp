@@ -9,7 +9,7 @@
 
 #include "GameState.hpp"
 
-class FloatTrackComponent;
+class SingleVarGuiComponent;
 
 class EndState : public GameState {
     public:
@@ -22,7 +22,7 @@ class EndState : public GameState {
         void recordScore( float final_score );
         void buildGUI();
         std::shared_ptr<GameObject> guiObj; 
-        std::shared_ptr<FloatTrackComponent> high_score_comp;
+        std::shared_ptr<SingleVarGuiComponent> high_score_comp;
 
 
     private:

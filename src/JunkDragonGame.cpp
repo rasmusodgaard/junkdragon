@@ -3,7 +3,7 @@
 #include "sre/RenderPass.hpp"
 #include "Box2D/Dynamics/Contacts/b2Contact.h"
 #include "PhysicsComponent.hpp"
-#include "FloatTrackComponent.hpp"
+#include "SingleVarGuiComponent.hpp"
 #include <sre/Inspector.hpp>
 #include <math.h>
 #include "Command.hpp"

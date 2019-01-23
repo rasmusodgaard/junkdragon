@@ -33,7 +33,7 @@
 #define U_FIREBALL_LAYER               3
 #define U_DRAGON_LAYER                 4
 
-class FloatTrackComponent;
+class SingleVarGuiComponent;
 class Command;
 
 class PlayingState : public GameState {
@@ -81,9 +81,9 @@ class PlayingState : public GameState {
 
         std::shared_ptr<GameObject> dragonObj;
 
-        std::shared_ptr<FloatTrackComponent> timeTrackComp;
-        std::shared_ptr<FloatTrackComponent> scoreTrackComp;
-        std::shared_ptr<FloatTrackComponent> houseTrackComp;
+        std::shared_ptr<SingleVarGuiComponent> timeTrackComp;
+        std::shared_ptr<SingleVarGuiComponent> scoreTrackComp;
+        std::shared_ptr<SingleVarGuiComponent> houseTrackComp;
         
 
         // Walls

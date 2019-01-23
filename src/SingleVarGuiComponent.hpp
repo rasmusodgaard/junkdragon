@@ -1,5 +1,5 @@
 //
-//  FloatTrackComponent.cpp
+//  SingleVarGuiComponent.cpp
 //  SRE
 //
 //  Created by John O'Donnell
@@ -13,9 +13,9 @@
 #define INTEGER     0
 #define FLOAT       1
 
-class FloatTrackComponent : public Component {
+class SingleVarGuiComponent : public Component {
     public:
-        explicit FloatTrackComponent(GameObject *gameObject);
+        explicit SingleVarGuiComponent(GameObject *gameObject);
 
         void onGui() override;
 
