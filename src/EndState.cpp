@@ -71,13 +71,6 @@ void EndState::createCamera( ) {
 }
 
 bool EndState::onKey(SDL_Event &event) {
-
-    if (event.key.keysym.sym == SDLK_SPACE) {
-        if (event.type == SDL_KEYDOWN) {
-            JunkDragonGame::instance->startTheGame();
-        }
-    }
-
     return false;
 }
 
