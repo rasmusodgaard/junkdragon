@@ -43,8 +43,8 @@ class AnimationControllerComponent : public Component {
 
         // Parameters of current animation state
         AnimationState *currState;
-        float time;
-        int spriteIndex;
+        float time = 0.0f;
+        int spriteIndex = 0;
 
         // Applied when set. Common to all animation states in this component instance.
         uint16_t orderInBatch = 1;

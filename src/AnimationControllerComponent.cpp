@@ -46,7 +46,7 @@ void AnimationControllerComponent::addState(std::string label, float animationTi
         sprite.setOrderInBatch(this->orderInBatch);
     }
     
-    aStates.push_back( aS ); 
+    aStates.push_back( aS );
     currState = &aStates[0];
 }
 
