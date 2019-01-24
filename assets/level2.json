@@ -1,9 +1,9 @@
 {   "housePositionsX":  [ 900  ],
     "housePositionsY":  [ 1700 ],
     
-    "pickUpPositionX":  [-1000, -900, -800, -700, -700, -600, -600, -400, -400, 0,   0,    400,  400,  600,  700,  800,  900,   500,  200, -200, -400, -1100,                      -800, -200, -200, -500, 500, 200, 600, 1000,-700, -400, 1000],
-    "pickUpPositionY":  [-1000, 1300, -100, -800, 600,  -500, 1600, 400,  900,  200, 1100, -100, 1200, -500, -800, 1300, -1000, -300, 100, 300,  -100, 1000,                      700,   1000, 1000, -300, 1800, 1100, 1200, 1400, 1400, 1700,1000 ],
-    "pickUpSprites":    ["milk.png","milk.png","milk.png","milk.png","milk.png","milk.png","milk.png","milk.png","milk.png",
+    "pickUpPositionX":  [700, 800, -1000, -900, -800, -700, -700, -600, -600, -400, -400, 0,   0,    400,  400,  600,  700,  800,  1000,   500,  200, -200, -400, -1100,                      -800, -200, -200, -500, 500, 200, 600, 1000,-700, -400, 1000],
+    "pickUpPositionY":  [-600, -1000, -1000, 1300, -100, -800, 600,  -500, 1600, 400,  900,  200, 1100, -100, 1200, -500, -800, 1300, -1000, -300, 100, 300,  -100, 1000,                      700,   1000, 1000, -300, 1800, 1100, 1200, 1400, 1400, 1700,1000 ],
+    "pickUpSprites":    ["milk.png","milk.png","milk.png","milk.png","milk.png","milk.png","milk.png","milk.png","milk.png","milk.png","milk.png",
                          "milk.png","milk.png","milk.png","milk.png","milk.png","milk.png","milk.png","milk.png","milk.png",
                          "milk.png","milk.png","milk.png","milk.png","milk.png","milk.png","milk.png","milk.png","milk.png",
                          "milk.png","milk.png","milk.png","milk.png","milk.png","pizza.png"],
