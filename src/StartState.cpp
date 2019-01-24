@@ -40,7 +40,6 @@ void StartState::enterState() {
     AudioManager::instance->PlayMusic();
 }
 
-// Tidy up
 void StartState::exitState() {
 
     camera->unsetFollowObject();

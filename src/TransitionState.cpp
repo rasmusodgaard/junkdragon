@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include "AudioManager.hpp"
+#include "SpriteComponent.hpp"
 
 void TransitionState::enterState() {
     std::cout << "TRANSITION STATE" << std::endl;
@@ -18,18 +19,25 @@ void TransitionState::enterState() {
     auto optionC = optionObj->addComponent<MenuOptionComponent>();
     optionC->name = "Next";
 
+    if(!isLoaded){
+        spriteAtlas = sre::SpriteAtlas::create("junkdragon_transition.json","junkdragon_transition.png");
+        isLoaded = true;
+    }
+    
     // Place items to build the start screen scene
     if( !backgroundComponent.getIsLoaded() ) {
-        backgroundComponent.init("black_background.png");
+        backgroundComponent.init("background.png");
     }
     backgroundComponent.buildBackground({-1000.0f,-1000.0f}, {2000.0f,2000.0f}, 1);
     
-    if (!Mix_PlayingMusic()) {
-        AudioManager::instance->PlayMusic();
-    }
+    auto transition_obj = createGameObject();
+    transition_obj->setPosition( {0.0f, 300.0f} );
+    auto transition_objS = spriteAtlas->get("press_enter.png");
+    transition_objS.setScale( {2.0f,2.0f} );
+    auto transition_objSC = transition_obj->addComponent<SpriteComponent>();
+    transition_objSC->setSprite(transition_objS);
 }
 
-// Tidy up
 void TransitionState::exitState() {
 
     camera->unsetFollowObject();

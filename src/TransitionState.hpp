@@ -21,4 +21,7 @@ class TransitionState : public GameState {
     private:
         std::shared_ptr<GameObject> optionObj;
         std::shared_ptr<MenuOptionComponent> optionC;
+        std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
+
+        bool isLoaded = false;
 };
