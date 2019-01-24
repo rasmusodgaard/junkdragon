@@ -2,8 +2,6 @@
 //  AnimationControllerComponent.cpp
 //  SRE
 //
-//  Created by John O'Donnell
-//
 
 #include "AnimationControllerComponent.hpp"
 #include "GameObject.hpp"

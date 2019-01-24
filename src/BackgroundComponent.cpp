@@ -2,8 +2,6 @@
 //  BackgroundComponent.cpp
 //  SRE
 //
-//  Created by John O'Donnell
-//
 
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/transform.hpp>

@@ -2,8 +2,6 @@
 //  FireBallController.cpp
 //  SRE
 //
-//  Created by John O'Donnell
-//
 
 #include <SDL_events.h>
 #include <iostream>

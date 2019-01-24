@@ -10,7 +10,6 @@ class Component;
 
 class GameObject {
     public:
-
         ~GameObject();
 
         template <class T>
@@ -48,7 +47,7 @@ class GameObject {
 
         bool deleteMe = false;
 
-        // TODO remove friend relationship
+        // Only states can create game objects
         friend class GameState;
         friend class PlayingState;
         friend class StartState;

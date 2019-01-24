@@ -2,8 +2,6 @@
 //  PlayingState.cpp
 //  SRE
 //
-//  Created by John O'Donnell
-//
 
 #include "JunkDragonGame.hpp"
 #include "PhysicsComponent.hpp"
@@ -152,12 +150,6 @@ void PlayingState::update( float time ) {
     camObj->update(time);
 
     time_remaining = fmax(time_remaining - time, 0.0f);
-
-    JunkDragonGame::instance->updatePhysics();
-    if (time > F_PHYSICS_TIMESTEP) // if framerate approx 30 fps then run two physics steps
-    {
-        JunkDragonGame::instance->updatePhysics();
-    }
 
     for (int i=0;i<sceneObjects.size();i++){
         sceneObjects[i]->update(time);

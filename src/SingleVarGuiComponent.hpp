@@ -2,8 +2,6 @@
 //  SingleVarGuiComponent.cpp
 //  SRE
 //
-//  Created by John O'Donnell
-//
 
 #pragma once
 

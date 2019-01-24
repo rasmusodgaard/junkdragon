@@ -2,8 +2,6 @@
 //  StateState.cpp
 //  SRE
 //
-//  Created by John O'Donnell
-//
 
 #include "JunkDragonGame.hpp"
 #include "StartState.hpp"

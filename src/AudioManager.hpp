@@ -2,8 +2,6 @@
 //  AudioManager.hpp
 //  SRE
 //
-//  Created by Rasmus Odgaard on 05/12/2018.
-//
 
 #pragma once
 #include <iostream>

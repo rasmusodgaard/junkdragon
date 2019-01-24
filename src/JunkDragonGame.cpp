@@ -27,9 +27,7 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
     
     new AudioManager();
 
-    
     init();
-    
 
     r.keyEvent = [&](SDL_Event& e){
         onKey(e);
@@ -38,6 +36,7 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
     r.frameUpdate = [&](float deltaTime){
        update(deltaTime);
     };
+
     r.frameRender = [&](){
         render();    };
 
@@ -48,7 +47,6 @@ JunkDragonGame::JunkDragonGame():debugDraw(physicsScale) {
 void JunkDragonGame::init(){
     initPhysics();
 
-
     // Create the various game states
     gs_startstate   = std::shared_ptr<GameState>( new StartState() );
     gs_playingstate = std::shared_ptr<GameState>( new PlayingState() );
@@ -58,10 +56,15 @@ void JunkDragonGame::init(){
     gs_transition   = std::shared_ptr<GameState>( new TransitionState() );
     gs_endstate     = std::shared_ptr<GameState>( new EndState() );
     changeState(gs_startstate);
-
 }
 
 void JunkDragonGame::update(float time){
+    updatePhysics();
+    if (time > F_PHYSICS_TIMESTEP) // if framerate approx 30 fps then run two physics steps
+    {
+        updatePhysics();
+    }
+
     gs_currentstate->update(time);
 }
 
@@ -232,8 +235,6 @@ void JunkDragonGame::onKey(SDL_Event &event) {
         }
     }
 }
-
-
 
 void JunkDragonGame::changeState( std::shared_ptr<GameState> gs_state ) {
     gs_nextstate = gs_state;

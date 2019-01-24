@@ -2,8 +2,6 @@
 //  MenuOptionComponent.hpp
 //  SRE
 //
-//  Created by Rasmus Odgaard on 21/11/2018.
-//
 
 #pragma once
 #include "Component.hpp"

@@ -2,8 +2,6 @@
 //  Command.hpp
 //  SRE
 //
-//  Created by Rasmus Odgaard on 28/11/2018.
-//
 
 #pragma once
 #include "PlayingState.hpp"

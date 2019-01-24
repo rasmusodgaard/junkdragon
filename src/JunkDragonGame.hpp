@@ -10,6 +10,7 @@
 #include "BackgroundComponent.hpp"
 #include "Box2DDebugDraw.hpp"
 
+#define F_PHYSICS_TIMESTEP              0.3f
 #define F_GRAVITY                       0.0f
 #define INT_POSITION_ITERATIONS         4
 #define INT_VELOCITY_ITERATIONS        12
@@ -41,6 +42,8 @@ public:
     void startTheGame();
     void transition();
     void incrementLevel();
+    void recordScore( float final_score );
+
 private:
     
     const float physicsScale = 100;
@@ -65,10 +68,6 @@ private:
     void onKey(SDL_Event &event);
     void handleContact(b2Contact *contact, bool begin);
     
-    void recordScore( float final_score );
-
-    bool checkGameOver();
-
     // Physics members
     b2World * world = nullptr;
     void registerPhysicsComponent(PhysicsComponent *r);
@@ -77,8 +76,4 @@ private:
     Box2DDebugDraw debugDraw;
     bool doDebugDraw = false;
     friend class PhysicsComponent;
-    friend class StartState;
-    friend class PlayingState;
-    friend class EndState;
-
 };
