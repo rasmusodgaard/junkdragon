@@ -1,4 +1,5 @@
-# junkdragon
+# JunkDragon
+# by John O'Donnell & Rasmus Emil Odgaard
 #
 # Project for game programming Autumn Semester 2018
 #
