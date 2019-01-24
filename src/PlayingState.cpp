@@ -158,9 +158,6 @@ void PlayingState::update( float time ) {
     
 }
 
-void PlayingState::render( sre::RenderPass &renderPass  ) {
-    // wallTop->getComponent<WallTileComponent>()->renderWalls(renderPass);
-}
 
 bool PlayingState::checkGameOver() {
     if (n_houses == 0) {
@@ -329,7 +326,6 @@ void PlayingState::createHouse( glm::vec2 pos ) {
 
     houseBC->SetAnimationControllerComponent( houseACC );
 
-    // Game Junk
     n_houses++;
 }
 
