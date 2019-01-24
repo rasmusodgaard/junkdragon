@@ -43,6 +43,9 @@ void CameraFollow::update(float deltaTime) {
 void CameraFollow::setFollowObject(std::shared_ptr<GameObject> followObject, glm::vec2 offset) {
     this->followObject = followObject;
     this->offset = offset;
+    
+    update(0);
+    
 }
 
 // Call to avoid following a nullptr
