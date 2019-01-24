@@ -62,9 +62,6 @@ void PlayingState::enterState() {
         AudioManager::instance->LoadSoundChunks();
     }
     
-    
-    
-    
     // build the level
     createDragon( level_values.starting_position );
     camera->setFollowObject(dragonObj, {0.0f,0.0f});
@@ -114,15 +111,12 @@ void PlayingState::setScore( float score ) {
 void PlayingState::exitState() {
     camera->unsetFollowObject();
     if(Mix_PlayingMusic()){ Mix_HaltMusic();};
-    //AudioManager::instance->UnloadSoundChunks();
-    // WALLS
 
     dragonObj = nullptr;
 
     backgroundComponent.terminate();
 
     current_level = nullptr;
-    // spriteAtlas.reset();
 
     guiObj->removeComponent(timeTrackComp);
     guiObj->removeComponent(scoreTrackComp);
@@ -143,8 +137,7 @@ void PlayingState::update( float time ) {
         
         if (time_remaining <= 0.0f) {
             // Game over - transition to bad game end
-            JunkDragonGame::instance->recordScore(score);
-            JunkDragonGame::instance->endTheGame(BAD_END);
+            JunkDragonGame::instance->endTheGame(BAD_END, score);
         }
     }
 
@@ -188,6 +181,10 @@ bool PlayingState::onKey(SDL_Event &event) {
 
 void PlayingState::setNextLevelToLoad(std::string next_level) {
     next_level_to_load = next_level;
+}
+
+void PlayingState::setNLevels(int n_levels) {
+    n_levels = n_levels;
 }
 
 void PlayingState::createDragon( glm::vec2 starting_position ) {

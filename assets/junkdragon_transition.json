@@ -1,0 +1,21 @@
+{"frames": [
+
+{
+	"filename": "press_enter.png",
+	"frame": {"x":0,"y":0,"w":512,"h":192},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":192},
+	"sourceSize": {"w":512,"h":192},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "junkdragon_transition.png",
+	"format": "RGBA8888",
+	"size": {"w":512,"h":256},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:385821d2a7183ecba785edb7ffbbc940:a806379ec49f9d9b150a1791f8e2ec51:3c0bf2c69726a4fde892e808d6657461$"
+}
+}

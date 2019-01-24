@@ -45,6 +45,7 @@ class PlayingState : public GameState {
         bool onKey(SDL_Event &event) override;
 
         void setNextLevelToLoad(std::string next_level);
+        void setNLevels(int n_levels);
 
         bool checkGameOver();
 
@@ -76,6 +77,7 @@ class PlayingState : public GameState {
         int     n_houses;
         int     score = 0;
         int     best_score = score;
+        int     n_levels = 0;
 
         std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
 

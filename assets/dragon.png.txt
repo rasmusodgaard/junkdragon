@@ -1,1 +1,0 @@
-dragon_01.png.png 11 1, dragon_02.png.png 104 2, dragon_03.png.png 25 64, dragon_04.png.png 100 64, dragon_05.png.png 4 138, dragon_06.png.png 100 145, dragon_07.png.png 3 192, dragon_08.png.png 97 202, dragon_09.png.png 0 273, dragon_10.png.png 111 256, dragon_11.png.png 16 326, dragon_12.png.png 118 324.
