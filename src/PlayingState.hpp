@@ -12,6 +12,9 @@
 #include "sre/SpriteAtlas.hpp"
 #include "Level.hpp"
 
+#define GOOD_END    true
+#define BAD_END     false
+
 #define INT_WALL_THICKNESS             50
 #define INT_HOUSE_COL_WIDTH           100
 #define INT_HOUSE_COL_HEIGHT           80

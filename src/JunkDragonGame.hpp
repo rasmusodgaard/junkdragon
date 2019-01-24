@@ -38,7 +38,7 @@ public:
     void decrementHouses();
 
     void changeState(std::shared_ptr<GameState> gs_state);
-    void endTheGame();
+    void endTheGame( bool goodend );
     void startTheGame();
     void transition();
     void incrementLevel();
@@ -68,6 +68,8 @@ private:
     void onKey(SDL_Event &event);
     void handleContact(b2Contact *contact, bool begin);
     
+    int final_score;
+
     // Physics members
     b2World * world = nullptr;
     void registerPhysicsComponent(PhysicsComponent *r);

@@ -22,7 +22,7 @@ void EndState::enterState() {
     
     auto gameover_obj = createGameObject();
     gameover_obj->setPosition( {0.0f, 300.0f} );
-    auto gameover_objS = spriteAtlas->get( "gameover.png" );
+    auto gameover_objS = spriteAtlas->get( end_msg_filename);
     gameover_objS.setScale( {2.0f,2.0f} );
     auto gameover_objSC = gameover_obj->addComponent<SpriteComponent>();
     gameover_objSC->setSprite(gameover_objS);
@@ -80,4 +80,8 @@ void EndState::buildGUI() {
 
     guiObj = createGameObject();
 
+}
+
+void EndState::setEndMessage( std::string msg_filename ) {
+    end_msg_filename = msg_filename;
 }

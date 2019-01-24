@@ -33,10 +33,9 @@ file(COPY assets/junkdragon_endgame.json assets/junkdragon_endgame.png DESTINATI
 file(COPY assets/junkdragon_endgame.json assets/junkdragon_endgame.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
 file(COPY assets/junkdragon_endgame.json assets/junkdragon_endgame.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-
-file(COPY assets/background.png assets/black_background.png assets/play.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
-file(COPY assets/background.png assets/black_background.png assets/play.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
-file(COPY assets/background.png assets/black_background.png assets/play.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY assets/background.png assets/black_background.png assets/play.png assets/press_enter.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+file(COPY assets/background.png assets/black_background.png assets/play.png assets/press_enter.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
+file(COPY assets/background.png assets/black_background.png assets/play.png assets/press_enter.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 file(COPY assets/level1.json assets/level2.json assets/level3.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
 file(COPY assets/level1.json assets/level2.json assets/level3.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)

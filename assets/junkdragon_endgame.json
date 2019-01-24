@@ -2,11 +2,20 @@
 
 {
 	"filename": "gameover.png",
-	"frame": {"x":0,"y":0,"w":512,"h":97},
+	"frame": {"x":0,"y":0,"w":512,"h":89},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":97},
-	"sourceSize": {"w":512,"h":97},
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":89},
+	"sourceSize": {"w":512,"h":89},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "youwin.png",
+	"frame": {"x":0,"y":89,"w":512,"h":110},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":512,"h":110},
+	"sourceSize": {"w":512,"h":110},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -14,8 +23,8 @@
 	"version": "1.0",
 	"image": "junkdragon_endgame.png",
 	"format": "RGBA8888",
-	"size": {"w":512,"h":128},
+	"size": {"w":512,"h":256},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:96e040db468867d69208aaaa73861d26:beb7f391ec209f08d14c3345630552be:7881fe7e780b5ea27bbfc371efb25aa4$"
+	"smartupdate": "$TexturePacker:SmartUpdate:d791174c00fcc7a9a507e9afa237dd27:24283a9e54a699649e404ac0642f93e8:7881fe7e780b5ea27bbfc371efb25aa4$"
 }
 }

@@ -53,8 +53,9 @@ void JunkDragonGame::init(){
     if(auto ps = std::dynamic_pointer_cast<PlayingState>(gs_playingstate) ) {
         ps->setNextLevelToLoad( levels[current_level]);
     }
-    gs_transition   = std::shared_ptr<GameState>( new TransitionState() );
-    gs_endstate     = std::shared_ptr<GameState>( new EndState() );
+    gs_transition       = std::shared_ptr<GameState>( new TransitionState() );
+    gs_endstate         = std::shared_ptr<GameState>( new EndState() );
+
     changeState(gs_startstate);
 }
 
@@ -142,7 +143,16 @@ void JunkDragonGame::EndContact(b2Contact *contact) {
     handleContact(contact, false);
 }
 
-void JunkDragonGame::endTheGame() {
+void JunkDragonGame::endTheGame(bool goodend) {    
+    if(auto es = std::dynamic_pointer_cast<EndState>(gs_endstate) ) {
+        es->recordScore( final_score );
+        if(goodend){
+            es->setEndMessage("gameover.png");
+        } else {
+            es->setEndMessage("youwin.png");
+        }
+    }
+
     changeState(gs_endstate);
 }
 
@@ -155,9 +165,8 @@ void JunkDragonGame::transition() {
 }
 
 void JunkDragonGame::recordScore( float final_score ) {
-    if(auto es = std::dynamic_pointer_cast<EndState>(gs_endstate) ) {
-        es->recordScore( final_score );
-    }
+
+    final_score = final_score;
 }
 
 void JunkDragonGame::incrementLevel( ) {

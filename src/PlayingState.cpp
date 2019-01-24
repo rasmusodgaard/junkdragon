@@ -142,8 +142,9 @@ void PlayingState::update( float time ) {
         }
         
         if (time_remaining <= 0.0f) {
+            // Game over - transition to bad game end
             JunkDragonGame::instance->recordScore(score);
-            JunkDragonGame::instance->endTheGame();
+            JunkDragonGame::instance->endTheGame(BAD_END);
         }
     }
 
