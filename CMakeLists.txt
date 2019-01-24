@@ -21,30 +21,26 @@ add_executable(junkdragon ${JunkDragon})
 target_link_libraries(junkdragon ${all_libs})
 
 # copy files to dest
-file(COPY src/junkdragon.json src/junkdragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
-file(COPY src/junkdragon.json src/junkdragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
-file(COPY src/junkdragon.json src/junkdragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY assets/junkdragon.json assets/junkdragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+file(COPY assets/junkdragon.json assets/junkdragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
+file(COPY assets/junkdragon.json assets/junkdragon.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-file(COPY src/junkdragon_title.json src/junkdragon_title.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
-file(COPY src/junkdragon_title.json src/junkdragon_title.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
-file(COPY src/junkdragon_title.json src/junkdragon_title.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY assets/junkdragon_title.json assets/junkdragon_title.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+file(COPY assets/junkdragon_title.json assets/junkdragon_title.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
+file(COPY assets/junkdragon_title.json assets/junkdragon_title.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-file(COPY src/junkdragon_endgame.json src/junkdragon_endgame.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
-file(COPY src/junkdragon_endgame.json src/junkdragon_endgame.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
-file(COPY src/junkdragon_endgame.json src/junkdragon_endgame.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY assets/junkdragon_endgame.json assets/junkdragon_endgame.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+file(COPY assets/junkdragon_endgame.json assets/junkdragon_endgame.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
+file(COPY assets/junkdragon_endgame.json assets/junkdragon_endgame.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 
-file(COPY assets/background.png assets/black_background.png assets/wall.png assets/play.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
-file(COPY assets/background.png assets/black_background.png assets/wall.png assets/play.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
-file(COPY assets/background.png assets/black_background.png assets/wall.png assets/play.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY assets/background.png assets/black_background.png assets/play.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+file(COPY assets/background.png assets/black_background.png assets/play.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
+file(COPY assets/background.png assets/black_background.png assets/play.png DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
-file(COPY src/level1.json src/level2.json src/level3.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
-file(COPY src/level1.json src/level2.json src/level3.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
-file(COPY src/level1.json src/level2.json src/level3.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
-
-file(COPY src/level1.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
-file(COPY src/level1.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
-file(COPY src/level1.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY assets/level1.json assets/level2.json assets/level3.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
+file(COPY assets/level1.json assets/level2.json assets/level3.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
+file(COPY assets/level1.json assets/level2.json assets/level3.json DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 file(COPY assets/menu_music.wav assets/game_music.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Debug)
 file(COPY assets/menu_music.wav assets/game_music.wav DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/Release)
