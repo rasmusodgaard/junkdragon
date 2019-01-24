@@ -2,8 +2,6 @@
 //  Component.hpp
 //  SRE
 //
-//  Created by John O'Donnell
-//
 
 #include "Component.hpp"
 #include "GameObject.hpp"

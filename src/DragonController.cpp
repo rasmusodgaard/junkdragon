@@ -2,15 +2,12 @@
 //  DragonController.cpp
 //  SRE
 //
-//  Created by John O'Donnell
-//
 
 #include <SDL_events.h>
 #include <iostream>
 #include "DragonController.hpp"
 #include "GameObject.hpp"
 #include "SpriteComponent.hpp"
-#include "JunkDragonGame.hpp"
 #include "PhysicsComponent.hpp"
 #include <math.h>
 #include "AudioManager.hpp"

@@ -2,8 +2,6 @@
 //  PlayingState.hpp
 //  SRE
 //
-//  Created by John O'Donnell
-//
 
 
 #pragma once
@@ -14,7 +12,6 @@
 #include "sre/SpriteAtlas.hpp"
 #include "Level.hpp"
 
-#define F_PHYSICS_TIMESTEP              0.3f
 #define INT_WALL_THICKNESS             50
 #define INT_HOUSE_COL_WIDTH           100
 #define INT_HOUSE_COL_HEIGHT           80

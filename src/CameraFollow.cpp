@@ -2,8 +2,6 @@
 //  CameraFollow.cpp
 //  SRE
 //
-//  Created by Rasmus Odgaard on 31/10/2018.
-//
 
 #include "CameraFollow.hpp"
 #include "JunkDragonGame.hpp"

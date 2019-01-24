@@ -2,8 +2,6 @@
 //  MenuOptionComponent.cpp
 //  SRE
 //
-//  Created by John O'Donnell
-//
 
 #include "sre/Renderer.hpp"
 #include "MenuOptionComponent.hpp"

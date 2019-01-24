@@ -2,8 +2,6 @@
 //  SpriteComponent.cpp
 //  SRE
 //
-//  Created by John O'Donnell
-//
 
 #include "SpriteComponent.hpp"
 #include "GameObject.hpp"

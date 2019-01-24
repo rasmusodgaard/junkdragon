@@ -2,8 +2,6 @@
 //  PickUpComponent.cpp
 //  SRE
 //
-//  Created by Rasmus Odgaard on 21/11/2018.
-//
 
 #include "PickUpComponent.hpp"
 #include "GameObject.hpp"

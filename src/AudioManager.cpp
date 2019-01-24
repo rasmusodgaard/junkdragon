@@ -2,8 +2,6 @@
 //  AudioManager.cpp
 //  SRE
 //
-//  Created by Rasmus Odgaard on 05/12/2018.
-//
 
 #include "AudioManager.hpp"
 

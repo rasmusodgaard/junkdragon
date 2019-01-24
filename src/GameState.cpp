@@ -2,8 +2,6 @@
 //  Component.cpp
 //  SRE
 //
-//  Created by John O'Donnell
-//
 
 #include "JunkDragonGame.hpp"
 #include "GameState.hpp"
