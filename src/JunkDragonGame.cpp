@@ -161,7 +161,7 @@ void JunkDragonGame::incrementLevel( ) {
     current_level++;
 
     if(auto ps = std::dynamic_pointer_cast<PlayingState>(gs_playingstate) ) {
-        ps->setNextLevelToLoad(levels[ (current_level) % N_LEVELS ]);
+        ps->setNextLevelToLoad(levels[ (current_level) % levels.size() ]);
     }
 }
 

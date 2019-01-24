@@ -1,19 +1,19 @@
 {   "housePositionsX":  [ -600, -600, -600, -600, -600, 
                           -300, -300, -300, -300, -300,
-                          0,    0,    0,    0,    0,
-                          300,  300,  300,  300,  300,
-                          600,  600,  600,  600,  600],
+                           0,     0,   0,    0,    0,
+                           300,   300, 300,  300,  300,
+                           600,   600, 600,  600,  600 ],
  
     "housePositionsY":  [ -600, -300,    0, 300,  600, 
                           -600, -300,    0, 300,  600,
                           -600, -300,    0, 300,  600,
                           -600, -300,    0, 300,  600,
-                          -600, -300,    0, 300,  600],
+                          -600, -300,    0, 300,  600 ],
     
     "pickUpPositionX":  [-1000, 1000, 0, 0, -1000, 1000, 1000],
     "pickUpPositionY":  [0, 0, -1000, 1000, 1000, -1000, 1000],
-    "pickUpSprites":    ["donut.png", "donut.png", "donut.png", "donut.png", "chilli.png", "chilli.png", "chilli.png"],
+    "pickUpSprites":    ["donut.png", "donut.png", "donut.png", "donut.png", "pizza.png", "pizza.png", "pizza.png"],
     "spawn":{"x":-1000,"y":-1000},
     "dimensions": {"x": 1200, "y": 1200},
-    "time": 50.0
+    "time": 60.0
   }

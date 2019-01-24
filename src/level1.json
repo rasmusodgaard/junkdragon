@@ -1,6 +1,6 @@
 {   "housePositionsX":  [   -400,   400   ],
  
-    "housePositionsY":  [   400,   -400 ],
+    "housePositionsY":  [   400,   -400   ],
     
     "pickUpPositionX":  [400, -600 ],
     "pickUpPositionY":  [400, -600 ],
@@ -9,3 +9,5 @@
     "dimensions": {"x": 800, "y": 800},
     "time": 60.0
   }
+
+

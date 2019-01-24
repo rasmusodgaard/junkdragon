@@ -15,7 +15,7 @@
 #define INT_VELOCITY_ITERATIONS        12
 #define INT_WINDOWSIZE_HEIGHT         600
 #define INT_WINDOWSIZE_WIDTH          800
-#define N_LEVELS                        3
+//#define N_LEVELS                        3
 
 class Command;
 class PhysicsComponent;
