@@ -108,6 +108,10 @@ void PlayingState::setScore( float score ) {
     this->best_score = score;
 }
 
+void PlayingState::setLastLevel( bool last_level) {
+    this_is_the_last_level = last_level;
+}
+
 void PlayingState::exitState() {
     camera->unsetFollowObject();
     if(Mix_PlayingMusic()){ Mix_HaltMusic();};
@@ -132,7 +136,13 @@ void PlayingState::update( float time ) {
         if (n_houses == 0) {
             best_score = score;
             JunkDragonGame::instance->incrementLevel();
-            JunkDragonGame::instance->transition();
+
+            if( this_is_the_last_level ) {
+                JunkDragonGame::instance->endTheGame(GOOD_END, best_score);
+                best_score = 0;
+            } else {
+                JunkDragonGame::instance->transition();
+            }
         }
         
         if (time_remaining <= 0.0f) {
@@ -178,10 +188,6 @@ bool PlayingState::onKey(SDL_Event &event) {
 
 void PlayingState::setNextLevelToLoad(std::string next_level) {
     next_level_to_load = next_level;
-}
-
-void PlayingState::setNLevels(int n_levels) {
-    n_levels = n_levels;
 }
 
 void PlayingState::createDragon( glm::vec2 starting_position ) {

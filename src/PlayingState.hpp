@@ -44,7 +44,6 @@ class PlayingState : public GameState {
         bool onKey(SDL_Event &event) override;
 
         void setNextLevelToLoad(std::string next_level);
-        void setNLevels(int n_levels);
 
         bool checkGameOver();
 
@@ -63,6 +62,7 @@ class PlayingState : public GameState {
         void removeFuelFromDragon();
         void fasterDragon();
         void setScore(float score);
+        void setLastLevel(bool last_level);
         std::shared_ptr<GameObject> guiObj;
 
     private:   
@@ -76,7 +76,7 @@ class PlayingState : public GameState {
         int     n_houses;
         int     score = 0;
         int     best_score = score;
-        int     n_levels = 0;
+        bool    this_is_the_last_level = false;
 
         std::shared_ptr<sre::SpriteAtlas> spriteAtlas;
 

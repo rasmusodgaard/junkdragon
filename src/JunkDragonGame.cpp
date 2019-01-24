@@ -52,7 +52,9 @@ void JunkDragonGame::init(){
     gs_playingstate = std::shared_ptr<GameState>( new PlayingState() );
     if(auto ps = std::dynamic_pointer_cast<PlayingState>(gs_playingstate) ) {
         ps->setNextLevelToLoad( levels[current_level]);
-        ps->setNLevels(levels.size());
+        if(levels.size() > 1) {
+            ps->setLastLevel(false);
+        }
     }
     gs_transition       = std::shared_ptr<GameState>( new TransitionState() );
     gs_endstate         = std::shared_ptr<GameState>( new EndState() );
@@ -170,6 +172,7 @@ void JunkDragonGame::incrementLevel( ) {
 
     if(auto ps = std::dynamic_pointer_cast<PlayingState>(gs_playingstate) ) {
         ps->setNextLevelToLoad(levels[ (current_level) % levels.size() ]);
+        ps->setLastLevel( (current_level) % levels.size() == 0 );
     }
 }
 
